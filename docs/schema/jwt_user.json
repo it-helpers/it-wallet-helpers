@@ -1,0 +1,68 @@
+{
+    "$id": "https://example.com/jwt_user.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "JWT_user",
+    "type": "string",
+    "contentMediaType": "application/jwt",
+    "contentSchema": 
+    {
+        "type": "array",
+        "minItems": 2,
+        "prefixItems":[
+        {
+            "const": {
+                "typ": "JWT",
+                "alg": "ES256",
+                "x5t": "$base64url-encoded-SHA-1-thumbprint-of-the-DER-encoding-of-an-X.509-certificate-rfc7517-section-4.8$" 
+            }
+        },
+        {
+            "type": "object",
+            "required": ["jti", "iss", "sub", "aud", "iat", "exp"],
+            "properties": {
+                "jti": {
+                    "type": "string",
+                    "description": "Unique identifier; can be used to prevent the JWT from being replayed (allows a token to be used only once)",
+                    "format": "UUID",
+                    "example": "-BwC3ESc6acc2lTc"
+                },
+                "iss": {
+                    "type": "string",
+                    "description": "The Issuer of the JWT, it MUST be set with the unique identifier of the Service Provider (SP) SAML or the Relay Party (RP) OIDC that issued the JWT",
+                    "example": "http://sp.example.it"
+                },
+                "sub": {
+                    "type": "string",
+                    "description": "The Subject of the JWT, it MUST be set with the unique identifier assigned to the end-user by the Identity Provider (e.g. fiscal code)",
+                    "example": "RSSMRA74D22A001Q"
+                },
+                "state": {
+                    "type": "string",
+                    "description": "Unique session identifier at the SP/RP side. It MUST be a random string composed by alphanumeric characters and with a minimum length of 32 digits",
+                    "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
+                },
+                "aud": {
+                    "type": "string",
+                    "description": "A StringOrURI value that identifies the recipient that the JWT is intended for",
+                    "example": "http://it-wallet-eid-provider.example.it/authorize"
+                },
+                "iat": {
+                    "type": "number",
+                    "description": "The UTC Time at which the JWT was issued; can be used to determine age of the JWT",
+                    "example": "1710346343"
+                },
+                "exp": {
+                    "type": "number",
+                    "description": "The UTC Time after which the JWT expire",
+                    "example": "1701960844"
+                },
+                "nbf": {
+                    "type": "number",
+                    "description": "The UTC Time before which the JWT must not be accepted for processing",
+                    "example": "1710346343"
+                }
+            }
+        }
+        ]
+    }
+}
