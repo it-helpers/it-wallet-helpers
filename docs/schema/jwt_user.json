@@ -1,7 +1,7 @@
 {
     "$id": "https://example.com/jwt_user.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "JWT_user",
+    "title": "JWT user",
     "type": "string",
     "contentMediaType": "application/jwt",
     "contentSchema": 
@@ -33,7 +33,7 @@
                 },
                 "sub": {
                     "type": "string",
-                    "description": "The Subject of the JWT, it MUST be set with the unique identifier assigned to the end-user by the Identity Provider (e.g. fiscal code)",
+                    "description": "The Subject of the JWT; it MUST be set with the unique identifier assigned to the end-user by the Identity Provider (e.g. fiscal code)",
                     "example": "RSSMRA74D22A001Q"
                 },
                 "state": {

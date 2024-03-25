@@ -1,7 +1,7 @@
 {
-    "$id": "https://example.com/wte_proof.schema.json",
+    "$id": "https://example.com/jwt_dpop_boud_access_token.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "wte proof",
+    "title": "dpop-bound access token",
     "type": "string",
     "contentMediaType": "application/jwt",
     "contentSchema": 
@@ -11,14 +11,14 @@
         "prefixItems":[
         {
             "const": {
-                "typ": "jwt-client-attestation-pop",
+                "typ": "dpop+jwt",
                 "alg": "ES256",
-                "kid": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$" 
+                "kid": "$public-key-id-of-the-private-key-used-by-the-Token-Endpoint-of-the-PID/EAA-Provider-to-sign-the-jwt$" 
             }
         },
         {
             "type": "object",
-            "required": ["jti", "iss", "aud", "iat", "exp"],
+            "required": ["jti", "iss", "sub", "aud", "iat", "exp", "jkt"],
             "properties": {
                 "jti": {
                     "type": "string",
@@ -28,13 +28,18 @@
                 },
                 "iss": {
                     "type": "string",
-                    "description": "The Issuer of the JWT; it MUST be set to the thumbprint of the jwk value in the cnf parameter inside the Wallet Attestation JWT, in base64url encoded",
-                    "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
+                    "description": "The Issuer of the JWT; it MUST be set to the URI of the Token Endpoint of the PID/EAA Provider, in base64url encoded",
+                    "example": "https://it-wallet-eid-provider.example.it/token"
+                },
+                "sub": {
+                    "type": "string",
+                    "description": "The Subject of the JWT; it MUST be set with a no persistent identifier assigned to the authenticated end-user by the Credential Endpoint of the PID/EAA Provider",
+                    "example": "NzbLsXh8uDCcd7noWXFZAfHkxZsRGC9Xs"
                 },
                 "aud": {
                     "type": "string",
-                    "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the PID/EAA Provider",
-                    "example": "http://it-wallet-eid-provider.example.it"
+                    "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the Credential Endpoint of the PID/EAA Provider",
+                    "example": "https://it-wallet-eid-provider.example.it/credential"
                 },
                 "iat": {
                     "type": "number",
@@ -50,6 +55,11 @@
                     "type": "number",
                     "description": "The UNIX Timestamp before which the JWT must not be accepted for processing",
                     "example": "1710346343"
+                },
+                "jkt": {
+                    "type": "string",
+                    "description": "The base64url encoded SHA-256 thumprint of the DPoP public key (in JWK format) to which the Access Token is bound",
+                    "example": "kQMU13Nrvic2D9IGp2t-PhLfiHGEFG5ROEIIeyue7NM"
                 }
             }
         }
