@@ -30,4 +30,3 @@ Don't hesitate to submit [Pull Requests or raise Issues].
 ## License
 
 The project is covered by a [CC-0](LICENSE) license.
-
