@@ -1,7 +1,7 @@
 {
-    "$id": "https://example.com/jwt_dpop_token_endpoint.schema.json",
+    "$id": "https://example.com/jwt_openid4vci_proof.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "dpop token endpoint",
+    "title": "openid4vci proof",
     "type": "string",
     "contentMediaType": "application/jwt",
     "contentSchema": 
@@ -11,35 +11,34 @@
         "prefixItems":[
         {
             "const": {
-                "typ": "dpop+jwt",
+                "typ": "openid4vci-proof+jwt",
                 "alg": "ES256",
                 "jwk": "{\"kty\":\"EC\",\"x\":\"35lvC8uz2QrWpQJ3TUH8t9o9DURMp7ydU518RKDl20k\",\"y\":\"I8BuXB2bvxelzJAd7OKhd-ZwjCst05Fx47Mb_0ugros\",\"crv\":\"P-256\"}" 
             }
         },
         {
             "type": "object",
-            "required": ["jti", "iat", "aud", "htu", "htm"],
+            "required": ["iat", "aud", "htu", "htm", "ath"],
             "properties": {
-                "jti": {
+                "iss": {
                     "type": "string",
-                    "description": "Unique identifier; can be used to prevent the JWT from being replayed (allows a token to be used only once)",
-                    "format": "UUID",
-                    "example": "e1j3V_bKic8-LAEA"
+                    "description": "The Issuer of the JWT; it MUST be set to the client_id of the Wallet Instance",
+                    "example": "https://it-wallet-eid-provider.example.it/token"
                 },
                 "iat": {
                     "type": "number",
                     "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
                     "example": "1710346343"
                 },
-                "htu": {
+                "aud": {
                     "type": "string",
-                    "description": "The HTTP target URI of the request to which the JWT is attached, without query and fragment parts",
-                    "example": "https://it-wallet-eid-provider.example.it/token"
+                    "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the Credential Endpoint of the PID/EAA Provider",
+                    "example": "https://it-wallet-eid-provider.example.it/credential"
                 },
-                "htm": {
+                "nonce": {
                     "type": "string",
-                    "description": "The value of the HTTP method to which the JWT is attached",
-                    "example": "POST"
+                    "description": "It MUST be set to the same value of the 'c_nonce' parameter in the Token Request provided by the Token Endpoint of the PID/EAA Issuer",
+                    "example": "ts_EtUQs0ieiIS1NYNBHEQSoy3ct4gpy-4FZKwHilkY"
                 }
             }
         }

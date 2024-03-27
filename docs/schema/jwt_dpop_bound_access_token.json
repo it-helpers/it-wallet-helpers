@@ -24,7 +24,7 @@
                     "type": "string",
                     "description": "Unique identifier; can be used to prevent the JWT from being replayed (allows a token to be used only once)",
                     "format": "UUID",
-                    "example": "-BwC3ESc6acc2lTc"
+                    "example": "f352c2fa-2d06-47b9-8347-8cda8a70a17d"
                 },
                 "iss": {
                     "type": "string",
@@ -58,8 +58,8 @@
                 },
                 "jkt": {
                     "type": "string",
-                    "description": "The base64url encoded SHA-256 thumprint of the DPoP public key (in JWK format) to which the Access Token is bound",
-                    "example": "kQMU13Nrvic2D9IGp2t-PhLfiHGEFG5ROEIIeyue7NM"
+                    "description": "The base64url encoding SHA-256 thumprint of the DPoP public key (in JWK format) to which the Access Token is bound",
+                    "example": "QjdERDU1MTU3MDIxODkyOTNGMDgwMDMyOUUxNzU5MTI1OThBRjAzMzc4RTU3MDBBRjU3MTM3RkQ1MkNBMkE1Mg"
                 }
             }
         }
