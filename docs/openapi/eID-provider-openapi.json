@@ -48,7 +48,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/ErrorResponse_400"
                 }
               }
             }
@@ -58,7 +58,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/ErrorResponse_405"
                 }
               }
             }
@@ -68,7 +68,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/ErrorResponse_413"
                 }
               }
             }
@@ -78,7 +78,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+                  "$ref": "#/components/schemas/ErrorResponse_429"
                 }
               }
             }
@@ -585,6 +585,78 @@
             "type": "string",
             "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
             "example": "The proof field is not present or the provided key proof is invalid or not bound to a nonce provided by the Credential Issuer."
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "ErrorResponse_429": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "too_many_requests"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "If the number of requests from a client during a particular time period exceeds the number the authorization server allows, the authorization server responds with an HTTP 429 (Too Many Requests) status code."
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "ErrorResponse_413": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "payload_too_large"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "If the request size was beyond the upper bound that the authorization server allows, the authorization server responds with an HTTP 413 (Payload Too Large) status code."
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "ErrorResponse_405": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "method_not-allowed"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "If the request did not use the POST method, the authorization server responds with an HTTP 405 (Method Not Allowed) status code"
+          }
+        },
+        "required": [
+          "error"
+        ]
+      },
+      "ErrorResponse_400": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "invalid_request"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "The redirect_uri is not valid for the given client"
           }
         },
         "required": [
