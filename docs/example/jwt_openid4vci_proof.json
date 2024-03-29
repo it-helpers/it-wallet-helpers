@@ -1,0 +1,18 @@
+{
+    "header": {
+        "typ": "openid4vci-proof+jwt",
+        "alg": "ES256",
+        "jwk": {
+            "kty":"EC",
+            "x":"35lvC8uz2QrWpQJ3TUH8t9o9DURMp7ydU518RKDl20k",
+            "y":"I8BuXB2bvxelzJAd7OKhd-ZwjCst05Fx47Mb_0ugros",
+            "crv":"P-256"
+            } 
+    },
+    "payload":{
+        "iss": "https://it-wallet-eid-provider.example.it/token",
+        "iat": "1710346343",
+        "aud": "https://it-wallet-eid-provider.example.it/credential",
+        "nonce": "ts_EtUQs0ieiIS1NYNBHEQSoy3ct4gpy-4FZKwHilkY"
+    }
+}

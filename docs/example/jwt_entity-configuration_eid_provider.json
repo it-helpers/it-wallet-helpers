@@ -1,9 +1,11 @@
 {
-    "$id": "https://example.com/jwt_entity-configuration_eid_provider.json",
-    "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "title": "entity configuration ieD Provider",
-    "type": "object",
-    "properties":{
+    "header": {
+        "alg": "ES256",
+        "kid": "FANFS3YnC9tjiCaivhWLVUJ3AxwGGz_98uRFaqMEEs",
+        "typ": "entity-statement+jwt"
+    },
+    "payload":
+    {
         "exp": "1649610249",
         "iat": "1649437449",
         "iss": "https://it-wallet-eid-provider.example.it",
