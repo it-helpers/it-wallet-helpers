@@ -663,14 +663,9 @@
             "description": "Object containing proof of possession of the key material the issued Credentials shall be bound to",
             "properties": {
               "proof_type": {
-                "type": "object",
-                "properties": {
-                  "proof_type": {
-                    "type": "string",
-                    "description": "String denoting the proof type. It MUST be 'jwt'",
-                    "example": "jwt"
-                  }
-                }
+                "type": "string",
+                "description": "String denoting the proof type. It MUST be 'jwt'",
+                "example": "jwt"
               },
               "jwt": {
                 "type": "string",
