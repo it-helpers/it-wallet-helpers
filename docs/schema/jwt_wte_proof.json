@@ -2,57 +2,45 @@
     "$id": "https://example.com/wte_proof.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "wte proof",
-    "type": "string",
-    "contentMediaType": "application/jwt",
-    "contentSchema": 
-    {
-        "type": "array",
-        "minItems": 2,
-        "prefixItems":[
-        {
-            "const": {
-                "typ": "jwt-client-attestation-pop",
-                "alg": "ES256",
-                "kid": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$" 
-            }
+    "type": "object",
+    "required": [
+        "jti",
+        "iss",
+        "aud",
+        "iat",
+        "exp"
+    ],
+    "properties": {
+        "jti": {
+            "type": "string",
+            "description": "Unique identifier; can be used to prevent the JWT from being replayed (allows a token to be used only once)",
+            "format": "UUID",
+            "example": "-BwC3ESc6acc2lTc"
         },
-        {
-            "type": "object",
-            "required": ["jti", "iss", "aud", "iat", "exp"],
-            "properties": {
-                "jti": {
-                    "type": "string",
-                    "description": "Unique identifier; can be used to prevent the JWT from being replayed (allows a token to be used only once)",
-                    "format": "UUID",
-                    "example": "-BwC3ESc6acc2lTc"
-                },
-                "iss": {
-                    "type": "string",
-                    "description": "The Issuer of the JWT; it MUST be set to the thumbprint of the jwk value in the cnf parameter inside the Wallet Attestation JWT, in base64url encoded",
-                    "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
-                },
-                "aud": {
-                    "type": "string",
-                    "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the PID/EAA Provider",
-                    "example": "http://it-wallet-eid-provider.example.it"
-                },
-                "iat": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
-                    "example": "1710346343"
-                },
-                "exp": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp after which the JWT expire",
-                    "example": "1701960844"
-                },
-                "nbf": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp before which the JWT must not be accepted for processing",
-                    "example": "1710346343"
-                }
-            }
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the JWT; it MUST be set to the thumbprint of the jwk value in the cnf parameter inside the Wallet Attestation JWT, in base64url encoded",
+            "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
+        },
+        "aud": {
+            "type": "string",
+            "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the PID/EAA Provider",
+            "example": "http://it-wallet-eid-provider.example.it"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
+            "example": "1710346343"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the JWT expire",
+            "example": "1701960844"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the JWT must not be accepted for processing",
+            "example": "1710346343"
         }
-        ]
     }
 }

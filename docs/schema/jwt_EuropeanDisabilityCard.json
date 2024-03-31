@@ -1,0 +1,49 @@
+{
+    "$id": "https://example.com/jwt_edc.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "european disability card",
+    "type": "object",
+    "properties":
+    {
+        "type": "object",
+        "required": ["iss","iat", "aud", "htu", "htm", "ath"],
+        "properties": {
+            "iss": {
+                "type": "string",
+                "description": "The Issuer of the Verifiable Credential; it MUST be set to the URI of the Credential Endpoint of the PID/EAA Provider",
+                "example": "https://it-wallet-eid-provider.example.it/credential"
+            },
+            "iat": {
+                "type": "number",
+                "description": "The UNIX Timestamp at which the Verifiable Credential was issued; can be used to determine age of the JWT",
+                "example": "1710346343"
+            },
+            "exp": {
+                "type": "number",
+                "description": "The UNIX Timestamp after which the Verifiable Credential is no longer valid",
+                "example": "1701960844"
+            },
+            "nbf": {
+                "type": "number",
+                "description": "The UNIX Timestamp before which the Verifiable Credential must not be accepted for validation",
+                "example": "1710346343"
+            },
+            "cnf": {
+                "type": "object",
+                "description": "Contains the proof of possession key as defined in",
+                "required": ["crv","kyt","x","y","kid"],
+                "properties": {
+                    "jwk":{
+                        "crv": {
+                            "type": "string",
+                            "example": "P-256"
+                        },
+
+
+
+                "description": "It MUST be set to the same value of the 'c_nonce' parameter in the Token Request provided by the Token Endpoint of the PID/EAA Issuer",
+                "example": "ts_EtUQs0ieiIS1NYNBHEQSoy3ct4gpy-4FZKwHilkY"
+            }
+        }
+    }
+}

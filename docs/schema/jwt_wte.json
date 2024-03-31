@@ -2,93 +2,90 @@
     "$id": "https://example.com/wte.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "wte",
-    "type": "string",
-    "contentMediaType": "application/jwt",
-    "contentSchema": 
-    {
-        "type": "array",
-        "minItems": 2,
-        "prefixItems":[
-        {
-            "const": {
-                "typ": "wallet-attestation+jwt",
-                "alg": "ES256",
-                "kid": "$public-key-id-of-the-private-key-used-by-the-Wallet-Provider-to-sign-the-wte$",
-                "x5c": "$Array-containing-the-X.509-chain-of-certificates-used-to-attest-the-public-key-of-the-Wallet-Provider$" 
-            }
+    "type": "object",
+    "required": [
+        "jti",
+        "iss",
+        "aud",
+        "iat",
+        "exp"
+    ],
+    "properties": {
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the JWT; it MUST be set to the URI of the Wallet Provider",
+            "example": "http://it-wallet-provider.example.it"
         },
-        {
+        "sub": {
+            "type": "string",
+            "description": "The Subject of the JWT; it MUST be set to the thumbprint of the jwk of the Wallet Instance for which the attestation is being issued, in base64url encoded",
+            "example": "$base64url-encoded-thumprint-of-the-jwk-of-the-wallet-instance"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
+            "example": "1710346343"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the JWT expire",
+            "example": "1701960844"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the JWT must not be accepted for processing",
+            "example": "1710346343"
+        },
+        "aal": {
+            "type": "string",
+            "description": "The authentication level of the Wallet Instance",
+            "example": "https://trust-list.eu/aal/high"
+        },
+        "cnf": {
             "type": "object",
-            "required": ["jti", "iss", "aud", "iat", "exp"],
+            "description": "Object containing the public key of the Wallet Instance necessary for the Holder Key Binding",
+            "required": [
+                "jwk"
+            ],
             "properties": {
-                "iss": {
-                    "type": "string",
-                    "description": "The Issuer of the JWT; it MUST be set to the URI of the Wallet Provider",
-                    "example": "http://it-wallet-provider.example.it"
-                },
-                "sub": {
-                    "type": "string",
-                    "description": "The Subject of the JWT; it MUST be set to the thumbprint of the jwk of the Wallet Instance for which the attestation is being issued, in base64url encoded",
-                    "example": "$base64url-encoded-thumprint-of-the-jwk-of-the-wallet-instance"
-                },
-                "iat": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
-                    "example": "1710346343"
-                },
-                "exp": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp after which the JWT expire",
-                    "example": "1701960844"
-                },
-                "nbf": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp before which the JWT must not be accepted for processing",
-                    "example": "1710346343"
-                },
-                "aal": {
-                    "type": "string",
-                    "description": "The authentication level of the Wallet Instance",
-                    "example": "https://trust-list.eu/aal/high"
-                },
-                "cnf": {
+                "jwk": {
                     "type": "object",
-                    "description": "Object containing the public key of the Wallet Instance necessary for the Holder Key Binding",
-                    "required": ["jwk"],
+                    "description": "The public key of the Wallet Instance (in JWK format) necessary for the Holder Key Binding",
+                    "required": [
+                        "crv",
+                        "kyt",
+                        "x",
+                        "y"
+                    ],
                     "properties": {
-                        "jwk":{
-                            "type": "object",
-                            "description": "The public key of the Wallet Instance necessary for the Holder Key Binding",
-                            "required": ["crv","kyt","x","y","kid"],
-                            "properties": {
-                                "jwk":{
-                                    "crv": {
-                                        "type": "string",
-                                        "example": "P-256"
-                                    },
-                                    "kty": {
-                                        "type": "string",
-                                        "example": "EC"
-                                    },
-                                    "x": {
-                                        "type": "string",
-                                        "example": "4HNptI-xr2pjyRJKGMnz4WmdnQD_uJSq4R95Nj98b44"
-                                    },
-                                    "y": {
-                                        "type": "string",
-                                        "example": "LIZnSB39vFJhYgS3k7jXE4r3-CoGFQwZtPBIRqpNlrg"
-                                    },
-                                    "kid": {
-                                        "type": "string",
-                                        "example": "vbeXJksM45xphtANnCiG6mCyuU4jfGNzopGuKvogg9c"
-                                    }
-                                }
-                            }
+                        "crv": {
+                            "type": "string",
+                            "description": "The cryptographic curve used with the key. Values defined by this specification are 'P-256', 'P-384' and 'P-521'",
+                            "example": "P-256"
+                        },
+                        "kty": {
+                            "type": "string",
+                            "description": "The cryptographic algorithm family used with the key, such as 'RSA' or 'EC'",
+                            "example": "EC"
+                        },
+                        "x": {
+                            "type": "string",
+                            "description": "The x coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation",
+                            "example": "4HNptI-xr2pjyRJKGMnz4WmdnQD_uJSq4R95Nj98b44"
+                        },
+                        "y": {
+                            "type": "string",
+                            "description": "The y coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation",
+                            "example": "LIZnSB39vFJhYgS3k7jXE4r3-CoGFQwZtPBIRqpNlrg"
+                        },
+                        "kid": {
+                            "type": "string",
+                            "description": "An identifier that refers to the public key of the Wallet Instance. This is used, for instance, to choose among a set of keys within a JWK Set",
+                            "example": "vbeXJksM45xphtANnCiG6mCyuU4jfGNzopGuKvogg9c"
                         }
                     }
                 }
             }
         }
-        ]
     }
 }

@@ -1,0 +1,29 @@
+{
+    "$id": "https://example.com/wallet_relying_party_request_object_header.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "wallet relying party request object header",
+    "description": "Wallet relying party request object header",
+    "type": "object",
+    "required": [
+        "typ",
+        "alg",
+        "kid"
+    ],
+    "properties": {
+        "typ": {
+            "type": "string",
+            "description": "A field with the value jwt",
+            "example": "jwt"
+        },
+        "alg": {
+            "type": "string",
+            "description": "An identifier for a JWS asymmetric digital signature algorithm. It MUST NOT be none or an identifier for a symmetric algorithm",
+            "example": "ES256"
+        },
+        "kid": {
+            "type": "string",
+            "description": "An identifier that refers to a specific public key of the private key used to sign the request object. This is used, for instance, to choose among a set of keys within a JWK Set",
+            "example": "$base64url-encoded-thumprint-of-the-jwk-of-the-private-key-used-by-the-wallet-rp-of-the-EAA-Provider-to-sign-the-jwt$"
+        }
+    }
+}

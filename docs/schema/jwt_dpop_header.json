@@ -1,0 +1,51 @@
+{
+    "$id": "https://example.com/dpop_header.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "DPoP proof JWT header",
+    "description": "The DPoP proof JWT header",
+    "type": "object",
+    "required": [
+        "typ",
+        "alg",
+        "jwk"
+    ],
+    "properties": {
+        "typ": {
+            "type": "string",
+            "description": "A field with the value dpop+jwt",
+            "example": "dpop+jwt"
+        },
+        "alg": {
+            "type": "string",
+            "description": "An identifier for a JWS asymmetric digital signature algorithm. It MUST NOT be none or an identifier for a symmetric algorithm",
+            "example": "ES256"
+        },
+        "jwk": {
+            "type": "object",
+            "description": "Represents the public key (in JWK format) of the private key used to sign the DPoP proof JWT.y",
+            "required": ["kty","crv","x","y"],
+            "properties": {
+                "kty": {
+                    "type": "string",
+                    "description": "The cryptographic algorithm family used with the key, such as 'RSA' or 'EC'",
+                    "example": "EC"
+                },
+                "crv": {
+                    "type": "string",
+                    "description": "The cryptographic curve used with the key. Values defined by this specification are 'P-256', 'P-384' and 'P-521'",
+                    "example": "P-256"
+                },
+                "x":{
+                    "type": "string",
+                    "description": "The x coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation",
+                    "example": "f83OJ3D2xF1Bg8vub9tLe1gHMzV76e8Tus9uPHvRVEU"
+                },
+                "y":{
+                    "type": "string",
+                    "description": "the y coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation",
+                    "example": "x_FEzRu9m36HLN_tue659LNpXW6pCyStikYjKIWI5a0"
+                }
+            }
+        }
+    }
+}

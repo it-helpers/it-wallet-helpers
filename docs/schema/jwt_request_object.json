@@ -2,117 +2,112 @@
     "$id": "https://example.com/jwt_request_object.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "request object",
-    "type": "string",
-    "contentMediaType": "application/jwt",
-    "contentSchema": 
-    {
-        "type": "array",
-        "minItems": 2,
-        "prefixItems":[
-        {
-            "const": {
-                "typ": "JWT",
-                "alg": "ES256",
-                "kid": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$" 
-            }
+    "type": "object",
+    "required": [
+        "jti",
+        "iss",
+        "aud",
+        "iat",
+        "exp",
+        "response_type",
+        "client_id",
+        "state",
+        "code_challenge",
+        "code_challenge_method",
+        "authorization_details"
+    ],
+    "properties": {
+        "jti": {
+            "type": "string",
+            "description": "Unique identifier; can be used to prevent the JWT from being replayed (allows a token to be used only once)",
+            "format": "UUID",
+            "example": "-BwC3ESc6acc2lTc"
         },
-        {
-            "type": "object",
-            "required": ["jti", "iss", "aud", "iat", "exp", "response_type", "client_id", "state", "code_challenge", "code_challenge_method", "authorization_details"],
-            "properties": {
-                "jti": {
-                    "type": "string",
-                    "description": "Unique identifier; can be used to prevent the JWT from being replayed (allows a token to be used only once)",
-                    "format": "UUID",
-                    "example": "-BwC3ESc6acc2lTc"
-                },
-                "iss": {
-                    "type": "string",
-                    "description": "The Issuer of the JWT; it MUST be set to the thumbprint of the jwk value in the cnf parameter inside the Wallet Attestation JWT, in base64url encoded",
-                    "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
-                },
-                "aud": {
-                    "type": "string",
-                    "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the Authorization Endpoint of the PID/EAA Provider",
-                    "example": "http://it-wallet-eid-provider.example.it/authorize"
-                },
-                "iat": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
-                    "example": "1710346343"
-                },
-                "exp": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp after which the JWT expire",
-                    "example": "1701960844"
-                },
-                "nbf": {
-                    "type": "number",
-                    "description": "The UNIX Timestamp before which the JWT must not be accepted for processing",
-                    "example": "1710346343"
-                },
-                "response_type": {
-                    "type": "string",
-                    "description": "MUST be set to code",
-                    "example": "code"
-                },
-                "client_id": {
-                    "type": "string",
-                    "description": "Unique client identifier; it MUST be set to the thumbprint of the jwk value in the cnf parameter inside the Wallet Attestation JWT, in base64url encoded",
-                    "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
-                },
-                "state": {
-                    "type": "string",
-                    "description": "Unique session identifier at the client side. This value will be returned to the client in the response, at the end of the user authentication. It MUST be a random string composed by alphanumeric characters and with a minimum length of 32 digits",
-                    "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
-                },
-                "code_challenge": {
-                    "type": "string",
-                    "description": "A challenge derived from the code verifier that is sent in the authorization request",
-                    "example": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"
-                },
-                "code_challenge_method": {
-                    "type": "string",
-                    "description": "A method that was used to derive code challenge; it MUST be set to 'S256'",
-                    "example": "S256"
-                },
-                "authorization_details":{
-                    "type": "array",
-                    "items":{
-                        "properties": {
-                            "type": {
-                            "type": "string",
-                            "description": "The authorization details type; it MUST be set to 'openid_credential'",
-                            "example": "openid_credential"
-                            },
-                            "credential_configuration_id": {
-                            "type": "string",
-                            "description": "The unique identifier of the authorized Credential",
-                            "example": "PersonIdentificationData"
-                            }
-                        },
-                        "required": [
-                            "type","credential_configuration_id"
-                        ]
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the JWT; it MUST be set to the thumbprint of the jwk value in the cnf parameter inside the Wallet Attestation JWT, in base64url encoded",
+            "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
+        },
+        "aud": {
+            "type": "string",
+            "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the Authorization Endpoint of the PID/EAA Provider",
+            "example": "http://it-wallet-eid-provider.example.it/authorize"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
+            "example": "1710346343"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the JWT expire",
+            "example": "1701960844"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the JWT must not be accepted for processing",
+            "example": "1710346343"
+        },
+        "response_type": {
+            "type": "string",
+            "description": "MUST be set to code",
+            "example": "code"
+        },
+        "client_id": {
+            "type": "string",
+            "description": "Unique client identifier; it MUST be set to the thumbprint of the jwk value in the cnf parameter inside the Wallet Attestation JWT, in base64url encoded",
+            "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
+        },
+        "state": {
+            "type": "string",
+            "description": "Unique session identifier at the client side. This value will be returned to the client in the response, at the end of the user authentication. It MUST be a random string composed by alphanumeric characters and with a minimum length of 32 digits",
+            "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
+        },
+        "code_challenge": {
+            "type": "string",
+            "description": "A challenge derived from the code verifier that is sent in the authorization request",
+            "example": "E9Melhoa2OwvFrEMTJguCHaoeK1t8URWbuGJSstw-cM"
+        },
+        "code_challenge_method": {
+            "type": "string",
+            "description": "A method that was used to derive code challenge; it MUST be set to 'S256'",
+            "example": "S256"
+        },
+        "authorization_details": {
+            "type": "array",
+            "items": {
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The authorization details type; it MUST be set to 'openid_credential'",
+                        "example": "openid_credential"
+                    },
+                    "credential_configuration_id": {
+                        "type": "string",
+                        "description": "The unique identifier of the authorized Credential",
+                        "example": "PersonIdentificationData"
                     }
                 },
-                "redirect_uri": {
-                    "type": "string",
-                    "description": "Redirection URI to which the response is intended to be sent; it MUST be an universal or app link registered with the local operating system, so this latter will provide the response to the Wallet Instance",
-                    "example": "eudiw://start.wallet.example.or"
-                },
-                "client_assertion_type":{
-                    "type": "string",
-                    "description": "It MUST be set to 'urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation'",
-                    "example": "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation"
-                },
-                "client_assertion":{
-                    "type": "string",
-                    "description": "It MUST be set to a value containing the Wallet Attestation JWT and the Proof of Possession, separated with the ~ character",
-                    "example": "$WIA~WIA-PoP"
-                }
+                "required": [
+                    "type",
+                    "credential_configuration_id"
+                ]
             }
+        },
+        "redirect_uri": {
+            "type": "string",
+            "description": "Redirection URI to which the response is intended to be sent; it MUST be an universal or app link registered with the local operating system, so this latter will provide the response to the Wallet Instance",
+            "example": "eudiw://start.wallet.example.or"
+        },
+        "client_assertion_type": {
+            "type": "string",
+            "description": "It MUST be set to 'urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation'",
+            "example": "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation"
+        },
+        "client_assertion": {
+            "type": "string",
+            "description": "It MUST be set to a value containing the Wallet Attestation JWT and the Proof of Possession, separated with the ~ character",
+            "example": "$WIA~WIA-PoP"
         }
-        ]
     }
 }

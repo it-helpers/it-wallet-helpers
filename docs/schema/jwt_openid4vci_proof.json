@@ -1,12 +1,18 @@
 {
-    "$id": "https://example.com/jwt_openid4vci_proof.schema.json",
+    "$id": "https://example.com/openid4vci_proof.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "openid4vci proof",
+    "description": "The paylod of a proof JWT used for requesting a Verifiable Credential bounded to the public key specified within the JWK header of this JWT. Client sends the request for issuing a Verifiable Credential to the credential endpoint of the credential issuer and includes the proof JWT",
     "type": "object",
-    "properties":
-    {
+    "properties": {
         "type": "object",
-        "required": ["iat", "aud", "htu", "htm", "ath"],
+        "required": [
+            "iat",
+            "aud",
+            "htu",
+            "htm",
+            "ath"
+        ],
         "properties": {
             "iss": {
                 "type": "string",
