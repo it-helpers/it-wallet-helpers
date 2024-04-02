@@ -28,18 +28,18 @@
                 },
                 "iss": {
                     "type": "string",
-                    "description": "The Issuer of the JWT; it MUST be set to the URI of the Token Endpoint of the PID/EAA Provider, in base64url encoded",
-                    "example": "https://it-wallet-eid-provider.example.it/token"
+                    "description": "The Issuer of the JWT; it MUST be set to the URI of the Token Endpoint of the Authorization Server",
+                    "example": "https://it-wallet-provider.example.it/token"
                 },
                 "sub": {
                     "type": "string",
-                    "description": "The Subject of the JWT; it MUST be set with a no persistent identifier assigned to the authenticated end-user by the Credential Endpoint of the PID/EAA Provider",
+                    "description": "The Subject of the JWT; it MUST be set with a no persistent identifier assigned to the authenticated end-user by the Token Endpoint of the Authorization Server",
                     "example": "NzbLsXh8uDCcd7noWXFZAfHkxZsRGC9Xs"
                 },
                 "aud": {
                     "type": "string",
-                    "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the Credential Endpoint of the PID/EAA Provider",
-                    "example": "https://it-wallet-eid-provider.example.it/credential"
+                    "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the Credential Endpoint of the Credential Issuer",
+                    "example": "https://it-wallet-provider.example.it/credential"
                 },
                 "iat": {
                     "type": "number",

@@ -1,0 +1,23 @@
+{
+    "$id": "https://example.com/vc_sd_header.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "VC SD header",
+    "description": "WTE header",
+    "type": "object",
+    "required": [
+        "typ",
+        "alg"
+    ],
+    "properties": {
+        "typ": {
+            "type": "string",
+            "description": "A field with the value vc+sd-jwt",
+            "example": "vc+sd-jwt"
+        },
+        "alg": {
+            "type": "string",
+            "description": "An identifier for a JWS asymmetric digital signature algorithm. It MUST NOT be none or an identifier for a symmetric algorithm",
+            "example": "ES256"
+        }
+    }
+}
