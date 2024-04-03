@@ -6,16 +6,16 @@
     "required": [
         "jti",
         "iss",
-        "aud",
         "iat",
         "exp",
         "credential_hash",
-        "credential_hash_alg"
+        "credential_hash_alg",
+        "cnf"
     ],
     "properties": {
         "iss": {
             "type": "string",
-            "description": "Thumbprint of the JWK in the cnf parameter of the Wallet Attestation",
+            "description": "It MUST be set to the identifier of the Issuer",
             "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
         },
         "iat": {
