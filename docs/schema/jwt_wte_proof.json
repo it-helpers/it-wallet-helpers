@@ -8,7 +8,8 @@
         "iss",
         "aud",
         "iat",
-        "exp"
+        "exp",
+        "nbf"
     ],
     "properties": {
         "jti": {

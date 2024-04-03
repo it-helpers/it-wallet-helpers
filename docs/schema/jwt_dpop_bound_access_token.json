@@ -1,5 +1,5 @@
 {
-    "$id": "https://example.com/jwt_dpop_boud_access_token.schema.json",
+    "$id": "https://example.com/dpop_boud_access_token.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "The paylod of an access token bounded to public key of a DPoP JWT",
     "type": "string",

@@ -1,5 +1,5 @@
 {
-    "$id": "https://example.com/jwt_edc.schema.json",
+    "$id": "https://example.com/europeanDisabilityCard.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "european disability card",
     "type": "object",
@@ -37,12 +37,11 @@
                         "crv": {
                             "type": "string",
                             "example": "P-256"
-                        },
-
-
-
-                "description": "It MUST be set to the same value of the 'c_nonce' parameter in the Token Request provided by the Token Endpoint of the PID/EAA Issuer",
-                "example": "ts_EtUQs0ieiIS1NYNBHEQSoy3ct4gpy-4FZKwHilkY"
+                        }
+                    },
+                    "description": "It MUST be set to the same value of the 'c_nonce' parameter in the Token Request provided by the Token Endpoint of the PID/EAA Issuer",
+                    "example": "ts_EtUQs0ieiIS1NYNBHEQSoy3ct4gpy-4FZKwHilkY"
+                }
             }
         }
     }

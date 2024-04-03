@@ -1,14 +1,14 @@
 {
-    "$id": "https://example.com/wte_proof.schema.json",
+    "$id": "https://example.com/revocation.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Credential Proof of Possession",
     "type": "object",
     "required": [
-        "jti",
         "iss",
         "aud",
-        "iat",
         "exp",
+        "iat",
+        "jti",
         "credential_hash",
         "credential_hash_alg"
     ],
@@ -18,15 +18,25 @@
             "description": "Thumbprint of the JWK in the cnf parameter of the Wallet Attestation",
             "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
         },
-        "iat": {
-            "type": "number",
-            "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
-            "example": "1710346343"
+        "aud": {
+            "type": "object",
+            "description": "containing the proof-of-possession key materials.",
+            "example": "https://pid-provider.example.org/revoke"
         },
         "exp": {
             "type": "number",
             "description": "The UNIX Timestamp after which the JWT expire",
             "example": "1701960844"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
+            "example": "1710346343"
+        },
+        "jti": {
+            "type": "number",
+            "description": "Unique identifier for the PoP proof JWT. The value SHOULD be set using a UUID v4 value",
+            "example": "-BwC3ESc6acc2lTc"
         },
         "credential_hash": {
             "type": "string",
@@ -37,14 +47,6 @@
             "type": "string",
             "description": "Contain the Algorithm used for hashing the Digital Credential",
             "example": "S256"
-        },
-        "aud": {
-            "type": "object",
-            "description": "containing the proof-of-possession key materials.",
-            "example": ""
-                
-                
-        
         }
     }
 }

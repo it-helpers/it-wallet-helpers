@@ -1,10 +1,9 @@
 {
-    "$id": "https://example.com/wte_proof.schema.json",
+    "$id": "https://example.com/status_attestation.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Credential Proof of Possession",
     "type": "object",
     "required": [
-        "jti",
         "iss",
         "iat",
         "exp",

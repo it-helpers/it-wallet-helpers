@@ -1,5 +1,5 @@
 {
-    "$id": "https://example.com/wte_header.schema.json",
+    "$id": "https://example.com/status_attestation_header.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Status Attestation header",
     "description": "Status Attestation header",

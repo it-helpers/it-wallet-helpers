@@ -7,7 +7,8 @@
     "required": [
         "typ",
         "alg",
-        "kid"
+        "kid",
+        "x5c"
     ],
     "properties": {
         "typ": {

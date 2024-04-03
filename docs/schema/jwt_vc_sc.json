@@ -5,11 +5,13 @@
     "type": "object",
     "required": [
         "iss",
-        "aud",
+        "sub",
         "iat",
         "exp",
+        "nbf",
         "vct",
         "_sd_alg",
+        "_sd",
         "cnf"
     ],
     "properties": {

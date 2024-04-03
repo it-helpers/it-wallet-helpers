@@ -1,5 +1,5 @@
 {
-    "$id": "https://example.com/jwt_request_object.schema.json",
+    "$id": "https://example.com/request_object.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "request object",
     "type": "object",
@@ -9,12 +9,16 @@
         "aud",
         "iat",
         "exp",
+        "nbf",
         "response_type",
         "client_id",
         "state",
         "code_challenge",
         "code_challenge_method",
-        "authorization_details"
+        "authorization_details",
+        "redirect_uri",
+        "client_assertion_type",
+        "client_assertion"
     ],
     "properties": {
         "jti": {

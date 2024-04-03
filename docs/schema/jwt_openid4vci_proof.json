@@ -7,11 +7,10 @@
     "properties": {
         "type": "object",
         "required": [
+            "iss",
             "iat",
             "aud",
-            "htu",
-            "htm",
-            "ath"
+            "nonce"
         ],
         "properties": {
             "iss": {

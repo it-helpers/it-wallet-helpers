@@ -4,11 +4,14 @@
     "title": "wte",
     "type": "object",
     "required": [
-        "jti",
         "iss",
+        "sub",
         "aud",
         "iat",
-        "exp"
+        "exp",
+        "nbf",
+        "aal",
+        "cnf"
     ],
     "properties": {
         "iss": {

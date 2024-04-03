@@ -1,5 +1,5 @@
 {
-    "$id": "https://example.com/jwt_entity-configuration_eaa_provider.json",
+    "$id": "https://example.com/entity-configuration_eaa_provider.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "entity configuration ieD Provider",
     "type": "object",
