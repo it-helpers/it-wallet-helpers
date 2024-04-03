@@ -450,7 +450,7 @@
         "parameters": [
           {
             "in": "header",
-            "name": "Credential Proof of Possession JWT",
+            "name": "credential_pop",
             "schema": {
               "type": "string",
               "format": "jwt (<base64-encoded header>.<base64-encoded claims>.<base64-encoded signature>)",
