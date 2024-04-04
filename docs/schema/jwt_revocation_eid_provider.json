@@ -1,0 +1,52 @@
+{
+    "$id": "https://example.com/revocation_eid_provider.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Credential Proof of Possession",
+    "type": "object",
+    "required": [
+        "iss",
+        "aud",
+        "exp",
+        "iat",
+        "jti",
+        "credential_hash",
+        "credential_hash_alg"
+    ],
+    "properties": {
+        "iss": {
+            "type": "string",
+            "description": "Thumbprint of the JWK in the cnf parameter of the Wallet Attestation",
+            "example": "$base64url-encoded-thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
+        },
+        "aud": {
+            "type": "object",
+            "description": "containing the proof-of-possession key materials.",
+            "example": "https://pid-provider.example.org/revoke"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the JWT expire",
+            "example": "1701960844"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT",
+            "example": "1710346343"
+        },
+        "jti": {
+            "type": "number",
+            "description": "Unique identifier for the PoP proof JWT. The value SHOULD be set using a UUID v4 value",
+            "example": "-BwC3ESc6acc2lTc"
+        },
+        "credential_hash": {
+            "type": "string",
+            "description": "Contain the hash value of a Digital Credential, derived by computing the base64url encoded hash of the Digital Credential.",
+            "example": "211f80400edeaaf683ba650e82b9ace246d3437278b01e73b77939b1ca6cc80d"
+        },
+        "credential_hash_alg": {
+            "type": "string",
+            "description": "Contain the Algorithm used for hashing the Digital Credential",
+            "example": "S256"
+        }
+    }
+}

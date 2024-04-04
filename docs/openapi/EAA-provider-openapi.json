@@ -446,6 +446,269 @@
           
         }
       }
+    },
+    "/status": {
+      "post": {
+        "summary": "The Issuer provides the Wallet Instance with a Status Attestation.",
+        "description": "1. The <b>Credential Issuer</b> checks validity of Status Attestation Request and stores it in database. \n <b>Note.</b>Verification of the request is done by extracting the DPoP Proof JWT contained in the credential_pop parameter and validating its signature with the public key contained in the digital credential identified by the hash of the credential itself reported within the credentianl_hash claim of the DPoP Proof JWT (the Credential Issuer uses the hash of the credential extracted from the DPoP Proof JWT presented in the request to retrieve the credential from its database); \n 2.The <b>Credential Issuer</b> extracts from the database the identifier (CF) of the user holding the digital credential retrieved in step 1 using the hash of the credential as the search key; \n 3. The <b>Credential Issuer</b> sends digital credential data request by submitting the user ID retrieved in step 2 to the Authentic Source; \n 4. The <b>Credential Issuer</b> performs a formal validation of the response returned by the Authentic Source; checks if the data received from the Authentic Source is still valid or has been revoked and checks if it is the same as the data present in the database (hashes of the data returned from the Authentic Source are generated and compared with the same data present locally in order to check for any updates on the same).  <b>Note.</b> In the case of at least one data update, the digital credential must be revoked by the Credential Issuer of the EAA Provider and no Status Attestation must be issued for this credential; \n 5. The <b>Credential Issuer</b> gives of the Status Attestation in JWT format and its storage in database by associating it with the digital credential; creation of the Status Attestation Response encapsulating the Status Attestation and its storage in database with linkage to the Status Attestation Request saved in step 1; \n 6. The <b>Credential Issuer</b> sends the Status Attestation Response to the Client.",
+        "tags": [
+          "EAA Issuance Flow"
+        ],
+        "operationId": "statusRequest",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "credential_pop",
+            "schema": {
+              "type": "string",
+              "format": "jwt (<base64-encoded header>.<base64-encoded claims>.<base64-encoded signature>)",
+              "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$"
+            },
+            "description": "The Wallet Instance sends the Status Attestation Request to the Issuer. The request MUST contain the Credential Proof of Possession JWT, signed with the private key related to the public key contained within the Credential..</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schema/jwt_credential_pop_header.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schema/jwt_dpop_token_endpoint.json\">JSON schema</a>",
+            "example": "ewogICAgImFsZyI6ICJFUzI1NiIsCiAgICAidHlwIjogInN0YXR1cy1hdHRlc3RhdGlvbi1yZXF1ZXN0K2p3dCIsCiAgICAia2lkIjogImVOTi1nNWk2Q25MS2NsdFFCcDZhYmJpb0dNYnpNNm11VzN2dXh3NnVoODgiCn0.ewogICAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICAgImlhdCI6IDE1MDQ2OTkxMzYsCiAgICAiZXhwIjogMTUwNDcwMDEzNiwKICAgICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgICAiY3JlZGVudGlhbF9oYXNoX2FsZyI6ICJzaGEtMjU2IiwKICAgICJjbmYiOiB7CiAgICAgICAgImp3ayI6IHsKICAgICAgICAgICAgImt0eSI6ICJFQyIsCiAgICAgICAgICAgICJjcnYiOiAiUC0yNTYiLAogICAgICAgICAgICAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwKICAgICAgICAgICAgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSIKICAgICAgICB9CiAgICB9Cn0.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error code",
+                      "example": "invalid_request"
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                      "example": "The signature of credential_pop JWT is not valid"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error code",
+                      "example": "not_found"
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                      "example": "The Digital Credential can not be found by the Issuer"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error code",
+                      "example": "internal_server_error"
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                      "example": "The Issuer encountered an internal problem."
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error code",
+                      "example": "service_unavaible"
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                      "example": "The Issuer is temporary unavailable."
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/revoke": {
+      "post": {
+        "summary": "A Wallet Instance request the revocation of a Digital Credential",
+        "description": "1. The <b>Client</b> send the Revocation Request by HTTP-POST; \n 2. The <b>Credential Issuer</b> checks the validity of the Revocation Request and stores it in the database. <b>Note.</b> The check of the request is done by extracting the DPoP Proof JWT contained in the credential_pop parameter and validating its signature of the DPoP Proof JWT with the public key contained in the digital credential identified by the hash of the credential itself reported within the credentianl_hash claim of the DPoP Proof JWT (the Credential Issuer uses the hash of the digital credential extracted from the DPoP Proof JWT presented in the request to retrieve the credential from its database); \n 3. The <b>Credential Issuer</b> checks the database for the existence and validity status of the digital credential retrieved in step 2 using the hash of the credential as the search key; \n 4. The <b>Credential Issuer</b> revokes the digital credential retrieved in step 2 and updates the database; creates the Revocation Response and stores it in the database by associating it with the Revocation Request saved in step 2; \n 5. The <b>Credential Issuer</b> the client sends the Revocation Response.",
+        "tags": [
+          "EAA Issuance Flow"
+        ],
+        "operationId": "revokeRequest",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "credential_pop",
+            "schema": {
+              "type": "string",
+              "format": "jwt (<base64-encoded header>.<base64-encoded claims>.<base64-encoded signature>)",
+              "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$"
+            },
+            "description": "The Wallet Instance sends the Revocation Request to the Issuer. The request MUST contain the Credential Proof of Possession JWT, signed with the private key related to the public key contained within the Credential.</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schema/jwt_revocation_header.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schema/jwt_revocation.json\">JSON schema</a>",
+            "example": "ewogICJhbGciOiAiRVMyNTYiLAogICJ0eXAiOiAicmV2b2NhdGlvbi1yZXF1ZXN0K2p3dCIsCiAgImtpZCI6ICJlTk4tZzVpNkNuTEtjbHRRQnA2YWJiaW9HTWJ6TTZtdVczdnV4dzZ1aDg4Igp9.ewogICJqdGkiOiAiLUJ3QzNFU2M2YWNjMmxUYyIsCiAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICJhdWQiOiAiaHR0cDovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC9yZXZva2UiLAogICJpYXQiOiAxNTA0Njk5MTM2LAogICJleHAiOiAxNTA0NzAwMTM2LAogICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgImNyZWRlbnRpYWxfaGFzaF9hbGciOiAic2hhLTI1NiIKfQ.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error code",
+                      "example": "invalid_request"
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                      "example": "The issuer cannot fulfill the request because of invalid parameters"
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error code",
+                      "example": "not_found"
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                      "example": "The Digital Credential to be revoked can not be found by the Issuer."
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error code",
+                      "example": "internal_server_error"
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                      "example": "The Issuer encountered an internal problem."
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service Unavailable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "description": "The error code",
+                      "example": "service_unavaible"
+                    },
+                    "error_description": {
+                      "type": "string",
+                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                      "example": "The Issuer is temporary unavailable."
+                    }
+                  },
+                  "required": [
+                    "error"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -731,6 +994,20 @@
           "format",
           "c_nonce",
           "c_nonce_expires_in"
+        ]
+      },
+      "StatusResponse": {
+        "type": "object",
+        "properties": {
+          "status_attestation": {
+            "type": "string",
+            "description": "The Issuer then returns the Status Attestation to the Wallet Instance as a signed JWT",
+            "pattern": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)$",
+            "example": "ewogICAgImFsZyI6ICJFUzI1NiIsCiAgICAidHlwIjogInN0YXR1cy1hdHRlc3RhdGlvbitqd3QiLAogICAgImtpZCI6ICJlTk4tZzVpNkNuTEtjbHRRQnA2YWJiaW9HTWJ6TTZtdVczdnV4dzZ1aDg4Igp9.ewogICAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICAgImlhdCI6IDE1MDQ2OTkxMzYsCiAgICAiZXhwIjogMTUwNDcwMDEzNiwKICAgICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgICAiY3JlZGVudGlhbF9oYXNoX2FsZyI6ICJzaGEtMjU2IiwKICAgICJjbmYiOiB7CiAgICAgICAgImp3ayI6IHsKICAgICAgICAgICAgImt0eSI6ICJFQyIsCiAgICAgICAgICAgICJjcnYiOiAiUC0yNTYiLAogICAgICAgICAgICAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwKICAgICAgICAgICAgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSIKICAgICAgICB9CiAgICB9Cn0.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
+          }
+        },
+        "required": [
+          "status_attestation"
         ]
       }
     }

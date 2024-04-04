@@ -1,5 +1,5 @@
 {
-    "$id": "https://example.com/revocation_header.schema.json",
+    "$id": "https://example.com/revocation_header_eid_provider.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Revocation header",
     "description": "Revocation header",

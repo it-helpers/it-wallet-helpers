@@ -1,5 +1,5 @@
 {
-    "$id": "https://example.com/revocation.schema.json",
+    "$id": "https://example.com/revocation_eaa_provider.schema.json",
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Credential Proof of Possession",
     "type": "object",

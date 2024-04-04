@@ -1,0 +1,30 @@
+{
+    "$id": "https://example.com/status_attestation_header_eid_provider.schema.json",
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Status Attestation header",
+    "description": "Status Attestation header",
+    "type": "object",
+    "required": [
+        "typ",
+        "alg",
+        "kid"
+    ],
+    "properties": {
+        "typ": {
+            "type": "string",
+            "description": "A field with the value status-attestation+jwt",
+            "example": "status-attestation+jwt"
+        },
+        "alg": {
+            "type": "string",
+            "description": "An identifier for a JWS asymmetric digital signature algorithm. It MUST NOT be none or an identifier for a symmetric algorithm",
+            "example": "ES256"
+        },
+        "kid": {
+            "type": "string",
+            "description": "Unique identifier of the Issuer jwk as base64url-encoded JWK Thumbprint value",
+            "example": "$base64url-encoded-thumprint-of-the-jwk-of-the-private-key-used-by-the-Wallet-Provider-to-sign-the-status_attestation$"
+        }
+
+    }
+}
