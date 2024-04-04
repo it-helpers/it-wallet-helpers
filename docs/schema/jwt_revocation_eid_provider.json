@@ -21,7 +21,7 @@
         "aud": {
             "type": "object",
             "description": "containing the proof-of-possession key materials.",
-            "example": "https://pid-provider.example.org/revoke"
+            "example": "https://it-wallet-eid-provider.example.it/revoke"
         },
         "exp": {
             "type": "number",
