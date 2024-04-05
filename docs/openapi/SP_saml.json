@@ -51,18 +51,12 @@
             "description": "Found",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization request saml (parameter 'SAMLRequest') and the service provider session id ('RelayState')",
+                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization request saml (parameter 'SAMLRequest') and the service provider session id ('RelayState'). => EXAMPLE: 'https%3A%2F%2Fidp.example.org/saml2-sso?SAMLRequest=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHNhbWxwOlJlc3BvbnNlIERlc3RpbmF0aW9uPSJodHRwOi8vc3AuaWNhci5pdDo4M...&RelayState=s28d91a26bd4d60f47a49913300'",
                 "style": "simple",
                 "explode": false,
                 "schema": {
                   "type": "string",
                   "format": "uri"
-                },
-                "examples": {
-                  "302": {
-                    "description": "Redirect URI at the end of the authentication flow",
-                    "value": "https%3A%2F%2Fidp.example.org/saml2-sso?SAMLRequest=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHNhbWxwOlJlc3BvbnNlIERlc3RpbmF0aW9uPSJodHRwOi8vc3AuaWNhci5pdDo4M...&RelayState=s28d91a26bd4d60f47a49913300"
-                  }
                 }
               }
             }
@@ -70,23 +64,8 @@
           "200": {
             "description": "Ok",
             "content": {
-              "application/form": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "SAMLRequest":{
-                      "type": "string",
-                      "description": "The SAMLRequest",
-                      "example" : "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZVRGLTgiPz4KPHNhbWxwOkF1dGhuUmVxdWVzdCBBc3NlcnRpb25Db25zdW1lclNlcnZpY2VVUkw9Imh0dHA6Ly9zcC5pY2FyLml0OjgwODAvaWNhc..."
-                    },
-                    "RelayState":{
-                      "type": "string",
-                      "description": "The Service provider session id",
-                      "example" : "s2645f48777bd62ec83eddc62..."
-                    }
-                  },
-                  "description":"The following response object is in according to <a target=\"blank\" href=\"https://docs.italia.it/italia/spid/spid-regole-tecniche/it/stabile/trasmissione.html#binding-http-post\">SPID - Trasmissione dei messaggi (binding)</a>"
-                }
+              "text/html:": {
+                "example":"<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\n<html xmlns='http://www.w3.org/1999/xhtml'xml:lang='en'>\n<body onload='document.forms[0].submit()'>\n<noscript>\n<p>\n<strong>Note:</strong> Poiché il tuo browser non supporta JavaScript, devi premere il pulsante Continua una volta per procedere.\n</p>\n</noscript>\n<form action='http://ServiceProvider.com/SAML/SLO/Browser'method='post'>\n<div>\n<input type='hidden' name='RelayState' value='0043bfc1bc45110dae17004005b13a2b'/>\n<input type='hidden' name='SAMLRequest' value='PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K'/>\n<input type='hidden' name='Signature' value='J4if7CCeHVfn4H6hMZN5fijOjQIyZ/laoFUZWz4LCRN3J82UeoyYvAiTDoQOUZHTRJNU1lWGub1pW4QR9MH5bwfLEa8XDivA118dR0Q7YN5L/U5rmbxnGlQ9pV0jT44cRNeqtbLW0YF4plfcqg7E5iOSljE3QLkiaAdkAec2a4HwPFkn/JP7wO11Mc6kU8MLCBbZAa3+94ZvVwHBEdyCdU+1yEvf+JGxTw66BwI2ugmPfxvoJdsOOAWwS3KhAFhLLSPXnhb3nd/ovKNNV/khZYwqsFTFNTMA+0JraKsZiCRtEZzEPXaP9KilrjPIIvRVxDQhETj96flk5zMkEM3ruw=='/>\n<input type='hidden' name='SigAlg' value='http://www.w3.org/2000/09/xmldsig#rsa-sha1'/>\n</div>\n<noscript>\n<div>\n<input type='submit' value='Continua'/>\n</div>\n</noscript>\n</form>\n</body>\n</html>"
               }
             }
           }
@@ -99,7 +78,7 @@
           "Credential Issuance Flow"
         ],
         "summary": "Issuing access token to the Wallet",
-        "description": "1. <b>Client</b> generates a public/private key pair for use with DPoP; \n 2. <b>Client</b> creates a DPoP proof JWT for the /token endpoint of the authorizatiuon server adding the DPoP public key in the JWT header and signs the JWT with the DPoP private key, according to Section 4.2 of the DPoP specification (RFC 9449); \n 3. <b>Client</b> sends a request to the /token endpoint of the authorization server for issuing an access token bounded to the public key of the DPoP proof presented in the DPoP HTTP header of the request; \n 4. The <b>authorization server</b> must validate the token request and the DPoP proof JWT in the DPoP HTTP header according to Section 4.3 of the DPoP specifications (RFC 9449); \n 5. The <b>authorization server</b> extracts WTE from the token request and control is equal to the WTE received previously within the PAR Request; \n 6. The <b>authorization server</b> generates an <u>access token</u> bounded to the public key of the DPoP proof JWT, according to the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#access-token\">EUDI IT Wallet specification</a> (the issued DPoP-bounded access token represents the client's authorization to access to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'); \n 7. The <b>authorization server</b> creates a string containg a <u>nonce</u> value to be used to create a proof of possession of private key material when requesting a Credential (the nonce can be used only once and has a limited lifetime); \n 8. The <b>authorization server</b> sends the response containing the <u>DPoP-bounded access token</u>, <u>authorized verifiable credential types</u> with the DPoP-bound Access Token, the <u>nonce</u> and the <u>nonce expires time</u>",
+        "description": "",
         "operationId": "assertionConsumer",
         "parameters": [],
         "requestBody": {
@@ -117,18 +96,11 @@
             "description": "Found",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization code generated by the authorization server (parameter 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format). If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client  identifier is missing or invalid, the authorization server MUST NOT automatically redirect the  user-agent to the invalid redirection URI. If the authorization server denies the access request or  if the request fails for reasons other than a missing or invalid redirection URI, the authorization  server informs the client by adding the error parameter (in URL-encoded format) and  the error_description parameter (in URL-encoded format) to the query component of the redirection URI  ([RFC 6749#section-4.1.2.1] https://datatracker.ietf.org/doc/html/rfc6749.html#section-4.1.2.1)",
-                "style": "simple",
+                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization code generated by the authorization server (parameter 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format). If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client  identifier is missing or invalid, the authorization server MUST NOT automatically redirect the  user-agent to the invalid redirection URI. If the authorization server denies the access request or  if the request fails for reasons other than a missing or invalid redirection URI, the authorization  server informs the client by adding the error parameter (in URL-encoded format) and  the error_description parameter (in URL-encoded format) to the query component of the redirection URI  ([RFC 6749#section-4.1.2.1] https://datatracker.ietf.org/doc/html/rfc6749.html#section-4.1.2.1). => EXAMPLE: 'https%3A%2F%2Fisp-saml.example.org/callback?SAMLResponse=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZVRGLTgiPz4KPHNhbWxwOkF1dGhuUmVxdWVzdCBBc3NlcnRpb25Db25zdW1lclNlcnZpY2VVUkw9Imh0dHA6Ly9zcC5pY2FyLml0OjgwODAvaWNhc...'",
                 "explode": false,
                 "schema": {
                   "type": "string",
                   "format": "uri"
-                },
-                "examples": {
-                  "302": {
-                    "description": "Redirect URI at the end of the authentication flow",
-                    "value": "https%3A%2F%2Fisp-saml.example.org/callback?SAMLResponse=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZVRGLTgiPz4KPHNhbWxwOkF1dGhuUmVxdWVzdCBBc3NlcnRpb25Db25zdW1lclNlcnZpY2VVUkw9Imh0dHA6Ly9zcC5pY2FyLml0OjgwODAvaWNhc..."
-                  }
                 }
               }
             }
@@ -175,18 +147,12 @@
             "description": "Found",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization code generated by the authorization server (parameter 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format). If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client  identifier is missing or invalid, the authorization server MUST NOT automatically redirect the  user-agent to the invalid redirection URI. If the authorization server denies the access request or  if the request fails for reasons other than a missing or invalid redirection URI, the authorization  server informs the client by adding the error parameter (in URL-encoded format) and  the error_description parameter (in URL-encoded format) to the query component of the redirection URI  ([RFC 6749#section-4.1.2.1] https://datatracker.ietf.org/doc/html/rfc6749.html#section-4.1.2.1)",
+                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization code generated by the authorization server (parameter 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format). If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client  identifier is missing or invalid, the authorization server MUST NOT automatically redirect the  user-agent to the invalid redirection URI. If the authorization server denies the access request or  if the request fails for reasons other than a missing or invalid redirection URI, the authorization  server informs the client by adding the error parameter (in URL-encoded format) and  the error_description parameter (in URL-encoded format) to the query component of the redirection URI  ([RFC 6749#section-4.1.2.1] https://datatracker.ietf.org/doc/html/rfc6749.html#section-4.1.2.1). => EXAMPLE: 'https://it-wallet-provider.example.it/authorize'",
                 "style": "simple",
                 "explode": false,
                 "schema": {
                   "type": "string",
                   "format": "uri"
-                },
-                "examples": {
-                  "302": {
-                    "description": "Redirect URI at the end of the authentication flow to the authorization endpoint of the authorization server of eID Provider, sending in http header name, surname, date of birth, tax id code, state and authentication level",
-                    "value": "https://it-wallet-provider.example.it/authorize"
-                  }
                 }
               }
             }
