@@ -100,7 +100,7 @@
         ],
         "summary": "Issuing access token to the Wallet",
         "description": "1. <b>Client</b> generates a public/private key pair for use with DPoP; \n 2. <b>Client</b> creates a DPoP proof JWT for the /token endpoint of the authorizatiuon server adding the DPoP public key in the JWT header and signs the JWT with the DPoP private key, according to Section 4.2 of the DPoP specification (RFC 9449); \n 3. <b>Client</b> sends a request to the /token endpoint of the authorization server for issuing an access token bounded to the public key of the DPoP proof presented in the DPoP HTTP header of the request; \n 4. The <b>authorization server</b> must validate the token request and the DPoP proof JWT in the DPoP HTTP header according to Section 4.3 of the DPoP specifications (RFC 9449); \n 5. The <b>authorization server</b> extracts WTE from the token request and control is equal to the WTE received previously within the PAR Request; \n 6. The <b>authorization server</b> generates an <u>access token</u> bounded to the public key of the DPoP proof JWT, according to the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#access-token\">EUDI IT Wallet specification</a> (the issued DPoP-bounded access token represents the client's authorization to access to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'); \n 7. The <b>authorization server</b> creates a string containg a <u>nonce</u> value to be used to create a proof of possession of private key material when requesting a Credential (the nonce can be used only once and has a limited lifetime); \n 8. The <b>authorization server</b> sends the response containing the <u>DPoP-bounded access token</u>, <u>authorized verifiable credential types</u> with the DPoP-bound Access Token, the <u>nonce</u> and the <u>nonce expires time</u>",
-        "operationId": "tokenRequest",
+        "operationId": "assertionConsumer",
         "parameters": [],
         "requestBody": {
           "required": true,
@@ -142,7 +142,7 @@
           "Credential Issuance Flow"
         ],
         "summary": "Issuing authorization code to the Wallet",
-        "operationId": "authorize",
+        "operationId": "callback",
         "parameters": [
           {
             "name": "state",
