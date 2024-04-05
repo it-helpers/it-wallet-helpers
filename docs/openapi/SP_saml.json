@@ -35,7 +35,7 @@
           {
             "name": "idphint",
             "in": "query",
-            "description": "The identifier of the hinted Identity Provider ID (in URL-encoded format)",
+            "description": "The identifier id (entityID) of the hinted Identity Provider ID (in URL-encoded format)",
             "required": true,
             "allowEmptyValue": true,
             "style": "form",
@@ -44,6 +44,19 @@
               "type": "string"
             },
             "example": "https%3A%2F%2Fidp.example.org"
+          },
+          {
+            "name": "target",
+            "in": "query",
+            "description": "Uri of the callback endpoint of the SP (in URL-encoded format)",
+            "required": true,
+            "allowEmptyValue": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "https%3A%2F%2Fisp-saml.example.org/callback"
           }
         ],
         "responses": {
@@ -51,7 +64,7 @@
             "description": "Found",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization request saml (parameter 'SAMLRequest') and the service provider session id ('RelayState'). => EXAMPLE: 'https%3A%2F%2Fidp.example.org/saml2-sso?SAMLRequest=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHNhbWxwOlJlc3BvbnNlIERlc3RpbmF0aW9uPSJodHRwOi8vc3AuaWNhci5pdDo4M...&RelayState=s28d91a26bd4d60f47a49913300'",
+                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization request saml (parameter 'SAMLRequest') and the service provider session id ('RelayState'). => EXAMPLE: 'https%3A%2F%2Fidp.example.org/saml2-sso?SAMLRequest=PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K&RelayState=0043bfc1bc45110dae17004005b13a2b'",
                 "style": "simple",
                 "explode": false,
                 "schema": {
@@ -65,14 +78,14 @@
             "description": "Ok",
             "content": {
               "text/html:": {
-                "example":"<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\n<html xmlns='http://www.w3.org/1999/xhtml'xml:lang='en'>\n<body onload='document.forms[0].submit()'>\n<noscript>\n<p>\n<strong>Note:</strong> Poiché il tuo browser non supporta JavaScript, devi premere il pulsante Continua una volta per procedere.\n</p>\n</noscript>\n<form action='http://ServiceProvider.com/SAML/SLO/Browser'method='post'>\n<div>\n<input type='hidden' name='RelayState' value='0043bfc1bc45110dae17004005b13a2b'/>\n<input type='hidden' name='SAMLRequest' value='PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K'/>\n<input type='hidden' name='Signature' value='J4if7CCeHVfn4H6hMZN5fijOjQIyZ/laoFUZWz4LCRN3J82UeoyYvAiTDoQOUZHTRJNU1lWGub1pW4QR9MH5bwfLEa8XDivA118dR0Q7YN5L/U5rmbxnGlQ9pV0jT44cRNeqtbLW0YF4plfcqg7E5iOSljE3QLkiaAdkAec2a4HwPFkn/JP7wO11Mc6kU8MLCBbZAa3+94ZvVwHBEdyCdU+1yEvf+JGxTw66BwI2ugmPfxvoJdsOOAWwS3KhAFhLLSPXnhb3nd/ovKNNV/khZYwqsFTFNTMA+0JraKsZiCRtEZzEPXaP9KilrjPIIvRVxDQhETj96flk5zMkEM3ruw=='/>\n<input type='hidden' name='SigAlg' value='http://www.w3.org/2000/09/xmldsig#rsa-sha1'/>\n</div>\n<noscript>\n<div>\n<input type='submit' value='Continua'/>\n</div>\n</noscript>\n</form>\n</body>\n</html>"
+                "example":"<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\n<html xmlns='http://www.w3.org/1999/xhtml'xml:lang='en'>\n<body onload='document.forms[0].submit()'>\n<noscript>\n<p>\n<strong>Note:</strong> Poiché il tuo browser non supporta JavaScript, devi premere il pulsante Continua una volta per procedere.\n</p>\n</noscript>\n<form action='https://idp.example.org/saml2-sso'method='post'>\n<div>\n<input type='hidden' name='RelayState' value='0043bfc1bc45110dae17004005b13a2b'/>\n<input type='hidden' name='SAMLRequest' value='PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K'/>\n<input type='hidden' name='Signature' value='J4if7CCeHVfn4H6hMZN5fijOjQIyZ/laoFUZWz4LCRN3J82UeoyYvAiTDoQOUZHTRJNU1lWGub1pW4QR9MH5bwfLEa8XDivA118dR0Q7YN5L/U5rmbxnGlQ9pV0jT44cRNeqtbLW0YF4plfcqg7E5iOSljE3QLkiaAdkAec2a4HwPFkn/JP7wO11Mc6kU8MLCBbZAa3+94ZvVwHBEdyCdU+1yEvf+JGxTw66BwI2ugmPfxvoJdsOOAWwS3KhAFhLLSPXnhb3nd/ovKNNV/khZYwqsFTFNTMA+0JraKsZiCRtEZzEPXaP9KilrjPIIvRVxDQhETj96flk5zMkEM3ruw=='/>\n<input type='hidden' name='SigAlg' value='http://www.w3.org/2000/09/xmldsig#rsa-sha1'/>\n</div>\n<noscript>\n<div>\n<input type='submit' value='Continua'/>\n</div>\n</noscript>\n</form>\n</body>\n</html>"
               }
             }
           }
         }
       }
     },
-    "/assertionConsumer": {
+    "/assertionConsumerService": {
       "post": {
         "tags": [
           "Credential Issuance Flow"
@@ -96,7 +109,7 @@
             "description": "Found",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization code generated by the authorization server (parameter 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format). If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client  identifier is missing or invalid, the authorization server MUST NOT automatically redirect the  user-agent to the invalid redirection URI. If the authorization server denies the access request or  if the request fails for reasons other than a missing or invalid redirection URI, the authorization  server informs the client by adding the error parameter (in URL-encoded format) and  the error_description parameter (in URL-encoded format) to the query component of the redirection URI  ([RFC 6749#section-4.1.2.1] https://datatracker.ietf.org/doc/html/rfc6749.html#section-4.1.2.1). => EXAMPLE: 'https%3A%2F%2Fisp-saml.example.org/callback?SAMLResponse=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZVRGLTgiPz4KPHNhbWxwOkF1dGhuUmVxdWVzdCBBc3NlcnRpb25Db25zdW1lclNlcnZpY2VVUkw9Imh0dHA6Ly9zcC5pY2FyLml0OjgwODAvaWNhc...'",
+                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization code generated by the authorization server (parameter 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format). If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client  identifier is missing or invalid, the authorization server MUST NOT automatically redirect the  user-agent to the invalid redirection URI. If the authorization server denies the access request or  if the request fails for reasons other than a missing or invalid redirection URI, the authorization  server informs the client by adding the error parameter (in URL-encoded format) and  the error_description parameter (in URL-encoded format) to the query component of the redirection URI  ([RFC 6749#section-4.1.2.1] https://datatracker.ietf.org/doc/html/rfc6749.html#section-4.1.2.1). => EXAMPLE: 'https%3A%2F%2Fisp-saml.example.org/callback?SAMLResponse=PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K&RelayState=0043bfc1bc45110dae17004005b13a2b",
                 "explode": false,
                 "schema": {
                   "type": "string",
@@ -131,7 +144,7 @@
           {
             "name": "SAMLResponse",
             "in": "query",
-            "description": "The identifier of the hinted Identity Provider ID (in URL-encoded format)",
+            "description": "The SAMLResponse",
             "required": true,
             "allowEmptyValue": true,
             "style": "form",
@@ -139,7 +152,20 @@
             "schema": {
               "type": "string"
             },
-            "example": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZVRGLTgiPz4KPHNhbWxwOkF1dGhuUmVxdWVzdCBBc3NlcnRpb25Db25zdW1lclNlcnZpY2VVUkw9Imh0dHA6Ly9zcC5pY2FyLml0OjgwODAvaWNhc..."
+            "example": "PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K"
+          },
+          {
+            "name": "RelayState",
+            "in": "query",
+            "description": "The service provider session id",
+            "required": true,
+            "allowEmptyValue": true,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "0043bfc1bc45110dae17004005b13a2b"
           }
         ],
         "responses": {
@@ -171,8 +197,13 @@
         "properties": {
           "SAMLResponse": {
             "type": "string",
-            "description": "",
-            "example": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHNhbWxwOlJlc3BvbnNlIERlc3RpbmF0aW9uPSJodHRwOi8v..."
+            "description": "The SAMLResponse",
+            "example": "PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBYSFRNTCAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvVFIveGh0bWwxMS9EVEQveGh0bWwxMS5kdGQiPgo8aHRtbCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCIgeG1sOmxhbmc9ImVuIj4KPGJvZHkgb25sb2FkPSJkb2N1bWVudC5mb3Jtc1swXS5zdWJtaXQoKSI-Cjxub3NjcmlwdD4KPHA-CjxzdHJvbmc-Tm90ZTo8L3N0cm9uZz4gU2luY2UgeW91ciBicm93c2VyIGRvZXMgbm90IHN1cHBvcnQgSmF2YVNjcmlwdCwgeW91IG11c3QgcHJlc3MgdGhlIENvbnRpbnVlIGJ1dHRvbiBvbmNlIHRvIHByb2NlZWQuCjwvcD4KPC9ub3NjcmlwdD4KPGZvcm0gYWN0aW9uPSJodHRwczovL2lkcC5leGFtcGxlLm9yZy9zYW1sMi1zc28iIG1ldGhvZD0icG9zdCI-PGRpdj48aW5wdXQgdHlwZT0iaGlkZGVuIiBuYW1lPSJSZWxheVN0YXRlIiB2YWx1ZT0iMDA0M2JmYzFiYzQ1MTEwZGFlMTcwMDQwMDViMTNhMmIiLz48aW5wdXQgdHlwZT0iaGlkZGVuIiBuYW1lPSJTQU1MUmVzcG9uc2UiIHZhbHVlPSJQSE5oYld4d09reHZaMjkxZEZKbGNYVmxjM1FnZUcxc2JuTTZjMkZ0YkhBOUluVnlianB2WVhOcGN6cHVZVzFsY3pwMFl6cFRRVTFNT2pJdU1EcHdjbTkwYjJOdmJDSWdlRzFzYm5NOUluVnlianB2WVhOcGN6cHVZVzFsY3pwMFl6cFRRVTFNT2pJdU1EcGhjM05sY25ScGIyNGlDaUFnSUNCSlJEMGlaREppTjJNek9EaGpaV016Tm1aaE4yTXpPV015T0daa01qazROalEwWVRnaUlFbHpjM1ZsU1c1emRHRnVkRDBpTWpBd05DMHdNUzB5TVZReE9Ub3dNRG8wT1ZvaUlGWmxjbk5wYjI0OUlqSXVNQ0krQ2lBZ0lDQThTWE56ZFdWeVBtaDBkSEJ6T2k4dlNXUmxiblJwZEhsUWNtOTJhV1JsY2k1amIyMHZVMEZOVER3dlNYTnpkV1Z5UGdvZ0lDQWdQRTVoYldWSlJDQkdiM0p0WVhROUluVnlianB2WVhOcGN6cHVZVzFsY3pwMFl6cFRRVTFNT2pJdU1EcHVZVzFsYVdRdFptOXliV0YwT25CbGNuTnBjM1JsYm5RaVBqQXdOV0V3Tm1Vd0xXRmtPREl0TVRFd1pDMWhOVFUyTFRBd05EQXdOV0l4TTJFeVlqd3ZUbUZ0WlVsRVBnb2dJQ0FnUEhOaGJXeHdPbE5sYzNOcGIyNUpibVJsZUQ0eFBDOXpZVzFzY0RwVFpYTnphVzl1U1c1a1pYZytDand2YzJGdGJIQTZURzluYjNWMFVtVnhkV1Z6ZEQ0SyIvPgo8aW5wdXQgdHlwZT0iaGlkZGVuIiBuYW1lPSJTaWduYXR1cmUiIHZhbHVlPSJEQ0RxQXdJRHFTd3lYR3ZHMmNZdk5qbWo3UDFrdDAra2JDZlJqcTlnR1RyTjRLS1B4dlFsNUVzRnJXUmtNT2R4eHV3UGxkV1BLdmZnWDZydCtwS3dMZ0N0MVRxUmorNzF5K1ZkR1M4T1JzQmVFSVVSUm45d1N1K3BLc1dpSGV4d0tuSWU2NWJqT05iZzJkYjQ0UU9XWmxEZTc2ZkxpMDVQc3kvN0haVFF1TW9EUkZZU1IvL1Z5TkdIUW1mOVN4aTZta21yWU1YUE95WkFVZk5oWDRlTGFYRmZ3Q0h0MHlSckVjbS9QQUVERGE3dXFlOFVvNWlsc3RnWERXRG9kV2RrU3prOFpTMWlyakZrdnR4SDdGSmxtOUFEdGxXL1NvWDkyakdqTUlyZFF3Q3lBckk2bzhLVGlEcC9jakRqSFpHaVhMeDJXdlM3R0VpYkE3UWQrNWhTQlE9PSIvPgo8aW5wdXQgdHlwZT0iaGlkZGVuIiBuYW1lPSJTaWdBbGciIHZhbHVlPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjcnNhLXNoYTEiLz4KPC9kaXY-Cjxub3NjcmlwdD4KPGRpdj4KPGlucHV0IHR5cGU9InN1Ym1pdCIgdmFsdWU9IkNvbnRpbnVlIi8-CjwvZGl2Pgo8L25vc2NyaXB0Pgo8L2Zvcm0-CjwvYm9keT4KPC9odG1sPg"
+          },
+          "relayState": {
+            "type": "string",
+            "description": "The service provider session id",
+            "example": "0043bfc1bc45110dae17004005b13a2b"
           }
         },
         "description": "The SAMLResponse"
