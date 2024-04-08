@@ -185,7 +185,17 @@
         ],
         "responses": {
           "302": {
-            "$ref" : "./eID-provider_openapi.json"
+            "description": "Redirect URI at the end of the authentication flow",
+            "headers": {
+              "Location1": {
+
+                "$ref" : "eID-provider_openapi.json#/components/schemas/Location1"
+                  },
+              "Location2": {
+                "$ref" : "eID-provider_openapi.json#/components/schemas/Location2"
+                }
+              }
+            
           }
         }
       }
