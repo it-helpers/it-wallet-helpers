@@ -15,7 +15,7 @@
     "/login": {
       "get": {
         "tags": [
-          "SAML Authenticatio Flow"
+          "SAML Authentication Flow"
         ],
         "summary": "Login request for starting a user authentication flow to a specific SAML IdP", 
         "description": "<ol><li><b>Client</b> sends a login request to the Service Provider (SP) for starting a user authentication flow to a specific Identity Provider (IdP);</li><li>The <b>Service Provider (SP)</b> generates an identifier for the login request received ('RelayState'), creates a SAML authentication request and signs it;</li><li>The <b>SP</b> redirects the client to the IdP with the SAML authentication request, the signature, the signature algorithm used and the RelayState;</li><li>The <b>IdP</b> validates the SAML authentication request;</li><li>The <b>IdP</b> authenticates the user by prompting for a username and password or some other authentication factor</li><li>Upon successful authentication, the <b>IdP</b> generates a SAML response that include the SAML authentication assertion contains user identity and authentication context data and signs it;</li><li>The <b>IdP</b> redirects the client to the Assertion Consumer Service of the SP (specified inside the \"AssertionConsumerService\" element of the SP Metadata) with the generated SAML Response, the signature, the signature algorithm and the RelayState;</li></ol>",
@@ -89,7 +89,7 @@
     "/acs": {
       "post": {
         "tags": [
-          "SAML Authenticatio Flow"
+          "SAML Authentication Flow"
         ],
         "summary": "Validating the SAML Response comes from a SAML IdP after successfully login",
         "description": "<ul><li>The <b>SP</b> validates the SAML response and the SAML Assertion, creates a session for the user populated with the attributes extracted from the SAML Assertion and redirects the client to the callback URI of the SP setting a session cookie containining the ID of the user session (the callback URI of the SP is specified into the 'target' parameter of the login request previously recevived from the client)</li></ul>",
