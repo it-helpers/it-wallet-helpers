@@ -211,7 +211,7 @@
         ],
         "responses": {
           "302": {
-            "description": "Found",
+            "description": "Found <br> <br/> <b>No content</b>",
             "headers": {
               "Location": {
                 "schema": {
