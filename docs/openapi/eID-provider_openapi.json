@@ -139,7 +139,7 @@
             "description": "Found  <br> <br/> <b>No content</b> <br> <br/> <b> EXAMPLE </b>: 'https%3A%2F%2Fwallet-sp.ipzs.it%2Flogin?idphint=https%3A%2F%2Fidp.example.org&target=https%3A%2F%2Fwallet-rp.ipzs.it%2Fcallback2%20'",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL presents in the header the state and in query string idphint and target.",
+                "description": "The Location response header indicates the URL to which the wallet Instance should be redirected. This URL presents in the header the state and in query string idphint and target.",
                 "style": "simple",
                 "explode": false,
                 "schema": {
@@ -330,7 +330,7 @@
               "type": "string",
               "format": "A digitally signed JWT"
             },
-            "example": "DPoP eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2Iiwia2lkIjoiY3o2dXM2cHdsYmswYTNxNnNjZHc4M3gifQ.eyJqdGkiOiItQndDM0VTYzZhY2MybFRjIiwiaXNzIjoiaHR0cHM6Ly9pdC13YWxsZXQtZWlkLXByb3ZpZGVyLmV4YW1wbGUuaXQvdG9rZW4iLCJzdWIiOiJOemJMc1hoOHVEQ2NkN25vV1hGWkFmSGt4WnNSR0M5WHMiLCJhdWQiOiJodHRwczovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC9jcmVkZW50aWFsIiwiaWF0IjoxNzExNDAzNDMyLCJleHAiOjE3MTE0MDQwMzIsImprdCI6ImtRTVUxM05ydmljMkQ5SUdwMnQtUGhMZmlIR0VGRzVST0VJSWV5dWU3Tk0ifQ.9qrEiuuKa490FT3JyJy9hqnjopVkZM98q59blR0Q24NdTE2VVTDQIvjoJE3thYLN8Vqe_dI2-I1V31wK_W_JQQ"
+            "example": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJzdWJfcGFpcndpc2UiLCJhdWQiOiJodHRwczovL3VhdC5ldWRpLXdhbGxldC1pdC1xZWFhLWlzc3Vlci5kZW1vLmlwenMuaXQvdG9rZW4iLCJqa3QiOiJrUU1VMTNOcnZpYzJEOUlHcDJ0LVBoTGZpSEdFRkc1Uk9FSUlleXVlN05NIiwiZXhwIjoxNzA1NTczNjU1LCJpYXQiOjE3MDU1NzAwNTUsIm5vbmNlIjoidHNfRXRVUXMwaWVpSVMxTllOQkhFUVNveTNjdDRncHktNEZaS3dIaWxrWSIsImp0aSI6ImY4NTU1Y2ViLWM2NWMtNDAyNS05Mzc4LWI2NjcyYjYxNDlhZiIsImNsaWVudF9pZCI6Imh0dHBzOi8vdWF0LmV1ZGktd2FsbGV0LWl0LXFlYWEtaXNzdWVyLmRlbW8uaXB6cy5pdC90b2tlbiJ9.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
           },
           {
             "name": "DPoP",
@@ -344,7 +344,7 @@
               "type": "string",
               "format": "A digitally signed JWT"
             },
-            "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.eyJqdGkiOiJlMWozVl9iS2ljOC1MQUVCIiwiaHRtIjoiUE9TVCIsImh0dSI6Imh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L2NyZWRlbnRpYWwiLCJpYXQiOjE3MTAzNDYzNDMsImF0aCI6ImZVSHlPMnIyWjNEWjUzRXNOcldCYjB4V1hvYU55NTlJaUtDQXFrc21RRW8ifQ.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg"
+            "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.ewogICJqdGkiOiAiZTFqM1ZfYktpYzgtTEFFQiIsCiAgImh0bSI6ICJQT1NUIiwKICAiaHR1IjogImh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L2NyZWRlbnRpYWwiLAogICJpYXQiOiAxNzEwMzQ2MzQzLAogICJhdGgiOiAiZlVIeU8ycjJaM0RaNTNFc05yV0JiMHhXWG9hTnk1OUlpS0NBcWtzbVFFbyIsCiAgIm5vbmNlIjogInRzX0V0VVFzMGllaUlTMU5ZTkJIRVFTb3kzY3Q0Z3B5LTRGWkt3SGlsa1kiCn0=.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg"
           }
         ],
         "requestBody": {
@@ -391,6 +391,7 @@
         ],
         "summary": "Retrieve Entity Configuration of eID Provider.",
         "operationId": "federationEntityConfigurationRequest",
+        "description": "1. <b>Client</b> calls the “/.well-know/openid-federation” of the eID Provider to obtain the entity configuration; \n 2. <b>eID Provider // OpenIdFederation</b> returns the entity configuration; \n 3. <b>Client</b> extracts the entity Configuration and entityId of the Trust Anchor from the authority_hints; \n 4. <b>Client</b> calls the “./well-know/openid-federation” of the Trust Anchor using the entityId from the previous step; \n 5. <b>Trust Anchor // OpenIdFederation</b> validates the request, retrieves the entity configuration (jwt), and creates a response; \n 6. <b>Client</b> receives the Response from the Trust Anchor; \n 7. <b>Client</b> extracts the entity configuration of the Trust Anchor and retrieves the fetch URL of the Trust Configuration // OpenIdFederation; \n 8. <b>Client</b> sends a GET request to the fetch using the endpoint from the previous step to obtain the Subordinate Statement of the eId Provider (transmitting “iss” = Trust Anchor identifier, and “sub” = identifier of the eIdProvider as the Subordinate Statement owner); \n 9. <b>Trust Anchor // OpenIdFederation</b> receives and retrieves the Subordinate Statement of the eId Provider using “sub”; \n 10. <b>Trust Anchor // OpenIdFederation</b> returns the response; \n 11. <b>Client</b> retrieves all metadata from the “metadata” claim of the eId Provider in the response and proceeds with storage. \n ",
         "parameters": [],
         "responses": {
           "200": {
@@ -1355,7 +1356,7 @@
           "jwt": {
             "type": "string",
             "description": "The base64url encoded SHA-256 thumbprint of the public key specified inside the claim 'jwt' of the JWT proof (in JWK format) the issued Credentials shall be bound to",
-            "example": "eyJraWQiOiJkaWQ6ZXhhbXBsZTplYm"
+            "example": "eyJ0eXAiOiJvcGVuaWQ0dmNpLXByb29mK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwiY3J2IjoiUC0yNTYiLCJ4IjoiblVXQW9BdjNYWml0aDhFN2kxOU9kYXhPTFlGT3dNLVoyRXVNMDJUaXJUNCIsInkiOiJIc2tIVThCalVpMVU5WHFpN1N3bWo4Z3dBS18weGtjRGpFV183MVNvc0VZIn19.ewogICJhdWQiOiAiaHR0cHM6Ly9pdC13YWxsZXQtZWlkLXByb3ZpZGVyLmV4YW1wbGUuaXQvY3JlZGVudGlhbCIsCiAgImlhdCI6IDE3MDU1NzAwNTUsCiAgIm5vbmNlIjogInRzX0V0VVFzMGllaUlTMU5ZTkJIRVFTb3kzY3Q0Z3B5LTRGWkt3SGlsa1kiCn0=.-a3EDsxClUB4O3LeDD5DVGEnNMT01FCQW4P6-2-BNBqc_Zxf0Qw4CWayLEpqkAomlkLb9zioZoipdP-jvh1WlA"
           }
         },
         "description": "JSON object containing a reference to the public key specified inside the JWT proof (in JWK format) the issued Credentials shall be bound to"
