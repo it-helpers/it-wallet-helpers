@@ -64,7 +64,7 @@
         },
         "state": {
             "type": "string",
-            "description": "Unique session identifier at the client side. This value will be returned to the client in the response, at the end of the user authentication. It MUST be a random string composed by alphanumeric characters and with a minimum length of 32 digits",
+            "description": "Unique application session identifier at the client side. This value will be returned to the client in the response, at the end of the user authentication. It MUST be a random string composed by alphanumeric characters and with a minimum length of 32 digits",
             "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
         },
         "code_challenge": {
