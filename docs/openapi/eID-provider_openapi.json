@@ -133,7 +133,7 @@
             "description": "Found  <br> <br/> <b>No content</b> <br> <br/> <b> EXAMPLE </b>: 'https%3A%2F%2Fwallet-sp.ipzs.it%2Flogin?idphint=https%3A%2F%2Fidp.example.org&target=https%3A%2F%2Fwallet-rp.ipzs.it%2Fcallback2%20'",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL presents in the header the state and in query string idphint and target.",
+                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL presents in query string a parameter 'idphint' contains the identifier of the hinted Identity Provider (entityID), in URL-encoded format, and a parameter 'target' contains the redirection URI of the SP, in URL-encoded format, to which the SP Assertion Consumer Service redirects the client with the SAML assertion extracted from the verified SAML Response.",
                 "style": "simple",
                 "explode": false,
                 "schema": {
@@ -724,10 +724,10 @@
         ],
         "responses": {
           "302": {
-            "description": "Found  <br> <br/> <b>No content</b>",
+            "description": "Found  <br> <br/> <b>No content</b> <br/><br/>=> EXAMPLE: 'https%3A%2F%2Fidp.example.org/saml2-sso?SAMLRequest=PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K&Signature=DCDqAwIDqSwyXGvG2cYvNjmj7P1kt0+kbCfRjq9gGTrN4KKPxvQl5EsFrWRkMOdxxuwPldWPKvfgX6rt+pKwLgCt1TqRj+71y+VdGS8ORsBeEIURRn9wSu+pKsWiHexwKnIe65bjONbg2db44QOWZlDe76fLi05Psy/7HZTQuMoDRFYSR//VyNGHQmf9Sxi6mkmrYMXPOyZAUfNhX4eLaXFfwCHt0yRrEcm/PAEDDa7uqe8Uo5ilstgXDWDodWdkSzk8ZS1irjFkvtxH7FJlm9ADtlW/SoX92jGjMIrdQwCyArI6o8KTiDp/cjDjHZGiXLx2WvS7GEibA7Qd+5hSBQ&SigAlg=http%3A%2F%2Fwww.w3.org%2F2000%2F09%2Fxmldsig%23rsa-sha1&RelayState=0043bfc1bc45110dae17004005b13a2b'",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL of Identity Provider SSO seervice to redirect the Wallet Instance to. This URL present in query string the SANL authorization request (parameter 'SAMLRequest'), the signature (parameter 'Signature'), the signature algorithm (parameter 'SigAlg') and the login request id (parameter 'RelayState'). <br/><br/>=> EXAMPLE: 'https%3A%2F%2Fidp.example.org/saml2-sso?SAMLRequest=PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K&Signature=DCDqAwIDqSwyXGvG2cYvNjmj7P1kt0+kbCfRjq9gGTrN4KKPxvQl5EsFrWRkMOdxxuwPldWPKvfgX6rt+pKwLgCt1TqRj+71y+VdGS8ORsBeEIURRn9wSu+pKsWiHexwKnIe65bjONbg2db44QOWZlDe76fLi05Psy/7HZTQuMoDRFYSR//VyNGHQmf9Sxi6mkmrYMXPOyZAUfNhX4eLaXFfwCHt0yRrEcm/PAEDDa7uqe8Uo5ilstgXDWDodWdkSzk8ZS1irjFkvtxH7FJlm9ADtlW/SoX92jGjMIrdQwCyArI6o8KTiDp/cjDjHZGiXLx2WvS7GEibA7Qd+5hSBQ&SigAlg=http%3A%2F%2Fwww.w3.org%2F2000%2F09%2Fxmldsig%23rsa-sha1&RelayState=0043bfc1bc45110dae17004005b13a2b'",
+                "description": "The Location response header indicates the URL of Identity Provider SSO seervice to redirect the Wallet Instance to. This URL present in query string the SANL authorization request (parameter 'SAMLRequest'), the signature (parameter 'Signature'), the signature algorithm (parameter 'SigAlg') and the login request id (parameter 'RelayState').",
                 "schema": {
                   "type": "string",
                   "format": "uri"
@@ -778,10 +778,10 @@
         },
         "responses": {
           "302": {
-            "description": "Found <br> <br/> <b>No content</b>",
+            "description": "Found <br> <br/> <b>No content</b> <br> <br/> <b> EXAMPLE </b>: 'https%3A%2F%2Fwallet-sp.ipzs.it%2Fcallback'",
             "headers": {
               "Location": {
-                "description": "<br/><br/>=> EXAMPLE: 'https%3A%2F%2Fwallet-sp.ipzs.it%2Fcallback'",
+                "description": "The Location response header indicates the URL to which the instance wallet should be redirected. In this case the wallet instance will be redirected to the callback",
                 "explode": false,
                 "schema": {
                   "type": "string",
