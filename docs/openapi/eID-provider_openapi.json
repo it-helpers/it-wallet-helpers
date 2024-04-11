@@ -835,7 +835,7 @@
             "description": "Found  <br> <br/> <b>No content</b> <br> <br/> <b> EXAMPLE </b>: 'https%3A%2F%2Fit-wallet-eid-provider.example.it%2Fauthorize_int'",
             "headers": {
               "Location": {
-                "description": "The Location response header indicates the URL to forward the Client to.",
+                "description": "The Location response header indicates the URL to forward the Wallet Instance to Eht internat Authorization Service of the eId Provider",
                 "schema": {
                   "type": "string",
                   "format": "uri"
