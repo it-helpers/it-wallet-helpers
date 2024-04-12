@@ -34,7 +34,7 @@
                 ]
             },
             "oauth_authorization_server": {
-                "authorization_endpoint": "https://it-wallet-eid-provider.example.it/authorization",
+                "authorization_endpoint": "https://it-wallet-eid-provider.example.it/authorize",
                 "pushed_authorization_request_endpoint": "https://it-wallet-eid-provider.example.it/as/par",
                 "dpop_signing_alg_values_supported": [
                     "ES256",
