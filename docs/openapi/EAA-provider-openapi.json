@@ -17,20 +17,16 @@
         "summary": "Starts authorization flow for the Wallet",
         "tags": ["EAA Issuance Flow"],
         "operationId": "parRequest",
+        "description": "<ol><li><b>Wallet Instance</b> have previously: <ul><li>obtained EAA Provider federation metadata (<a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a>) that discloses the URL endpoints, public keys, algorithms supported, credential types supported, and any other parameter required for interoperability needs;</li><li>created a PKCE code verifier and its challenge code (SHA256) for the Pushed Authorization Request (<a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request<a/>) to send to this endpoint;</li><li>created a <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request<a/> for starting an authorzation flow to obtain an access token that authorize to access to the /credendential endpoint for requestinf an EAA credential.</li></ul></li><li><b>Wallet Instance</b> sends a <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request<a/> to this endpoint</li><li><b>Authorization Server</b> validates <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request</a> received;</li> <li><b>Authorization Server</b> extracts the identifier of the Wallet Instance (<i>client_id</i>), the Wallet Instance side application session (<i>state</i>), the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/wallet-attestation.html#id1\"><i>WTE</i></a> and its proof of possession (<i>WTE-PoP</i>), validates and storing them in the local database along with the PAR Request using the <i>state</i> as key; </li> <li><b>Authorization Server</b> extracts from the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/wallet-attestation.html#id1\">WTE</a> of the Wallet Provider's identifier that issued the Wallet Instance (claim iss) and uses it to verify the presence in the local database of a valid trust chain related to the Wallet Provider (in case of absence it starts a federation flow that provides for building the Wallet Provider's trust chain and storing it in the local database by associating it with the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request</a>);</li> <li><b>Authorization Server</b> validates the signature of the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/wallet-attestation.html#id1\">WTE</a> using the Wallet Provider's federation public key contained in the Wallet Provider's <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a> retrieved from its trust chain; the identifier of this public key (specified into the claim <i>kid</i>) must match exactly the claim <i>kid</i> specified in the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/wallet-attestation.html#id1\">WTE</a> header;</li> <li><b>Authorization Server</b> verifies that the Wallet Instance is the rightful owner of the submitted <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/wallet-attestation.html#id1\">WTE</a> by going to validate the signature of the WTE-PoP and checking if the public key of the Wallet Instance to which the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/wallet-attestation.html#id1\">WTE</a> is bound (contained into the WTE claim <i>cnf</i>) is the same public key referenced by the claim <i>kid</i> of the WTE-DPoP header;</li> <li><b>Authorization Server</b> extracts the JWT request object from the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request</a> (claim <i>request</i>) and verifies its signature using the public key of the Wallet Instance to which the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/wallet-attestation.html#id1\">WTE</a> is bound (contained into the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/wallet-attestation.html#id1\">WTE</a> claim <i>cnf</i>);</li> <li><b>Authorization Server</b> generates a time-limited disposable request uri that identifies the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request</a> within the Authorization Server (e.g., SHA1 hash of the PAR Request) and creates a <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-response\">PAR Response</a> that encapsulates that URI (claim <i>request_uri</i>) and its validity interval (claim <i>request_uri_expires_in</i>);</li> <li><b>Authorization Server</b> stores the <i>identifier of the Wallet Provider</i>, <i>request_uri</i>, <i>request_uri_expires_in</i> and <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-response\"><i>PAR Response</i></a> in local database by associating them with the previously saved <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\"><i>PAR Request</i></a></li> <li><b>Authorization Server</b> sends <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-response\">PAR Request</a> to the Client.</li></ol>",
         "requestBody": {
-          "required": true,
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
-                "type": "object",
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/ParRequest"
-                  }
-                ]
+                "$ref": "#/components/schemas/ParRequest"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
@@ -48,22 +44,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "description": "The error code",
-                      "example": "invalid_request"
-                    },
-                    "error_description": {
-                      "type": "string",
-                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
-                      "example": "The redirect_uri is not valid for the given client"
-                    }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  "$ref": "#/components/schemas/inline_response_400"
                 }
               }
             }
@@ -73,22 +54,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "description": "The error code",
-                      "example": "method_not-allowed"
-                    },
-                    "error_description": {
-                      "type": "string",
-                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
-                      "example": "If the request did not use the POST method, the authorization server responds with an HTTP 405 (Method Not Allowed) status code"
-                    }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  "$ref": "#/components/schemas/inline_response_405"
                 }
               }
             }
@@ -98,22 +64,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "description": "The error code",
-                      "example": "payload_too_large"
-                    },
-                    "error_description": {
-                      "type": "string",
-                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
-                      "example": "If the request size was beyond the upper bound that the authorization server allows, the authorization server responds with an HTTP 413 (Payload Too Large) status code."
-                    }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  "$ref": "#/components/schemas/inline_response_413"
                 }
               }
             }
@@ -123,22 +74,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "description": "The error code",
-                      "example": "too_many_requests"
-                    },
-                    "error_description": {
-                      "type": "string",
-                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
-                      "example": "If the number of requests from a client during a particular time period exceeds the number the authorization server allows, the authorization server responds with an HTTP 429 (Too Many Requests) status code."
-                    }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  "$ref": "#/components/schemas/inline_response_429"
                 }
               }
             }
@@ -151,86 +87,98 @@
     },
     "/authorize": {
       "get": {
-        "summary": "Issuing authorization code to the Wallet",
         "tags": ["EAA Issuance Flow"],
+        "summary": "Issuing an authorization code to the Wallet Instance",
+        "description": "<ol><li><b>Wallet Instance</b> opens its web view and sends an <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#authorization-request\">Authorization Request</a>, to this endpoint that presents in query string the Wallet Instance identifier (<i>client_id</i>), the <i>request_uri</i> returned by the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-response\">PAR Response</a>;<li><b>Authorization Server</b> validates and stores in local database the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#authorization-request\">Authorization Request</a>, associating it with the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request</a> saved previously and identified through the <i>client_id</i> and the <i>request_uri</i> parameters specified in the request;</li><li><b>Authorization Server</b> redirects the Wallet Instance to the login service of the Relying Party (RP). The redirect set a session cookie (called <i>state</i>) that contains the unique application session identifier at the Wallet Instance side (previously sent in the <a href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request</a>). The login service of RP will then authenticate the Wallet Instance user by verifying the eID Credential that is required as input.</li></ol>",
         "operationId": "authorize",
         "parameters": [
           {
-            "name": "jwt_user",
-            "in": "header",
-            "required": false,
-            "schema": {
-              "type": "string",
-              "pattern": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)$"
-            },
-            "description": "A signed JWT that includes claims regarding the authentication of the user by a Service Provider (SP) or a Relay Party (RP) (<a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte.json\">View the JSON schema</a>)"
-          },
-          {
-            "name": "state",
-            "in": "cookie",
-            "required": false,
-            "schema": {
-              "type": "string"
-            },
-            "description": "It MUST be set to the same value of the 'state' parameter in the PAR Request, in URL-encoded format",
-            "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
-          },
-          {
             "name": "client_id",
             "in": "query",
+            "description": "It MUST be set to the same value in the PAR Request (in URL-encoded format)",
             "required": true,
+            "allowEmptyValue": true,
             "schema": {
               "type": "string"
             },
-            "description": "It MUST be set to the same value in the PAR Request, in URL-encoded format",
-            "allowEmptyValue": true,
-            "example": "$thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
+            "example": "AxjAnj0t5qpRVgR6apZ7gChaPb6y8gNm7CkPd58PD4c"
           },
           {
             "name": "request_uri",
             "in": "query",
+            "description": "It MUST be set to the same value as obtained by PAR Response (in URL-encoded format)",
             "required": true,
+            "allowEmptyValue": true,
             "schema": {
               "type": "string"
             },
-            "description": "It MUST be set to the same value as obtained by PAR Response, in URL-encoded format",
-            "allowEmptyValue": true,
             "example": "urn%3ietf%3params%3oauth%3request_uri%3bwc4JK-ESC0w8acc191e-Y1LTC2"
-          },
-          {
-            "name": "idphint",
-            "in": "query",
-            "required": true,
-            "schema": {
-              "type": "string"
-            },
-            "description": "The identifier of the hinted Identity Provider ID, in URL-encoded format",
-            "allowEmptyValue": true,
-            "example": "https%3A%2F%2Fidp.example.org"
           }
         ],
         "responses": {
           "302": {
-            "description": "Found <br> <br/> <b>No content</b>",
+            "description": "Found  <br> <br/> <b>No content</b> <br> <br/>  =>EXAMPLE Location Header: 'https%3A%2F%2Fwallet-rp.ipzs.it%2Flogin'",
             "headers": {
               "Location": {
+                "description": "Contains the URL of the RP login service to redirect the web view of the Wallet Instance to.",
+                "style": "simple",
+                "explode": false,
                 "schema": {
                   "type": "string",
                   "format": "uri"
-                },
-                "description": "The Location response header indicates the URL to redirect the Wallet Instance to. This URL present in query string the authorization code generated by the authorization server (parameter 'code') and the same 'state' and 'iss' parameters were present in the PAR Request.     If the request fails due to a missing, invalid, or mismatching redirection URI, or if the client  identifier is missing or invalid, the authorization server MUST NOT automatically redirect the  user-agent to the invalid redirection URI. If the authorization server denies the access request or  if the request fails for reasons other than a missing or invalid redirection URI, the authorization  server informs the client by adding the error parameter (in URL-encoded format) and  the error_description parameter (in URL-encoded format) to the query component of the redirection URI  ([RFC 6749#section-4.1.2.1] https://datatracker.ietf.org/doc/html/rfc6749.html#section-4.1.2.1)",
-                "examples": {
-                  "302_After_Authentication_Flow": {
-                    "description": "Redirect URI at the end of the authentication flow",
-                    "value": "https://start.wallet.example.org?code=SplxlOBeZQQYbYS6WxSbIA&state=fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd&iss=https%3A%2F%2Fpid-provider.example.org"
-                  },
-                  "302_Authentication_Request_Invalid": {
-                    "description": "Redirect URI in  the end of the authentication flow",
-                    "value": "https://start.wallet.example.org?error=server_error&error_description=The%20authorization%20server%20encountered%20an%20unexpected%20condition%20that%20prevented%20it%20from%20fulfilling%20the%20request%20response_type%20value&state=fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd&iss=https%3A%2F%2Fpid-provider.example.org"
-                  }
+                }  
+              },
+              "Set-Cookie":{
+                "description": "Contains the unique application session identifier at the Wallet Instance side",
+                "schema": {
+                  "type": "string",
+                  "example": "state=fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd; Path=/; HttpOnly; Secure"
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_400"
+                }
+              }
+            }
+          },
+          "405": {
+            "description": "Method Not Allowed",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_405"
+                }
+              }
+            }
+          },
+          "413": {
+            "description": "Payload Too Large",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_413"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_429"
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "Unexpected error."
           }
         }
       }
@@ -709,6 +657,173 @@
           }
         }
       }
+    },
+    "/login": {
+      "get": {
+        "tags": [
+          "RP Wallet"
+        ],
+        "summary": "Login request for starting a user authentication flow to a specific SAML IdP", 
+        "description": "<ol><li><b>Client</b> sends a login request to the Service Provider (SP) for starting a user authentication flow to a specific Identity Provider (IdP);</li><li>The <b>Service Provider (SP)</b> generates an identifier for the login request received ('RelayState'), creates a SAML authentication request and signs it;</li><li>The <b>SP</b> redirects the Wallet Instance to the IdP with the SAML authentication request, the signature, the signature algorithm used and the RelayState;</li><li>The <b>IdP</b> validates the SAML authentication request;</li><li>The <b>IdP</b> authenticates the user by prompting for a username and password or some other authentication factor</li><li>Upon successful authentication, the <b>IdP</b> generates a SAML response that include the SAML authentication assertion contains user identity and authentication context data and signs it;</li><li>The <b>IdP</b> redirects the Wallet Instance to the Assertion Consumer Service of the SP (specified inside the \"AssertionConsumerService\" element of the SP Metadata) with the generated SAML Response, the signature, the signature algorithm and the RelayState;</li></ol>",
+        "operationId": "login",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "cookie",
+            "description": "Contains the unique application session identifier at the Wallet Instance side",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
+          },
+          {
+            "name": "idphint",
+            "in": "query",
+            "description": "The identifier of the hinted Identity Provider (entityID), in URL-encoded format",
+            "required": true,
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "https%3A%2F%2Fidp.example.org"
+          },
+          {
+            "name": "target",
+            "in": "query",
+            "description": "Redirection URI of the SP, in URL-encoded format, to which the SP Assertion Consumer Service redirects the Wallet Instance with the SAML assertion extracted from the verified SAML Response (SP forward the request to the /authorization endpoint of the authorization server of eID Provider translating the SAML assertion to text plane values in HTTP heades).",
+            "required": true,
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "https%3A%2F%2Fwallet-sp.ipzs.it%2Fcallback"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Found  <br> <br/> <b>No content</b> <br/><br/>=> EXAMPLE: 'https%3A%2F%2Fidp.example.org/saml2-sso?SAMLRequest=PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K&Signature=DCDqAwIDqSwyXGvG2cYvNjmj7P1kt0+kbCfRjq9gGTrN4KKPxvQl5EsFrWRkMOdxxuwPldWPKvfgX6rt+pKwLgCt1TqRj+71y+VdGS8ORsBeEIURRn9wSu+pKsWiHexwKnIe65bjONbg2db44QOWZlDe76fLi05Psy/7HZTQuMoDRFYSR//VyNGHQmf9Sxi6mkmrYMXPOyZAUfNhX4eLaXFfwCHt0yRrEcm/PAEDDa7uqe8Uo5ilstgXDWDodWdkSzk8ZS1irjFkvtxH7FJlm9ADtlW/SoX92jGjMIrdQwCyArI6o8KTiDp/cjDjHZGiXLx2WvS7GEibA7Qd+5hSBQ&SigAlg=http%3A%2F%2Fwww.w3.org%2F2000%2F09%2Fxmldsig%23rsa-sha1&RelayState=0043bfc1bc45110dae17004005b13a2b'",
+            "headers": {
+              "Location": {
+                "description": "The Location response header indicates the URL of Identity Provider SSO seervice to redirect the Wallet Instance to. This URL present in query string the SANL authorization request (parameter 'SAMLRequest'), the signature (parameter 'Signature'), the signature algorithm (parameter 'SigAlg') and the login request id (parameter 'RelayState').",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }         
+            }
+          },
+          "200": {
+            "description": "Ok",
+            "content": {
+              "text/html:": {
+                "example":"<?xml version='1.0' encoding='UTF-8'?>\n<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\n<html xmlns='http://www.w3.org/1999/xhtml'xml:lang='en'>\n<body onload='document.forms[0].submit()'>\n<noscript>\n<p>\n<strong>Note:</strong> Poiché il tuo browser non supporta JavaScript, devi premere il pulsante Continua una volta per procedere.\n</p>\n</noscript>\n<form action='https://idp.example.org/saml2-sso'method='post'>\n<div>\n<input type='hidden' name='RelayState' value='0043bfc1bc45110dae17004005b13a2b'/>\n<input type='hidden' name='SAMLRequest' value='PHNhbWxwOkxvZ291dFJlcXVlc3QgeG1sbnM6c2FtbHA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgeG1sbnM9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphc3NlcnRpb24iCiAgICBJRD0iZDJiN2MzODhjZWMzNmZhN2MzOWMyOGZkMjk4NjQ0YTgiIElzc3VlSW5zdGFudD0iMjAwNC0wMS0yMVQxOTowMDo0OVoiIFZlcnNpb249IjIuMCI+CiAgICA8SXNzdWVyPmh0dHBzOi8vSWRlbnRpdHlQcm92aWRlci5jb20vU0FNTDwvSXNzdWVyPgogICAgPE5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnBlcnNpc3RlbnQiPjAwNWEwNmUwLWFkODItMTEwZC1hNTU2LTAwNDAwNWIxM2EyYjwvTmFtZUlEPgogICAgPHNhbWxwOlNlc3Npb25JbmRleD4xPC9zYW1scDpTZXNzaW9uSW5kZXg+Cjwvc2FtbHA6TG9nb3V0UmVxdWVzdD4K'/>\n<input type='hidden' name='Signature' value='J4if7CCeHVfn4H6hMZN5fijOjQIyZ/laoFUZWz4LCRN3J82UeoyYvAiTDoQOUZHTRJNU1lWGub1pW4QR9MH5bwfLEa8XDivA118dR0Q7YN5L/U5rmbxnGlQ9pV0jT44cRNeqtbLW0YF4plfcqg7E5iOSljE3QLkiaAdkAec2a4HwPFkn/JP7wO11Mc6kU8MLCBbZAa3+94ZvVwHBEdyCdU+1yEvf+JGxTw66BwI2ugmPfxvoJdsOOAWwS3KhAFhLLSPXnhb3nd/ovKNNV/khZYwqsFTFNTMA+0JraKsZiCRtEZzEPXaP9KilrjPIIvRVxDQhETj96flk5zMkEM3ruw=='/>\n<input type='hidden' name='SigAlg' value='http://www.w3.org/2000/09/xmldsig#rsa-sha1'/>\n</div>\n<noscript>\n<div>\n<input type='submit' value='Continua'/>\n</div>\n</noscript>\n</form>\n</body>\n</html>"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/request_uri": {
+      "post": {
+        "tags": [
+          "RP Wallet"
+        ],
+        "summary": "Validating the SAML Response comes from a SAML IdP after successfully login",
+        "description": "<ul><li><b>SP</b> validates the SAML response received from the Identity Provider and the SAML assertion that is contained in this response, creates a session for the authenticated user populated with the attributes extracted from the SAML assertion and redirects the Wallet Instance to the callback URI of the SP setting a session cookie ('sp_user_session') containing the unique user session identifier at the SP side (the callback URI is specified into the 'target' parameter of the login request previously recevived from the client)</li></ul>",
+        "operationId": "assertionConsumer",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "cookie",
+            "description": "Contains the unique application session identifier at the Wallet Instance side",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+               
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Found <br> <br/> <b>No content</b> <br> <br/> <b> EXAMPLE </b>: 'https%3A%2F%2Fwallet-sp.ipzs.it%2Fcallback'",
+            "headers": {
+              "Location": {
+                "description": "The Location response header indicates the URL to which the instance wallet should be redirected. In this case the wallet instance will be redirected to the callback",
+                "explode": false,
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "Set-Cookie":{
+                "description": "Contains the unique user session identifier at the SP side",
+                "schema": {
+                  "type": "string",
+                  "example": "sp_user_session=avZU92A1ke1goP4NT2JzxiLRPink89Pqw; Path=/; HttpOnly; Secure"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/callback": {
+      "get": {
+        "tags": [
+          "RP Wallet"
+        ],
+        "summary": "Forwarding authenticated user data to the /authorize_int endpoint of the eID Provider",
+        "operationId": "callback",
+        "description": "<ol><li>The <b>SP</b> validates the Wallet Instance request;</li><li>The <b>SP</b> extracts the unique user session identifier at the SP side from the session cookie 'sp_user_session' and use it for retrieving user data from his internal user session;</li><li>The <b>SP</b> forwards the request to the /authorize_int endpoint of eID Provider adding in header HTTP the user data extracted from the 'cookie sp_user_session' (eIDAS minimum set and authentication level) and the unique application session identifier at the Wallet Instance side extracted from the 'cookie state'.</li></ol> ",
+        "parameters": [
+          {
+            "name": "state",
+            "in": "cookie",
+            "description": "Contains the unique application session identifier at the Wallet Instance side",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
+          },
+          {
+            "name": "sp_user_session",
+            "in": "cookie",
+            "description": "Contains the unique user session identifier at the SP side",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "avZU92A1ke1goP4NT2JzxiLRPink89Pqw"
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Found  <br> <br/> <b>No content</b> <br> <br/> <b> EXAMPLE </b>: 'https%3A%2F%2Fit-wallet-eid-provider.example.it%2Fauthorize_int'",
+            "headers": {
+              "Location": {
+                "description": "The Location response header indicates the URL to forward the Wallet Instance to Eht internat Authorization Service of the eId Provider",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }  
+              }
+              }
+            
+          }
+        }
+      }
     }
   },
   "components": {
@@ -721,11 +836,11 @@
             "description": "MUST be set to 'code'",
             "example": "code"
           },
-          "client_id": {
-            "type": "string",
-            "description": "MUST be set to the thumbprint of the jwk value in the cnf parameter inside the Wallet Attestation JWT",
-            "example": "$thumprint-of-the-jwk-in-the-cnf-wallet-attestation$"
-          },
+            "client_id": {
+              "type": "string",
+              "description": "MUST be set to the base64url encoded SHA-256 thumbprint of the public key specified inside the claim 'jwt' (in JWT format) of the cnf parameter of the Wallet Attestation JWT",
+              "example": "AxjAnj0t5qpRVgR6apZ7gChaPb6y8gNm7CkPd58PD4c"
+            },
           "code_challenge": {
             "type": "string",
             "description": "A challenge derived from the code verifier that is sent in the authorization request",
@@ -749,7 +864,7 @@
           },
           "client_assertion": {
             "type": "string",
-            "description": "It MUST be set to a value containing the Wallet Attestation JWT (<a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte.json\">View the JSON schema</a>) and the Proof of Possession (<a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte_proof.json\">View the JSON schema</a>), separated with the ~ character",
+            "description": "It MUST be set to a value containing the Wallet Attestation (in signed JWT format) and the Proof of Possession of the Wallet Attestation (in signed JWT format) separated with the ~ character",
             "example": "$WIA~WIA-PoP"
           }
         },
@@ -1009,6 +1124,78 @@
         "required": [
           "status_attestation"
         ]
+      },
+      "inline_response_400": {
+        "required": [
+          "error"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "invalid_request"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "The redirect_uri is not valid for the given client"
+          }
+        }
+      },
+      "inline_response_405": {
+        "required": [
+          "error"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "method_not-allowed"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "If the request did not use the POST method, the authorization server responds with an HTTP 405 (Method Not Allowed) status code"
+          }
+        }
+      },
+      "inline_response_413": {
+        "required": [
+          "error"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "payload_too_large"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "If the request size was beyond the upper bound that the authorization server allows, the authorization server responds with an HTTP 413 (Payload Too Large) status code."
+          }
+        }
+      },
+      "inline_response_429": {
+        "required": [
+          "error"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "too_many_requests"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "If the number of requests from a Wallet Instance during a particular time period exceeds the number the authorization server allows, the authorization server responds with an HTTP 429 (Too Many Requests) status code."
+          }
+        }
       }
     }
   }
