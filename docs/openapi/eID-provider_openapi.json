@@ -101,33 +101,33 @@
             "in": "query",
             "description": "It MUST be set to the same value in the PAR Request (in URL-encoded format)",
             "required": true,
-            "allowEmptyValue": true,
+            "allowEmptyValue": false,
             "schema": {
-              "type": "string"
-            },
-            "example": "AxjAnj0t5qpRVgR6apZ7gChaPb6y8gNm7CkPd58PD4c"
+              "type": "string",
+              "example": "AxjAnj0t5qpRVgR6apZ7gChaPb6y8gNm7CkPd58PD4c"
+            }
           },
           {
             "name": "request_uri",
             "in": "query",
             "description": "It MUST be set to the same value as obtained by PAR Response (in URL-encoded format)",
             "required": true,
-            "allowEmptyValue": true,
+            "allowEmptyValue": false,
             "schema": {
-              "type": "string"
-            },
-            "example": "urn%3ietf%3params%3oauth%3request_uri%3bwc4JK-ESC0w8acc191e-Y1LTC2"
+              "type": "string",
+              "example": "urn%3ietf%3params%3oauth%3request_uri%3bwc4JK-ESC0w8acc191e-Y1LTC2"
+            }
           },
           {
             "name": "idphint",
             "in": "query",
             "description": "The identifier of the hinted Identity Provider ID (in URL-encoded format)",
             "required": true,
-            "allowEmptyValue": true,
+            "allowEmptyValue": false,
             "schema": {
-              "type": "string"
-            },
-            "example": "https%3A%2F%2Fidp.example.org"
+              "type": "string",
+              "example": "https%3A%2F%2Fidp.example.org"
+            }
           }
         ],
         "responses": {
@@ -209,74 +209,74 @@
             "name": "FamilyName",
             "in": "header",
             "description": "Family Name of the authenticated user",
-            "required": false,
-            "explode": true,
+            "required": true,
+            "allowEmptyValue": false,
             "schema": {
-              "type": "string"
-            },
-            "example": "Rossi"
+              "type": "string",
+              "example": "Rossi"
+            }
           },
           {
             "name": "FirstName",
             "in": "header",
             "description": "First Name of the authenticated user",
-            "required": false,
-            "explode": true,
+            "required": true,
+            "allowEmptyValue": false,
             "schema": {
-              "type": "string"
-            },
-            "example": "Mario"
+              "type": "string",
+              "example": "Mario"
+            }
           },
           {
             "name": "DateOfBirth",
             "in": "header",
             "description": "Date of birth for the authenticated user (YYYY-MM-DD format)",
-            "required": false,
-            "explode": true,
+            "required": true,
+            "allowEmptyValue": false,
             "schema": {
-              "type": "string"
-            },
-            "example": "Mario"
+              "type": "string",
+              "example": "1980-01-01"
+            }
           },
           {
             "name": "PersonIdentifier",
             "in": "header",
             "description": "Uniqueness Identifier of the authenticated user (tax id code)",
-            "required": false,
-            "explode": true,
+            "required": true,
+            "allowEmptyValue": false,
             "schema": {
-              "type": "string"
-            },
-            "example": "Mario"
+              "type": "string",
+              "example": "RSSMRA80A01H501U"
+            }
           },
           {
             "name": "AuthnLevel",
             "in": "header",
             "description": "The Authentication Level used to authenticate the user",
-            "required": false,
-            "explode": true,
+            "required": true,
+            "allowEmptyValue": false,
             "schema": {
               "type": "integer",
               "minimum": 2,
-              "maximum": 3
-            },
-            "example": 2
+              "maximum": 3,
+              "example": 2
+            }
           },
           {
             "name": "state",
             "in": "header",
             "description": "It MUST be set to the same value of the 'state' parameter in the PAR Request, in URL-encoded format",
-            "required": false,
-            "explode": true,
+            "required": true,
+            "allowEmptyValue": false,
             "schema": {
-              "type": "string"
-            },
-            "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
+              "type": "string",
+              "example": "fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd"
+            }
           }
         ],
         "responses": {
           "302": {
-            "description": "Found  <br> <br/> <b>No content</b> <br> <br/> (<b>BINDING HTTP-REDIRECT</b>) <br> <br/> => EXAMPLE Location Header: 'https://start.wallet.example.org?code=SplxlOBeZQQYbYS6WxSbIA&state=fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd&iss=https%3A%2F%2Fpid-provider.example.org'",
+            "description": "Found  <br> <br/> <b>No content</b> <br> <br/> <b>BINDING HTTP-REDIRECT</b> <br> <br/> => EXAMPLE Location Header: 'https://start.wallet.example.org?code=SplxlOBeZQQYbYS6WxSbIA&state=fyZiOL9Lf2CeKuNT2JzxiLRDink0uPcd&iss=https%3A%2F%2Fpid-provider.example.org'",
             "headers": {
               "Location": {
                 "description": "Contains the URL to redirect the web view of the Wallet Instance to at the end of the authentication flow. This URL present in query string the authorization code generated by the authorization server (parameter 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format).",
@@ -288,7 +288,7 @@
             }
           },
           "200": {
-            "description": "Ok <br> <br/> (<b>BINDING HTTP-POST</b>, according to Section 4.3.3 of the (<a target=\"blank\" href=\"https://openid.net/specs/openid-financial-api-jarm.html#response-mode-form_post.jwt\">JWT Secured Authorization Response Mode for OAuth 2.0 specification</a>) <br/><br/> <a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJraWQiOiJlTk4tZzVpNkNuTEtjbHRRQnA2YWJiaW9HTWJ6TTZtdVczdnV4dzZ1aDg4IiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwaS5ldWRpLXdhbGxldC1pdC1waWQtcHJvdmlkZXIuaXQiLCJjb2RlIjoiTHU1RFBWR1poYVdHN0dpRlBzTUdsTEtGdWxqRzcwaWZ1UlluanN1TkpZdyIsInN0YXRlIjoiNDNiZDE0YzAtNzllNC00YzFlLTg1MWQtMTA5ZDA3MTk4ZTM3In0.s0Y3IhmyvL5smRR3-R4QQUS8xeUomxrb4f7rpdRhmHga8YXa_gcTFA9Kywb0XQ4iYaV8crU_TsJA5-N3Blav97lQxNqEjPuXeyxK1u2IZTY4PaobK81_PYslXILO2v5oTDBR1gNwjxKE1tSfiD02cC5yIaUBQe0mkQjXf-0APCg88LwJISQxsoV0f1jqSej4nR3TbKmxNxgzyf9avj0MqDOdOaPU4oY3hTEbFi1FxwbOVzIIloOzVH8lqkeE826X3X3BvozM_ZPABp-Kfa3-kLvQF2YJTH4YNqbeqekFZ52nA_1OnAktBMei29QH1MxL8Jp64hlLqV_eEE1t_XaBRw\">EXAMPLE JWT</a> included inside the 'response' parameter of the HTML form that contains the authorization code generated by the authorization server (claim 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format).",
+            "description": "Ok <br> <br/> <b>BINDING HTTP-POST</b>, according to Section 4.3.3 of the <a target=\"blank\" href=\"https://openid.net/specs/openid-financial-api-jarm.html#response-mode-form_post.jwt\">JWT Secured Authorization Response Mode for OAuth 2.0 specification</a> <br/><br/> <a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJraWQiOiJlTk4tZzVpNkNuTEtjbHRRQnA2YWJiaW9HTWJ6TTZtdVczdnV4dzZ1aDg4IiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwaS5ldWRpLXdhbGxldC1pdC1waWQtcHJvdmlkZXIuaXQiLCJjb2RlIjoiTHU1RFBWR1poYVdHN0dpRlBzTUdsTEtGdWxqRzcwaWZ1UlluanN1TkpZdyIsInN0YXRlIjoiNDNiZDE0YzAtNzllNC00YzFlLTg1MWQtMTA5ZDA3MTk4ZTM3In0.s0Y3IhmyvL5smRR3-R4QQUS8xeUomxrb4f7rpdRhmHga8YXa_gcTFA9Kywb0XQ4iYaV8crU_TsJA5-N3Blav97lQxNqEjPuXeyxK1u2IZTY4PaobK81_PYslXILO2v5oTDBR1gNwjxKE1tSfiD02cC5yIaUBQe0mkQjXf-0APCg88LwJISQxsoV0f1jqSej4nR3TbKmxNxgzyf9avj0MqDOdOaPU4oY3hTEbFi1FxwbOVzIIloOzVH8lqkeE826X3X3BvozM_ZPABp-Kfa3-kLvQF2YJTH4YNqbeqekFZ52nA_1OnAktBMei29QH1MxL8Jp64hlLqV_eEE1t_XaBRw\">EXAMPLE JWT</a> included inside the 'response' parameter of the HTML form that contains the authorization code generated by the authorization server (claim 'code') and the same 'state' and 'iss' parameters were present in the PAR Request (in URL-encoded format).",
             "content": {
               "text/html:": {
                 "example": "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.1//EN' 'http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd'>\n<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\">\n<body onload=\"document.forms[0].submit()\">\n<noscript><p><strong>Note:</strong>Poiché il tuo browser non supporta JavaScript, devi premere il pulsante Continua una volta per procedere.</p></noscript>\n<form action=\"https://start.wallet.example.org\" method=\"post\">\n \t<div>\n \t\t<input type=\"hidden\" name=\"response\" value=\"eyJraWQiOiJlTk4tZzVpNkNuTEtjbHRRQnA2YWJiaW9HTWJ6TTZtdVczdnV4dzZ1aDg4IiwiYWxnIjoiUlMyNTYifQ.eyJpc3MiOiJodHRwczovL2FwaS5ldWRpLXdhbGxldC1pdC1waWQtcHJvdmlkZXIuaXQiLCJjb2RlIjoiTHU1RFBWR1poYVdHN0dpRlBzTUdsTEtGdWxqRzcwaWZ1UlluanN1TkpZdyIsInN0YXRlIjoiNDNiZDE0YzAtNzllNC00YzFlLTg1MWQtMTA5ZDA3MTk4ZTM3In0.s0Y3IhmyvL5smRR3-R4QQUS8xeUomxrb4f7rpdRhmHga8YXa_gcTFA9Kywb0XQ4iYaV8crU_TsJA5-N3Blav97lQxNqEjPuXeyxK1u2IZTY4PaobK81_PYslXILO2v5oTDBR1gNwjxKE1tSfiD02cC5yIaUBQe0mkQjXf-0APCg88LwJISQxsoV0f1jqSej4nR3TbKmxNxgzyf9avj0MqDOdOaPU4oY3hTEbFi1FxwbOVzIIloOzVH8lqkeE826X3X3BvozM_ZPABp-Kfa3-kLvQF2YJTH4YNqbeqekFZ52nA_1OnAktBMei29QH1MxL8Jp64hlLqV_eEE1t_XaBRw\">\n \t</div>\n \t<noscript><div><input type=\"submit\" value=\"Continua\"></div></noscript>\n</form>\n</body>\n</html>"
@@ -353,21 +353,21 @@
           {
             "name": "DPoP",
             "in": "header",
-            "description": "The DPoP proof JWT (in signed JWT format) presented in the request to the /token endpoint of the authorization server for issuing an access token bounded to the public key specified within the JWK header of the DPoP proof JWT. The issued DPoP-bounded access token represents the client's authorization to access to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'.</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_header.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_token_endpoint.json\">JSON schema</a>",
-            "required": false,
+            "description": "The DPoP proof JWT (in signed JWT format) presented in the request to the /token endpoint of the authorization server for issuing an access token bounded to the public key specified within the JWK header of the DPoP proof JWT. The issued DPoP-bounded access token represents the client's authorization to access to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'.</br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_header.json\">JSON Header schema</a></br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_token_endpoint.json\">JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.eyJqdGkiOiJlMWozVl9iS2ljOC1MQUVBIiwiaHRtIjoiUE9TVCIsImh0dSI6Imh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L3Rva2VuIiwiaWF0IjoxNzEwMzQ2MzQzfQ.mIDdPx1KjBnitErOYJjvzr5EYjl8dRQlzAT30e0mhk8NZZCwAMfktzcyb1_IuEywi_VMbrWTp1gFOAxJv_uaJQ\">EXAMPLE ON JWT.IO</a>",
+            "required": true,
             "schema": {
               "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$",
               "type": "string",
-              "format": "jwt (<base64-url-encoded header>.<base64-url-encoded claims>.<base64-url-encoded signature>)"
-            },
-            "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.eyJqdGkiOiJlMWozVl9iS2ljOC1MQUVBIiwiaHRtIjoiUE9TVCIsImh0dSI6Imh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L3Rva2VuIiwiaWF0IjoxNzEwMzQ2MzQzfQ.mIDdPx1KjBnitErOYJjvzr5EYjl8dRQlzAT30e0mhk8NZZCwAMfktzcyb1_IuEywi_VMbrWTp1gFOAxJv_uaJQ"
+              "format": "Signed JWT",
+              "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.eyJqdGkiOiJlMWozVl9iS2ljOC1MQUVBIiwiaHRtIjoiUE9TVCIsImh0dSI6Imh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L3Rva2VuIiwiaWF0IjoxNzEwMzQ2MzQzfQ.mIDdPx1KjBnitErOYJjvzr5EYjl8dRQlzAT30e0mhk8NZZCwAMfktzcyb1_IuEywi_VMbrWTp1gFOAxJv_uaJQ"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
-                "$ref": "#/components/schemas/token_body"
+                "$ref": "#/components/schemas/TokenRequest"
               }
             }
           },
@@ -412,33 +412,33 @@
           {
             "name": "Authorization",
             "in": "header",
-            "description": "The DPoP-bound access token (in digitally signed JWT format) presented in the request to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'. The access token represents the client's authorization to access to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'.</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_header.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_credential_endpoint.json\">JSON schema</a>",
-            "required": false,
+            "description": "The DPoP-bound access token (in signed JWT format) presented in the request to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'. The access token represents the client's authorization to access to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'.</br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_header.json\">JSON Header schema</a> </br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_bound_access_token.json\">JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJzdWJfcGFpcndpc2UiLCJhdWQiOiJodHRwczovL3VhdC5ldWRpLXdhbGxldC1pdC1xZWFhLWlzc3Vlci5kZW1vLmlwenMuaXQvdG9rZW4iLCJqa3QiOiJrUU1VMTNOcnZpYzJEOUlHcDJ0LVBoTGZpSEdFRkc1Uk9FSUlleXVlN05NIiwiZXhwIjoxNzA1NTczNjU1LCJpYXQiOjE3MDU1NzAwNTUsIm5vbmNlIjoidHNfRXRVUXMwaWVpSVMxTllOQkhFUVNveTNjdDRncHktNEZaS3dIaWxrWSIsImp0aSI6ImY4NTU1Y2ViLWM2NWMtNDAyNS05Mzc4LWI2NjcyYjYxNDlhZiIsImNsaWVudF9pZCI6Imh0dHBzOi8vdWF0LmV1ZGktd2FsbGV0LWl0LXFlYWEtaXNzdWVyLmRlbW8uaXB6cy5pdC90b2tlbiJ9.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q\">EXAMPLE ON JWT.IO</a>",
+            "required": true,
             "schema": {
               "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$",
               "type": "string",
-              "format": "A digitally signed JWT"
-            },
-            "example": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJzdWJfcGFpcndpc2UiLCJhdWQiOiJodHRwczovL3VhdC5ldWRpLXdhbGxldC1pdC1xZWFhLWlzc3Vlci5kZW1vLmlwenMuaXQvdG9rZW4iLCJqa3QiOiJrUU1VMTNOcnZpYzJEOUlHcDJ0LVBoTGZpSEdFRkc1Uk9FSUlleXVlN05NIiwiZXhwIjoxNzA1NTczNjU1LCJpYXQiOjE3MDU1NzAwNTUsIm5vbmNlIjoidHNfRXRVUXMwaWVpSVMxTllOQkhFUVNveTNjdDRncHktNEZaS3dIaWxrWSIsImp0aSI6ImY4NTU1Y2ViLWM2NWMtNDAyNS05Mzc4LWI2NjcyYjYxNDlhZiIsImNsaWVudF9pZCI6Imh0dHBzOi8vdWF0LmV1ZGktd2FsbGV0LWl0LXFlYWEtaXNzdWVyLmRlbW8uaXB6cy5pdC90b2tlbiJ9.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
+              "format": "Signed JWT",
+              "example": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJzdWJfcGFpcndpc2UiLCJhdWQiOiJodHRwczovL3VhdC5ldWRpLXdhbGxldC1pdC1xZWFhLWlzc3Vlci5kZW1vLmlwenMuaXQvdG9rZW4iLCJqa3QiOiJrUU1VMTNOcnZpYzJEOUlHcDJ0LVBoTGZpSEdFRkc1Uk9FSUlleXVlN05NIiwiZXhwIjoxNzA1NTczNjU1LCJpYXQiOjE3MDU1NzAwNTUsIm5vbmNlIjoidHNfRXRVUXMwaWVpSVMxTllOQkhFUVNveTNjdDRncHktNEZaS3dIaWxrWSIsImp0aSI6ImY4NTU1Y2ViLWM2NWMtNDAyNS05Mzc4LWI2NjcyYjYxNDlhZiIsImNsaWVudF9pZCI6Imh0dHBzOi8vdWF0LmV1ZGktd2FsbGV0LWl0LXFlYWEtaXNzdWVyLmRlbW8uaXB6cy5pdC90b2tlbiJ9.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
+            }
           },
           {
             "name": "DPoP",
             "in": "header",
-            "description": "The DPoP proof JWT (in signed JWT format) presented with the access token in the request to the /credential endpoint of the credential issuer as proof possession of the access token sign private key.</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_header.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_credential_endpoint.json\">JSON schema</a>",
-            "required": false,
+            "description": "The DPoP proof JWT (in signed JWT format) presented with the access token in the request to the /credential endpoint of the credential issuer as proof possession of the access token sign private key.</br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_header.json\">JSON Header schema</a> </br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_credential_endpoint.json\">JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.ewogICJqdGkiOiAiZTFqM1ZfYktpYzgtTEFFQiIsCiAgImh0bSI6ICJQT1NUIiwKICAiaHR1IjogImh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L2NyZWRlbnRpYWwiLAogICJpYXQiOiAxNzEwMzQ2MzQzLAogICJhdGgiOiAiZlVIeU8ycjJaM0RaNTNFc05yV0JiMHhXWG9hTnk1OUlpS0NBcWtzbVFFbyIsCiAgIm5vbmNlIjogInRzX0V0VVFzMGllaUlTMU5ZTkJIRVFTb3kzY3Q0Z3B5LTRGWkt3SGlsa1kiCn0=.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg\">EXAMPLE ON JWT.IO</a>",
+            "required": true,
             "schema": {
               "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$",
               "type": "string",
-              "format": "A digitally signed JWT"
-            },
-            "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.ewogICJqdGkiOiAiZTFqM1ZfYktpYzgtTEFFQiIsCiAgImh0bSI6ICJQT1NUIiwKICAiaHR1IjogImh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L2NyZWRlbnRpYWwiLAogICJpYXQiOiAxNzEwMzQ2MzQzLAogICJhdGgiOiAiZlVIeU8ycjJaM0RaNTNFc05yV0JiMHhXWG9hTnk1OUlpS0NBcWtzbVFFbyIsCiAgIm5vbmNlIjogInRzX0V0VVFzMGllaUlTMU5ZTkJIRVFTb3kzY3Q0Z3B5LTRGWkt3SGlsa1kiCn0=.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg"
+              "format": "Signed JWT",
+              "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.ewogICJqdGkiOiAiZTFqM1ZfYktpYzgtTEFFQiIsCiAgImh0bSI6ICJQT1NUIiwKICAiaHR1IjogImh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L2NyZWRlbnRpYWwiLAogICJpYXQiOiAxNzEwMzQ2MzQzLAogICJhdGgiOiAiZlVIeU8ycjJaM0RaNTNFc05yV0JiMHhXWG9hTnk1OUlpS0NBcWtzbVFFbyIsCiAgIm5vbmNlIjogInRzX0V0VVFzMGllaUlTMU5ZTkJIRVFTb3kzY3Q0Z3B5LTRGWkt3SGlsa1kiCn0=.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg"
+            }
           }
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/credential_body"
+                "$ref": "#/components/schemas/CredentialRequest"
               }
             }
           },
@@ -525,7 +525,7 @@
             "name": "credential_pop",
             "schema": {
               "type": "string",
-              "format": "jwt (<base64-url-encoded header>.<base64-url-encoded claims>.<base64-url-encoded signature>)",
+              "format": "Signed JWT",
               "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$"
             },
             "description": "The Wallet Instance sends the Status Attestation Request to the Issuer. The request MUST contain the Credential Proof of Possession JWT, signed with the private key related to the public key contained within the Credential..</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_status_attestation_header_eid_provider.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_status_attestation_eid_provider.json\">JSON schema</a>",
@@ -660,7 +660,7 @@
             "name": "credential_pop",
             "schema": {
               "type": "string",
-              "format": "jwt (<base64-url-encoded header>.<base64-url-encoded claims>.<base64-url-encoded signature>)",
+              "format": "Signed JWT",
               "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$"
             },
             "description": "The Wallet Instance sends the Revocation Request to the Issuer. The request MUST contain the Credential Proof of Possession JWT, signed with the private key related to the public key contained within the Credential.</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_revocation_header_eid_provider.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_revocation_eid_provider.json\">JSON schema</a>",
@@ -985,8 +985,8 @@
           "request": {
             "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$",
             "type": "string",
-            "description": "It MUST be a signed JWT (<a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_request_object.json\">View the JSON schema</a>). The private key corresponding to the public one in the cnf parameter inside the Wallet Attestation JWT MUST be used for signing the Request Object",
-            "format": "A digitally signed JWT",
+            "description": "Contains a signed JWT. The private key corresponding to the public one in the cnf parameter inside the Wallet Attestation JWT MUST be used for signing this JWT<br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_request_object_header.json\">JSON Header schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_request_object.json\">JSON Payload schema</a>",
+            "format": "Signed JWT",
             "example": "$SIGNED-JWT"
           },
           "client_assertion_type": {
@@ -996,7 +996,7 @@
           },
           "client_assertion": {
             "type": "string",
-            "description": "It MUST be set to a value containing the Wallet Attestation (in signed JWT format) and the Proof of Possession of the Wallet Attestation (in signed JWT format) separated with the ~ character",
+            "description": "Contains the Wallet Attestation (in signed JWT format) and the Proof of Possession of the Wallet Attestation (in signed JWT format) separated with the ~ character<br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte_header.json\">WTE JSON Header schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte.json\">WTE JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte_proof_header.json\">WTE PROOF JSON Header schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte_proof.json\">WTE PROOF JSON Payload schema</a>",
             "example": "$WIA~WIA-PoP"
           }
         },
@@ -1062,7 +1062,7 @@
           },
           "client_assertion": {
             "type": "string",
-            "description": "It MUST be set to a value containing the Wallet Attestation (in signed JWT format) and the Proof of Possession of the Wallet Attestation (in signed JWT format) separated with the ~ character",
+            "description": "Contains the Wallet Attestation (in signed JWT format) and the Proof of Possession of the Wallet Attestation (in signed JWT format) separated with the ~ character<br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte_header.json\">WTE JSON Header schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte.json\">WTE JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte_proof_header.json\">WTE PROOF JSON Header schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_wte_proof.json\">WTE PROOF JSON Payload schema</a>",
             "example": "$WIA~WIA-PoP"
           }
         },
@@ -1295,14 +1295,6 @@
           }
         }
       },
-      "token_body": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/TokenRequest"
-          }
-        ]
-      },
       "inline_response_400_1": {
         "required": [
           "error"
@@ -1320,14 +1312,6 @@
             "example": "Client authentication failed"
           }
         }
-      },
-      "credential_body": {
-        "type": "object",
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/CredentialRequest"
-          }
-        ]
       },
       "inline_response_404": {
         "required": [
@@ -1398,11 +1382,10 @@
           },
           "jwt": {
             "type": "string",
-            "description": "The base64url encoded SHA-256 thumbprint of the public key specified inside the claim 'jwt' of the JWT proof (in JWK format) the issued Credentials shall be bound to",
-            "example": "eyJ0eXAiOiJvcGVuaWQ0dmNpLXByb29mK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwiY3J2IjoiUC0yNTYiLCJ4IjoiblVXQW9BdjNYWml0aDhFN2kxOU9kYXhPTFlGT3dNLVoyRXVNMDJUaXJUNCIsInkiOiJIc2tIVThCalVpMVU5WHFpN1N3bWo4Z3dBS18weGtjRGpFV183MVNvc0VZIn19.ewogICJhdWQiOiAiaHR0cHM6Ly9pdC13YWxsZXQtZWlkLXByb3ZpZGVyLmV4YW1wbGUuaXQvY3JlZGVudGlhbCIsCiAgImlhdCI6IDE3MDU1NzAwNTUsCiAgIm5vbmNlIjogInRzX0V0VVFzMGllaUlTMU5ZTkJIRVFTb3kzY3Q0Z3B5LTRGWkt3SGlsa1kiCn0=.-a3EDsxClUB4O3LeDD5DVGEnNMT01FCQW4P6-2-BNBqc_Zxf0Qw4CWayLEpqkAomlkLb9zioZoipdP-jvh1WlA"
+            "description": "The JWT used as proof of possession <a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJ0eXAiOiJvcGVuaWQ0dmNpLXByb29mK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwiY3J2IjoiUC0yNTYiLCJ4IjoiblVXQW9BdjNYWml0aDhFN2kxOU9kYXhPTFlGT3dNLVoyRXVNMDJUaXJUNCIsInkiOiJIc2tIVThCalVpMVU5WHFpN1N3bWo4Z3dBS18weGtjRGpFV183MVNvc0VZIn19.ewogICJhdWQiOiAiaHR0cHM6Ly9pdC13YWxsZXQtZWlkLXByb3ZpZGVyLmV4YW1wbGUuaXQvY3JlZGVudGlhbCIsCiAgImlhdCI6IDE3MDU1NzAwNTUsCiAgIm5vbmNlIjogInRzX0V0VVFzMGllaUlTMU5ZTkJIRVFTb3kzY3Q0Z3B5LTRGWkt3SGlsa1kiCn0=.-a3EDsxClUB4O3LeDD5DVGEnNMT01FCQW4P6-2-BNBqc_Zxf0Qw4CWayLEpqkAomlkLb9zioZoipdP-jvh1WlA\">EXAMPLE ON JWT.IO</a>"
           }
         },
-        "description": "JSON object containing a reference to the public key specified inside the JWT proof (in JWK format) the issued Credentials shall be bound to"
+        "description": "JSON object containing proof of possession of the key material the issued credential shall be bound to."
       },
       "assertionConsumerRequest": {
         "required": [
