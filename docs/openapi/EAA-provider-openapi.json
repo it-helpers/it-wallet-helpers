@@ -244,49 +244,51 @@
     },
     "/credential": {
       "post": {
-        "summary": "Issuing eID Credential to the Wallet",
+        "tags": [
+          "EAA Issuance Flow"
+        ],
+        "summary": "Issuing an EAA Credential to the Wallet Instance",
+        "description": "<ol><li><b>Wallet Instance</b> have previously: <ul><li>validated the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#token-response\">Token Response</a> received from the /token endpoint of the Authotization Server of eID Provider;</li><li>validated the <i>DPoP-bounded access token</i>, the <i>nonce</i> and the nonce expires time extracted from the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#token-response\">Token Response</a>;</li><li>created a <u>JWT proof</u> for the /credential endpoint of the Credential Issuer of eID Provider adding the <i>nonce</i> in the payload according to the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#credential-request\">EUDI IT Wallet specification</a> and adding the DPoP public key in the JWT proof header and signs the JWT proof with the DPoP private key;</li><li>created a <u>DPoP proof JWT</u> for the /credential endpoint of the Credential Issuer of eID Provider adding the DPoP public key in the JWT header and signs the JWT with the DPoP private key, according to Section 4.2 of the DPoP specification (<a target=\"blank\" href=\"https://datatracker.ietf.org/doc/html/rfc9449.html#name-checking-dpop-proofs\">RFC 9449</a>).</li></ul></li><li> \n<b>Wallet Instance</b> sends a <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#credential-request\">Credential Request</a> to the /credential endpoint of the Credential Issuer of eID Provider for issuing an eID credential bounded to the public key of the <u>JWT proof</u> presented in the request body with the <u>type 'PersonIdentificationData'</u> and the <u>format 'vc+sd-jwt'</u>; the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#credential-request\">Credential Request</a> includes in the Authorization HTTP header the <u>DPoP-bounded access token</u> and contains in the DPoP HTTP header the <u>DPoP proof JWT</u> as proof of possession of the access token sign private key;</li><li><b>Credential Issuer</b> validates <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#credential-request\">Credential Request</a> received, verify the DPoP-bounded access token in the Authorization HTTP header and the DPoP proof JWT in the DPoP HTTP header according to Section 4.3 of the DPoP specifications (<a target=\"blank\" href=\"https://datatracker.ietf.org/doc/html/rfc9449.html#name-checking-dpop-proofs\">RFC 9449</a>); it must also control that the public key of the DPoP proof JWT matches the public key that the access token is bound to (it provides additional assurance about the legitimacy of the Wallet Instance to present the access token);</li><li><b>Credential Issuer</b> extracts JWT proof from the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#credential-request\">Credential Request</a> and checks its validity, then controls if the <i>nonce</i> inside the JWT proof is equal to the <i>nonce</i> sent previously to the Wallet Instance within the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#token-response\">Token Response</a> and verifies the <i>nonce</i> expiration;</li><li><b>Credential Issuer</b> generates the eID credential requested bounded to the public key of the JWT proof, according to the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">EUDI IT Wallet specification</a> and the <a target=\"blank\" href=\"https://www.ietf.org/archive/id/draft-ietf-oauth-sd-jwt-vc-02.html\">SD-JWT-based Verifiable Credentials (SD-JWT VC) specification</a> (type 'PersonIdentificationData' and format 'vc+sd-jw');</li><li><b>Credential Issuer</b> creates a string containg a <i>nonce</i> value to be used to create a new JWT proof for the /credential endpoint of the Credential Issuer when requesting a new eID credential with the same DPoP-bounded access token (the nonce can be used only once and has a limited lifetime);</li><li><b>Credential Issuer</b>sends the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#credential-response\">Credential Response</a> containing the eID credential, the nonce and the nonce expires time;</li><li><b>Credential Issuer</b> stores the <i><a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#credential-request\">Credential Request</a></i>, the <i>nonce</i>, the <i>nonce expires time</i> and the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#credential-response\">Credential Response</a> in local databse with association to <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-issuance.html#pushed-authorization-request-par-request\">PAR Request</a> previously received and identified through the <i>sub</i> of the Access Token specified in the request.</li></ol>",
         "operationId": "credentialRequest",
-        "tags": ["EAA Issuance Flow"],
         "parameters": [
           {
+            "name": "Authorization",
             "in": "header",
-            "name": "DPoP",
+            "description": "The DPoP-bound access token (in signed JWT format) presented in the request to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'. The access token represents the client's authorization to access to the /credential endpoint of the credential issuer for issuing a verifiable credential of type 'PersonIdentificationData'.</br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_header.json\">JSON Header schema</a> </br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_bound_access_token.json\">JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.ewoJImp0aSI6ICJmODU1NWNlYi1jNjVjLTQwMjUtOTM3OC1iNjY3MmI2MTQ5YWYiLAoJImlzcyI6ICJodHRwczovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC90b2tlbiIsCgkic3ViIjogIk56YkxzWGg4dURDY2Q3bm9XWEZaQWZIa3hac1JHQzlYcyIsCgkiYXVkIjogImh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L2NyZWRlbnRpYWwiLAoJImlhdCI6IDE3MDU1NzAwNTUsCgkiZXhwIjogMTcwNTU3MzY1NSwKCSJqa3QiOiAia1FNVTEzTnJ2aWMyRDlJR3AydC1QaExmaUhHRUZHNVJPRUlJZXl1ZTdOTSIsCgkibmJmIjogIjE3MTAzNDYzNDMiCn0.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg&publicKey=%7B%0A%20%20%22kty%22%3A%20%22EC%22%2C%0A%20%20%22x%22%3A%20%2235lvC8uz2QrWpQJ3TUH8t9o9DURMp7ydU518RKDl20k%22%2C%0A%20%20%22y%22%3A%20%22I8BuXB2bvxelzJAd7OKhd-ZwjCst05Fx47Mb_0ugros%22%2C%0A%20%20%22crv%22%3A%20%22P-256%22%0A%7D\">EXAMPLE ON JWT.IO</a>",
+            "required": true,
             "schema": {
+              "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$",
               "type": "string",
-              "description": "The DPoP Proof for the Credential Endpoint, in signed JWT format (<a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_dpop_credential_endpoint.json\">View the JSON schema</a>)",
-              "pattern": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)$"
-            },
-            "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.eyJqdGkiOiJlMWozVl9iS2ljOC1MQUVCIiwiaHRtIjoiUE9TVCIsImh0dSI6Imh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L2NyZWRlbnRpYWwiLCJpYXQiOjE3MTAzNDYzNDMsImF0aCI6ImZVSHlPMnIyWjNEWjUzRXNOcldCYjB4V1hvYU55NTlJaUtDQXFrc21RRW8ifQ.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg"          
+              "format": "Signed JWT",
+              "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.ewoJImp0aSI6ICJmODU1NWNlYi1jNjVjLTQwMjUtOTM3OC1iNjY3MmI2MTQ5YWYiLAoJImlzcyI6ICJodHRwczovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC90b2tlbiIsCgkic3ViIjogIk56YkxzWGg4dURDY2Q3bm9XWEZaQWZIa3hac1JHQzlYcyIsCgkiYXVkIjogImh0dHBzOi8vaXQtd2FsbGV0LWVpZC1wcm92aWRlci5leGFtcGxlLml0L2NyZWRlbnRpYWwiLAoJImlhdCI6IDE3MDU1NzAwNTUsCgkiZXhwIjogMTcwNTU3MzY1NSwKCSJqa3QiOiAia1FNVTEzTnJ2aWMyRDlJR3AydC1QaExmaUhHRUZHNVJPRUlJZXl1ZTdOTSIsCgkibmJmIjogIjE3MTAzNDYzNDMiCn0.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg"
+            }
           },
           {
+            "name": "DPoP",
             "in": "header",
-            "name": "Authorization",
+            "description": "The DPoP proof JWT (in signed JWT format) presented with the access token in the request to the /credential endpoint of the credential issuer as proof possession of the access token sign private key.</br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_header.json\">JSON Header schema</a> </br></br><a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_dpop_credential_endpoint.json\">JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.ewogICJqdGkiOiAiZTFqM1ZfYktpYzgtTEFFQiIsCiAgImlhdCI6IDE3MTAzNDYzNDMsCiAgImh0dSI6ICJodHRwczovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC9jcmVkZW50aWFsIiwKICAiaHRtIjogIlBPU1QiLAogICJpYXQiOiAxNzEwMzQ2MzQzLAogICJhdGgiOiAiZlVIeU8ycjJaM0RaNTNFc05yV0JiMHhXWG9hTnk1OUlpS0NBcWtzbVFFbyIKfQ.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg&publicKey=%7B%0A%20%20%22kty%22%3A%20%22EC%22%2C%0A%20%20%22x%22%3A%20%2235lvC8uz2QrWpQJ3TUH8t9o9DURMp7ydU518RKDl20k%22%2C%0A%20%20%22y%22%3A%20%22I8BuXB2bvxelzJAd7OKhd-ZwjCst05Fx47Mb_0ugros%22%2C%0A%20%20%22crv%22%3A%20%22P-256%22%0A%7D\">EXAMPLE ON JWT.IO</a>",
+            "required": true,
             "schema": {
+              "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$",
               "type": "string",
-              "description": "The DPoP-bound Access Token, in signed JWT format(<a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_dpop_bound_access_token.json\">View the JSON schema</a>)",
-              "pattern": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)$"
-            },
-            "example":"DPoP eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2Iiwia2lkIjoiY3o2dXM2cHdsYmswYTNxNnNjZHc4M3gifQ.eyJqdGkiOiItQndDM0VTYzZhY2MybFRjIiwiaXNzIjoiaHR0cHM6Ly9pdC13YWxsZXQtZWlkLXByb3ZpZGVyLmV4YW1wbGUuaXQvdG9rZW4iLCJzdWIiOiJOemJMc1hoOHVEQ2NkN25vV1hGWkFmSGt4WnNSR0M5WHMiLCJhdWQiOiJodHRwczovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC9jcmVkZW50aWFsIiwiaWF0IjoxNzExNDAzNDMyLCJleHAiOjE3MTE0MDQwMzIsImprdCI6ImtRTVUxM05ydmljMkQ5SUdwMnQtUGhMZmlIR0VGRzVST0VJSWV5dWU3Tk0ifQ.9qrEiuuKa490FT3JyJy9hqnjopVkZM98q59blR0Q24NdTE2VVTDQIvjoJE3thYLN8Vqe_dI2-I1V31wK_W_JQQ"
-           }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "type": "object",
-                "allOf": [
-                  {
-                    "$ref": "#/components/schemas/CredentialRequest"
-                  }
-                ]
-              }
+              "format": "Signed JWT",
+              "example": "eyJ0eXAiOiJkcG9wK2p3dCIsImFsZyI6IkVTMjU2IiwiandrIjp7Imt0eSI6IkVDIiwieCI6IjM1bHZDOHV6MlFyV3BRSjNUVUg4dDlvOURVUk1wN3lkVTUxOFJLRGwyMGsiLCJ5IjoiSThCdVhCMmJ2eGVsekpBZDdPS2hkLVp3akNzdDA1Rng0N01iXzB1Z3JvcyIsImNydiI6IlAtMjU2In19.ewogICJqdGkiOiAiZTFqM1ZfYktpYzgtTEFFQiIsCiAgImlhdCI6IDE3MTAzNDYzNDMsCiAgImh0dSI6ICJodHRwczovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC9jcmVkZW50aWFsIiwKICAiaHRtIjogIlBPU1QiLAogICJpYXQiOiAxNzEwMzQ2MzQzLAogICJhdGgiOiAiZlVIeU8ycjJaM0RaNTNFc05yV0JiMHhXWG9hTnk1OUlpS0NBcWtzbVFFbyIKfQ.vnMKJBR2HB0CmWdrag6lt6aNRtN8BVvXiBoENFiqKlgXK7LFKz75WRza69Z9YhAd9yxAj2lKHlBGAulOG_IcMg"
             }
           }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialRequest"
+              }
+            }
+          },
+          "required": true
         },
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK <br><br>Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_vc_sd_header.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_vc_sc.json\">JSON schema</a> <br> The verifiable credential (VC) is a digitally signed JWT carrying the information about a subject in clear text and containing SHA256 digests/thumbprints over the selectively disclosable claims with the Disclosures outside the document, using the format defined in <a target=\"blank\" href=\"https://datatracker.ietf.org/doc/html/draft-ietf-oauth-selective-disclosure-jwt-07\">draft-ietf-oauth-selective-disclosure-jwt-07</a> and <a target=\"blank\" href=\"https://hub.ebsi.eu/vc-framework/did/selective-disclosure-sd-jwt\">draft-selective-disclosure-sd-jwt</a>. <br/>The SD-JWT and the Disclosures are issued as a single concatenated string, with the tilde ~ serving as a separator.<br/>The first block comprises the SD-JWT, while the remainder constitutes the Disclosures. <br/><SD-JWT> ~ <Disclosure 1> ~ <Disclosure 2> ~ ... <br/><br/>SD-JWT=<base64-url-encoded(header)>.<base64-url-encoded(payload)>.<base64-url-encoded(signature)><br/><br/>Disclosure is created as follow: <br/> <br/> 1) Create an array of three elements in this order: salt (base64url-encode minimum 128 bits of cryptographically secure pseudorandom data), claim name, claim value; <br/> <br/> 2) JSON-encode the array generated at the step 1, producing an UTF-8 string: <br> <i>$ echo -n '[\"pZ5MRyOxpVWZuHLoJ-yjRg\",\"tax_id_code\",\"RSSMRA80R01H501B\"]' </i> <br> --> <b>[\"pZ5MRyOxpVWZuHLoJ-yjRg\",\"tax_id_code\",\"RSSMRA80R01H501B\"]</b> <br/> <br/> 3) base64url-encode the byte representation of the UTF-8 string produced at the step 2 (the result is the Disclosure)<br> <i>$ echo -n '[\"pZ5MRyOxpVWZuHLoJ-yjRg\",\"tax_id_code\",\"RSSMRA80R01H501B\"]' | openssl base64 -a -A | sed 's/+/-/g; s,/,_,g; s/=//g' </i> <br> --> <b> WyJwWjVNUnlPeHBWV1p1SExvSi15alJnIiwidGF4X2lkX2NvZGUiLCJSU1NNUkE4MFIwMUg1MDFCIl0</b> <br><br>In the example given here, within the claim <b>&#95;sd</b> of the payload of the SD-JWT we found the base64url-encode of the SHA256 digest of the disclosure 'WyJwWjVNUnlPeHBWV1p1SExvSi15alJnIiwidGF4X2lkX2NvZGUiLCJSU1NNUkE4MFIwMUg1MDFCIl0' <br>$ echo -n 'W1wicFo1TVJ5T3hwVldadUhMb0oteWpSZ1wiLFwidGF4X2lkX2NvZGVcIixcIlJTU01SQTgwUjAxSDUwMUJcIl0'| openssl sha256 -binary | openssl base64 -a -A | sed 's/+/-/g; s,/,_,g; s/=//g' <br> --> <b>WIilTHgXkryvO4HdJATdqoYK3J8WSQAIujGxe1fb8bE</b> <br><br>{<br>  \"_sd\": [<br>    \"NOxVzjUJg667iBdeDwmr6tZ46X-jchKwIVxMAfv43yc\",<br>    \"wyfxVqq9BosPT7tN4SHOI4E48P19aVA1ktW5Zf0E-fc\",<br>    \"UHChpGtNF2bj1FvAfBby1rnf7WXkxelFJ5a4vSj2FO4\", <br>    \"TK2RguPYoXzCx0vv5hbN9u5M2mHlWBt41qGWlLXCNu8\", <br>    \"<b>WIilTHgXkryvO4HdJATdqoYK3J8WSQAIujGxe1fb8bE</b>\"  <br>  ], <br> \"exp\": 1883000000,<br>  \"iss\": \"https://pidprovider.example.org\",<br>  \"sub\": \"NzbLsXh8uDCcd7noWXFZAfHkxZsRGC9Xs\",<br>  \"status\": {<br>    \"status_attestation\": {<br>      \"credential_hash_alg\": \"sha-256\"<br>    }<br>  },<br>  \"vct\": \"PersonIdentificationData\",<br>  \"_sd_alg\": \"sha-256\",<br>  \"cnf\": {<br>    \"jwk\": {<br>      \"kty\": \"EC\",<br>      \"crv\": \"P-256\",<br>      \"x\": \"TCAER19Zvu3OHF4j4W4vfSVoHIP1ILilDls7vCeGemc\",<br>      \"y\": \"ZxjiWWbZMQGHVWKVQ4hbSIirsVfuecCE6t4jT9F2HZQ\"<br>    }<br>  }<br>}<br>",
             "content": {
               "application/json": {
                 "schema": {
@@ -300,22 +302,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string",
-                      "description": "The error code",
-                      "example": "invalid_client"
-                    },
-                    "error_description": {
-                      "type": "string",
-                      "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
-                      "example": "Client authentication failed"
-                    }
-                  },
-                  "required": [
-                    "error"
-                  ]
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -333,7 +320,7 @@
         ],
         "summary": "Retrieve Entity Configuration of EAA Provider.",
         "operationId": "federationEntityConfigurationRequest",
-        "description": "<ol><li><b>Wallet Instance</b> calls the “/.well-know/openid-federation” OpenID Federation service of the EAA Provider to obtain its <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a>;</li><li><b>OpenID Federation</b> retrieves from the local database its <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a>;</li><li><b>OpenID Federation</b> creates the <u>Federation Entity Configuration Response</u> containing the retrieved <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a>;</li><li><b>OpenID Federation</b> sends the <u>Federation Entity Configuration Response</u> containing the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a>.",
+        "description": "<ol><li><b>Wallet Instance</b> calls the “/.well-know/openid-federation” OpenID Federation service of the EAA Provider (Federation Entity Configuration Request) to obtain its <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a>;</li><li><b>OpenID Federation Service</b> retrieves its federation metadata from the local database;</li><li><b>OpenID Federation Service</b> creates a signed JWT containing the federation metadata (<a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a>);</li><li><b>OpenID Federation Service</b> creates and sends the Federation Entity Configuration Response containing the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/trust.html#entity-configuration\">Entity Configuration</a>.",
         "parameters": [],
         "responses": {
           "200": {
@@ -369,24 +356,21 @@
     "/status": {
       "post": {
         "summary": "The Issuer provides the Wallet Instance with a Status Attestation.",
-        "description": "1. The <b>Credential Issuer</b> checks validity of Status Attestation Request and stores it in database. \n <b>Note.</b>Verification of the request is done by extracting the DPoP Proof JWT contained in the credential_pop parameter and validating its signature with the public key contained in the digital credential identified by the hash of the credential itself reported within the credentianl_hash claim of the DPoP Proof JWT (the Credential Issuer uses the hash of the credential extracted from the DPoP Proof JWT presented in the request to retrieve the credential from its database); \n 2.The <b>Credential Issuer</b> extracts from the database the identifier (CF) of the user holding the digital credential retrieved in step 1 using the hash of the credential as the search key; \n 3. The <b>Credential Issuer</b> sends digital credential data request by submitting the user ID retrieved in step 2 to the Authentic Source; \n 4. The <b>Credential Issuer</b> performs a formal validation of the response returned by the Authentic Source; checks if the data received from the Authentic Source is still valid or has been revoked and checks if it is the same as the data present in the database (hashes of the data returned from the Authentic Source are generated and compared with the same data present locally in order to check for any updates on the same).  <b>Note.</b> In the case of at least one data update, the digital credential must be revoked by the Credential Issuer of the EAA Provider and no Status Attestation must be issued for this credential; \n 5. The <b>Credential Issuer</b> gives of the Status Attestation in JWT format and its storage in database by associating it with the digital credential; creation of the Status Attestation Response encapsulating the Status Attestation and its storage in database with linkage to the Status Attestation Request saved in step 1; \n 6. The <b>Credential Issuer</b> sends the Status Attestation Response to the Client.",
+        "description": "<ol><li><b>Wallet Instance</b> sends the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#status-attestation-request-by-wallet-instance\">Status Attestation Request</a> via HTTP-POST;</li><li><b>Credential Issuer</b> checks validity of <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#status-attestation-request-by-wallet-instance\">Status Attestation Request</a> and stores it in local database;</li><li><b>Credential Issuer</b> extracts the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a>;</li><li><b>Credential Issuer</b> retrieves from the database of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">digital credential</a> whose hash is specified within the <i>credential_hash</i> claim of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a> and the credential holder user identifier (idANPR or CF);</li><li><b>Credential Issuer</b> verifies the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a> signature using the public key to which the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">digital credential</a> is bound, i.e., the <i>JWK</i> key contained in the <i>cnf</i> claim of the credential (the claim <i>kid</i> of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a> header coincides with the base64url-encoded SHA-256 thumbprint of that key);</li><li><b>Credential Issuer</b> sends of the digital credential data request by submitting the user ID retrieved in step 24 to the Authentic Source;</li><li><b>Credential Issuer</b> performs a formal validation of the response received from the Authentic Source: checks if the data received from the Authentic Source is still valid or has been revoked and checks if it is the same as the data present in the database (hashes of the data returned from the Authentic Source are generated and compared with the same data present locally in order to check for any updates on the same).<br><b>Note.</b> In the case of at least one data update, the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">digital credential</a> must be revoked by the Credential Issuer of the eID Provider and no <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#status-attestation\">Status Attestation</a> must be issued for this credential;</li><li><b>Credential Issuer</b> issues the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#status-attestation\">Status Attestation</a> in JWT format and stores it in database by associating it with the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">digital credential</a>, creates the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#status-attestation-request-by-wallet-instance\">Status Attestation Response</a> that encapsulates the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#status-attestation\">Status Attestation</a> and stores it in database with linking to the S<a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#status-attestation-request-by-wallet-instance\">Status Attestation Request</a> saved in step 2;</li><li><b>Credential Issuer</b> sends the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#status-attestation-request-by-wallet-instance\">Status Attestation Response</a> to the wallet Istance.</li></ol>",
         "tags": [
           "EAA Issuance Flow"
         ],
         "operationId": "statusRequest",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "credential_pop",
-            "schema": {
-              "type": "string",
-              "format": "jwt (<base64-encoded header>.<base64-encoded claims>.<base64-encoded signature>)",
-              "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$"
-            },
-            "description": "The Wallet Instance sends the Status Attestation Request to the Issuer. The request MUST contain the Credential Proof of Possession JWT, signed with the private key related to the public key contained within the Credential..</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_status_attestation_header_eaa_provider.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_status_attestation_eaa_provider.json\">JSON schema</a>",
-            "example": "ewogICAgImFsZyI6ICJFUzI1NiIsCiAgICAidHlwIjogInN0YXR1cy1hdHRlc3RhdGlvbi1yZXF1ZXN0K2p3dCIsCiAgICAia2lkIjogImVOTi1nNWk2Q25MS2NsdFFCcDZhYmJpb0dNYnpNNm11VzN2dXh3NnVoODgiCn0.ewogICAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICAgImlhdCI6IDE1MDQ2OTkxMzYsCiAgICAiZXhwIjogMTUwNDcwMDEzNiwKICAgICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgICAiY3JlZGVudGlhbF9oYXNoX2FsZyI6ICJzaGEtMjU2IiwKICAgICJjbmYiOiB7CiAgICAgICAgImp3ayI6IHsKICAgICAgICAgICAgImt0eSI6ICJFQyIsCiAgICAgICAgICAgICJjcnYiOiAiUC0yNTYiLAogICAgICAgICAgICAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwKICAgICAgICAgICAgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSIKICAgICAgICB9CiAgICB9Cn0.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
-          }
-        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StatusRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "201": {
             "description": "OK",
@@ -504,24 +488,21 @@
     "/revoke": {
       "post": {
         "summary": "A Wallet Instance request the revocation of a Digital Credential",
-        "description": "1. The <b>Client</b> send the Revocation Request by HTTP-POST; \n 2. The <b>Credential Issuer</b> checks the validity of the Revocation Request and stores it in the database. <b>Note.</b> The check of the request is done by extracting the DPoP Proof JWT contained in the credential_pop parameter and validating its signature of the DPoP Proof JWT with the public key contained in the digital credential identified by the hash of the credential itself reported within the credentianl_hash claim of the DPoP Proof JWT (the Credential Issuer uses the hash of the digital credential extracted from the DPoP Proof JWT presented in the request to retrieve the credential from its database); \n 3. The <b>Credential Issuer</b> checks the database for the existence and validity status of the digital credential retrieved in step 2 using the hash of the credential as the search key; \n 4. The <b>Credential Issuer</b> revokes the digital credential retrieved in step 2 and updates the database; creates the Revocation Response and stores it in the database by associating it with the Revocation Request saved in step 2; \n 5. The <b>Credential Issuer</b> the client sends the Revocation Response.",
+        "description": "<ol><li><b>Wallet Instance</b> sends the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#revocation-request-by-wallet-instance\">Revocation request</a> via HTTP-POST that includes the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a> inside which is the hash of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">digital credential</a> for which it acts as proof of possesion;</li><li><b>Credential Issuer</b> validates the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#revocation-request-by-wallet-instance\">Revocation request</a> and stores it in database;</li><li><b>Credential Issuer</b> extracts the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a>;</li><li><b>Credential Issuer</b> retrieves from the database of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">digital credential</a> whose hash is specified within the <i>credential_hash</i> claim of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a>;</li><li><b>Credential Issuer</b> verifies the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a> signature using the public key to which the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">digital credential</a> is bound, i.e., the <i>JWK</i> key contained in the <i>cnf</i> claim of the credential (the claim <i>kid</i> of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">credential pop</a> header coincides with the base64url-encoded SHA-256 thumbprint of that key);</li><li><b>Credential Issuer</b> revokes the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/pid-eaa-data-model.html#id1\">digital credential</a> retrieved in step 4 and updates the database;</li><li><b>Credential Issuer</b> return an HTTP Response with status code <i>204 No Content</i> to the Wallet Istance.</li></ol>",
         "tags": [
           "EAA Issuance Flow"
         ],
         "operationId": "revokeRequest",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "credential_pop",
-            "schema": {
-              "type": "string",
-              "format": "jwt (<base64-encoded header>.<base64-encoded claims>.<base64-encoded signature>)",
-              "pattern": "^[A-Za-z0-9_-]{2,}(?:\\.[A-Za-z0-9_-]{2,}){2}$"
-            },
-            "description": "The Wallet Instance sends the Revocation Request to the Issuer. The request MUST contain the Credential Proof of Possession JWT, signed with the private key related to the public key contained within the Credential.</br></br> Header is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_status_attestation_header_eaa_provider.json\">JSON schema</a> </br></br> Payload is a JSON object with this <a target=\"blank\" href=\"https://raw.githubusercontent.com/it-helpers/it-wallet-helpers/0.6.0/docs/schemes/jwt_revocation_eid_provider.json\">JSON schema</a>",
-            "example": "ewogICJhbGciOiAiRVMyNTYiLAogICJ0eXAiOiAicmV2b2NhdGlvbi1yZXF1ZXN0K2p3dCIsCiAgImtpZCI6ICJlTk4tZzVpNkNuTEtjbHRRQnA2YWJiaW9HTWJ6TTZtdVczdnV4dzZ1aDg4Igp9.ewogICJqdGkiOiAiLUJ3QzNFU2M2YWNjMmxUYyIsCiAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICJhdWQiOiAiaHR0cDovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC9yZXZva2UiLAogICJpYXQiOiAxNTA0Njk5MTM2LAogICJleHAiOiAxNTA0NzAwMTM2LAogICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgImNyZWRlbnRpYWxfaGFzaF9hbGciOiAic2hhLTI1NiIKfQ.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
-          }
-        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevocationRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "204": {
             "description": "No Content"
@@ -1045,6 +1026,24 @@
           "proof"
         ]
       },
+      "ErrorResponse": {
+        "required": [
+          "error"
+        ],
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "The error code",
+            "example": "invalid_proof"
+          },
+          "error_description": {
+            "type": "string",
+            "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+            "example": "The proof field is not present or the provided key proof is invalid or not bound to a nonce provided by the Credential Issuer."
+          }
+        }
+      },
       "CredentialResponse": {
         "type": "object",
         "properties": {
@@ -1080,6 +1079,34 @@
           "format",
           "c_nonce",
           "c_nonce_expires_in"
+        ]
+      },
+      "StatusRequest": {
+        "type": "object",
+        "properties": {
+          "credential_pop": {
+            "type": "string",
+            "description": "A signed JWT as a cryptographic proof of possesion of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">Digital Credential</a> <br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_credential_pop_header.json\">JSON Header schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_credential_pop.json\">JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=ewogICAgImFsZyI6ICJFUzI1NiIsCiAgICAidHlwIjogInN0YXR1cy1hdHRlc3RhdGlvbi1yZXF1ZXN0K2p3dCIsCiAgICAia2lkIjogImVOTi1nNWk2Q25MS2NsdFFCcDZhYmJpb0dNYnpNNm11VzN2dXh3NnVoODgiCn0.ewogICAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICAgImlhdCI6IDE1MDQ2OTkxMzYsCiAgICAiZXhwIjogMTUwNDcwMDEzNiwKICAgICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgICAiY3JlZGVudGlhbF9oYXNoX2FsZyI6ICJzaGEtMjU2IiwKICAgICJjbmYiOiB7CiAgICAgICAgImp3ayI6IHsKICAgICAgICAgICAgImt0eSI6ICJFQyIsCiAgICAgICAgICAgICJjcnYiOiAiUC0yNTYiLAogICAgICAgICAgICAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwKICAgICAgICAgICAgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSIKICAgICAgICB9CiAgICB9Cn0.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q&publicKey=%7B%0A%20%20%22kty%22%3A%20%22EC%22%2C%0A%20%20%22x%22%3A%20%2235lvC8uz2QrWpQJ3TUH8t9o9DURMp7ydU518RKDl20k%22%2C%0A%20%20%22y%22%3A%20%22I8BuXB2bvxelzJAd7OKhd-ZwjCst05Fx47Mb_0ugros%22%2C%0A%20%20%22crv%22%3A%20%22P-256%22%0A%7D\">EXAMPLE ON JWT.IO</a>",
+            "pattern": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)$",
+            "example": "ewogICAgImFsZyI6ICJFUzI1NiIsCiAgICAidHlwIjogInN0YXR1cy1hdHRlc3RhdGlvbi1yZXF1ZXN0K2p3dCIsCiAgICAia2lkIjogImVOTi1nNWk2Q25MS2NsdFFCcDZhYmJpb0dNYnpNNm11VzN2dXh3NnVoODgiCn0.ewogICAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICAgImlhdCI6IDE1MDQ2OTkxMzYsCiAgICAiZXhwIjogMTUwNDcwMDEzNiwKICAgICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgICAiY3JlZGVudGlhbF9oYXNoX2FsZyI6ICJzaGEtMjU2IiwKICAgICJjbmYiOiB7CiAgICAgICAgImp3ayI6IHsKICAgICAgICAgICAgImt0eSI6ICJFQyIsCiAgICAgICAgICAgICJjcnYiOiAiUC0yNTYiLAogICAgICAgICAgICAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwKICAgICAgICAgICAgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSIKICAgICAgICB9CiAgICB9Cn0.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
+          }
+        },
+        "required": [
+          "status_attestation"
+        ]
+      },
+      "RevocationRequest": {
+        "type": "object",
+        "properties": {
+          "credential_pop": {
+            "type": "string",
+            "description": "A signed JWT as a cryptographic proof of possesion of the <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/revocation-lists.html#sec-revocation-credential-pop\">Digital Credential</a> <br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_credential_pop_header.json\">JSON Header schema</a><br/><br/><a target=\"blank\" href=\"https://github.com/it-helpers/it-wallet-helpers/blob/0.6.0/docs/schemes/jwt_credential_pop.json\">JSON Payload schema</a><br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=ewogICAgImFsZyI6ICJFUzI1NiIsCiAgICAidHlwIjogInN0YXR1cy1hdHRlc3RhdGlvbi1yZXF1ZXN0K2p3dCIsCiAgICAia2lkIjogImVOTi1nNWk2Q25MS2NsdFFCcDZhYmJpb0dNYnpNNm11VzN2dXh3NnVoODgiCn0.ewogICAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICAgImlhdCI6IDE1MDQ2OTkxMzYsCiAgICAiZXhwIjogMTUwNDcwMDEzNiwKICAgICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgICAiY3JlZGVudGlhbF9oYXNoX2FsZyI6ICJzaGEtMjU2IiwKICAgICJjbmYiOiB7CiAgICAgICAgImp3ayI6IHsKICAgICAgICAgICAgImt0eSI6ICJFQyIsCiAgICAgICAgICAgICJjcnYiOiAiUC0yNTYiLAogICAgICAgICAgICAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwKICAgICAgICAgICAgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSIKICAgICAgICB9CiAgICB9Cn0.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q&publicKey=%7B%0A%20%20%22kty%22%3A%20%22EC%22%2C%0A%20%20%22x%22%3A%20%2235lvC8uz2QrWpQJ3TUH8t9o9DURMp7ydU518RKDl20k%22%2C%0A%20%20%22y%22%3A%20%22I8BuXB2bvxelzJAd7OKhd-ZwjCst05Fx47Mb_0ugros%22%2C%0A%20%20%22crv%22%3A%20%22P-256%22%0A%7D\">EXAMPLE ON JWT.IO</a>",
+            "pattern": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)$",
+            "example": "ewogICAgImFsZyI6ICJFUzI1NiIsCiAgICAidHlwIjogInN0YXR1cy1hdHRlc3RhdGlvbi1yZXF1ZXN0K2p3dCIsCiAgICAia2lkIjogImVOTi1nNWk2Q25MS2NsdFFCcDZhYmJpb0dNYnpNNm11VzN2dXh3NnVoODgiCn0.ewogICAgImlzcyI6ICJld29nSUNBZ0ltTnVaaUk2SUhzS0lDQWdJQ0FnSUNBaWFuZHJJam9nZXdvZ0lDQWdJQ0FnSUNBZ0lDQWlhM1I1SWpvZ0lrVkRJaXdLSUNBZ0lDQWdJQ0FnSUNBZ0ltTnlkaUk2SUNKUUxUSTFOaUlzQ2lBZ0lDQWdJQ0FnSUNBZ0lDSjRJam9nSWxSRFFVVlNNVGxhZG5VelQwaEdOR28wVnpSMlpsTldiMGhKVURGSlRHbHNSR3h6TjNaRFpVZGxiV01pTEFvZ0lDQWdJQ0FnSUNBZ0lDQWllU0k2SUNKYWVHcHBWMWRpV2sxUlIwaFdWMHRXVVRSb1lsTkphWEp6Vm1aMVpXTkRSVFowTkdwVU9VWXlTRnBSSWdvZ0lDQWdJQ0FnSUgwS0lDQWdJSDBLZlEiLAogICAgImlhdCI6IDE1MDQ2OTkxMzYsCiAgICAiZXhwIjogMTUwNDcwMDEzNiwKICAgICJjcmVkZW50aWFsX2hhc2giOiAiMjExZjgwNDAwZWRlYWFmNjgzYmE2NTBlODJiOWFjZTI0NmQzNDM3Mjc4YjAxZTczYjc3OTM5YjFjYTZjYzgwZCIsCiAgICAiY3JlZGVudGlhbF9oYXNoX2FsZyI6ICJzaGEtMjU2IiwKICAgICJjbmYiOiB7CiAgICAgICAgImp3ayI6IHsKICAgICAgICAgICAgImt0eSI6ICJFQyIsCiAgICAgICAgICAgICJjcnYiOiAiUC0yNTYiLAogICAgICAgICAgICAieCI6ICJUQ0FFUjE5WnZ1M09IRjRqNFc0dmZTVm9ISVAxSUxpbERsczd2Q2VHZW1jIiwKICAgICAgICAgICAgInkiOiAiWnhqaVdXYlpNUUdIVldLVlE0aGJTSWlyc1ZmdWVjQ0U2dDRqVDlGMkhaUSIKICAgICAgICB9CiAgICB9Cn0.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
+          }
+        },
+        "required": [
+          "status_attestation"
         ]
       },
       "StatusResponse": {
