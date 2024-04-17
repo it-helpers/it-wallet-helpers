@@ -59,7 +59,7 @@
                 "jkt": {
                     "type": "string",
                     "description": "The base64url encoding SHA-256 thumprint of the DPoP public key (in JWK format) to which the Access Token is bound",
-                    "example": "QjdERDU1MTU3MDIxODkyOTNGMDgwMDMyOUUxNzU5MTI1OThBRjAzMzc4RTU3MDBBRjU3MTM3RkQ1MkNBMkE1Mg"
+                    "example": "kQMU13Nrvic2D9IGp2t-PhLfiHGEFG5ROEIIeyue7NM"
                 }
             }
         }
