@@ -113,9 +113,30 @@
               "type": "string"
             },
             "example": "urn%3ietf%3params%3oauth%3request_uri%3bwc4JK-ESC0w8acc191e-Y1LTC2"
+          },
+          {
+            "name": "response_code",
+            "in": "query",
+            "description": "It MUSTbe valued with the value returned by the service /callback of the Relying Party",
+            "required": false,
+            "allowEmptyValue": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "091535f699ea575c7937fa5f0f454aee"
           }
         ],
         "responses": {
+            "200": {
+              "description": "OK",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AuthorizationResponse"
+                  }
+                }
+              }
+            },
         "302": {
           "description": "Found  <br> <br/> <b>No content</b> <br /> <br /><b> BINDING HTTP-REDIRECT</b><br/><br/>=> EXAMPLE: 'https%3A%2F%2Fwallet-rp.ipzs.it%2Flogin'",
           "headers": {
@@ -928,6 +949,31 @@
           "expires_in"
         ]
       },
+      "AuthorizationResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "The authorization code returned in the Authorization Response",
+            "example": "SplxlOBeZQQYbYS6WxSbIA"
+          },
+          "iss": {
+            "type": "string",
+            "description": "The entity that has issued the JWT. It will be populated with the Relying Party client id",
+            "example": "https://wallet-rp.ipzs.it"
+          },
+          "state": {
+            "type": "string",
+            "description": "Unique identifier of the Authorization Request",
+            "example": "43bd14c0-79e4-4c1e-851d-109d07198e37"
+          }
+        },
+        "required": [
+          "code",
+          "iss",
+          "state"
+        ]
+      },
       "TokenRequest": {
         "type": "object",
         "properties": {
@@ -1215,7 +1261,7 @@
           "redirect_uri": {
             "type": "string",
             "description": "",
-            "example": "https://it-wallet-eaa-provider.example.it/token#response_code=091535f699ea575c7937fa5f0f454aee"
+            "example": "https://it-wallet-eaa-provider.example.it/authorize#response_code=091535f699ea575c7937fa5f0f454aee"
           }
         },
         "required": [
