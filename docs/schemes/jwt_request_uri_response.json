@@ -14,15 +14,14 @@
         "state",
         "iss",
         "iat",
-        "exp",
-        "request_uri_method"
+        "exp"
     ],
     "properties": {
         "scope": {
             "type": "string",
             "description": "Aliases for well-defined Presentation Definitions IDs. It is used to identify which required Credentials and User attributes are requested by the Relying Party",
             "format": "UUID",
-            "example": "IT Wallet"
+            "example": "PersonIdentificationData WalletAttestation"
         },
         "client_id_scheme": {
             "type": "string",
