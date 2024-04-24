@@ -6,7 +6,8 @@
     "type": "object",
     "required": [
         "typ",
-        "alg"
+        "alg",
+        "kid"
     ],
     "properties": {
         "typ": {
@@ -18,6 +19,11 @@
             "type": "string",
             "description": "An identifier for a JWS asymmetric digital signature algorithm. It MUST NOT be none or an identifier for a symmetric algorithm",
             "example": "ES256"
+        },
+        "kid": {
+            "type": "string",
+            "description": "Unique identifier of the public key",
+            "example": "eNN-g5i6CnLKcltQBp6abbioGMbzM6muW3vuxw6uh88"
         }
     }
 }
