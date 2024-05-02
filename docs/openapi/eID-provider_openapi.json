@@ -783,7 +783,7 @@
           },
           "client_id": {
             "type": "string",
-            "description": "MUST be set to the base64url encoded SHA-256 thumbprint of the public key specified inside the claim 'jwt' (in JWT format) of the cnf parameter of the Wallet Attestation JWT",
+            "description": "MUST be set to the base64url encoded SHA-256 thumbprint of the public key specified inside the claim 'cnf' of the Wallet Attestation JWT  (in JWT format)",
             "example": "AxjAnj0t5qpRVgR6apZ7gChaPb6y8gNm7CkPd58PD4c"
           },
           "code_challenge": {
@@ -896,9 +896,9 @@
           "access_token": {
             "pattern": "^([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)\\.([a-zA-Z0-9_=]+)$",
             "type": "string",
-            "description": "The DPoP-bound Access Token (in signed JWT format) allows accessing the PID/(Q)EAA Credential Endpoint for obtaining Credentials specified in the PAR Request",
+            "description": "The DPoP-bound Access Token (in signed JWT format) allows accessing the PID/(Q)EAA Credential Endpoint for obtaining Credentials specified in the PAR Request. <br /><br /><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJ0eXAiOiJhdCtqd3QiLCJhbGciOiJFUzI1NiIsImtpZCI6Ijc0MTE5OTU1OTVkYzczMTBkMzAxZjczN2QyNjQzZDhiIn0.eyJpc3MiOiJodHRwczovL2l0LXdhbGxldC1lYWEtcHJvdmlkZXIuZXhhbXBsZS5pdCIsInN1YiI6IjQ3YzA2NjE2YjNmOTk0ZmQ3YjcxYmY2MmY0ZWFjMzY2YjIwYWM3NWQiLCJhdWQiOiJodHRwczovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC9jcmVkZW50aWFsIiwiamt0Ijoia1FNVTEzTnJ2aWMyRDlJR3AydC1QaExmaUhHRUZHNVJPRUlJZXl1ZTdOTSIsImV4cCI6MTcwNTU3MzY1NSwiaWF0IjoxNzA1NTcwMDU1LCJqdGkiOiJmODU1NWNlYi1jNjVjLTQwMjUtOTM3OC1iNjY3MmI2MTQ5YWYiLCJjbGllbnRfaWQiOiJBeGpBbmowdDVxcFJWZ1I2YXBaN2dDaGFQYjZ5OGdObTdDa1BkNThQRDRjIn0.BqVanZpoT6D2JBZ1PYxYXL4ML_mUKms3OYOf9J3tqoCmTvr9V4fhyd9hX4AXKyeiqqnY_3OklmyAxZR4a4AOSg&publicKey=%7B%0A%20%20%22kty%22%3A%20%22EC%22%2C%0A%20%20%22x%22%3A%20%2235lvC8uz2QrWpQJ3TUH8t9o9DURMp7ydU518RKDl20k%22%2C%0A%20%20%22y%22%3A%20%22I8BuXB2bvxelzJAd7OKhd-ZwjCst05Fx47Mb_0ugros%22%2C%0A%20%20%22crv%22%3A%20%22P-256%22%0A%7D\">EXAMPLE ON JWT.IO</a>",
             "format": "A digitally signed JWT",
-            "example": "eyJhbGciOiJFUzI1NiJ9.eyJzdWIiOiJzdWJfcGFpcndpc2UiLCJhdWQiOiJodHRwczovL3VhdC5ldWRpLXdhbGxldC1pdC1xZWFhLWlzc3Vlci5kZW1vLmlwenMuaXQvdG9rZW4iLCJqa3QiOiJrUU1VMTNOcnZpYzJEOUlHcDJ0LVBoTGZpSEdFRkc1Uk9FSUlleXVlN05NIiwiZXhwIjoxNzA1NTczNjU1LCJpYXQiOjE3MDU1NzAwNTUsIm5vbmNlIjoidHNfRXRVUXMwaWVpSVMxTllOQkhFUVNveTNjdDRncHktNEZaS3dIaWxrWSIsImp0aSI6ImY4NTU1Y2ViLWM2NWMtNDAyNS05Mzc4LWI2NjcyYjYxNDlhZiIsImNsaWVudF9pZCI6Imh0dHBzOi8vdWF0LmV1ZGktd2FsbGV0LWl0LXFlYWEtaXNzdWVyLmRlbW8uaXB6cy5pdC90b2tlbiJ9.VyT25r23eO_ppWuw0ONV6GKjJFfvYtJKQSIngGwtyklmckhE3vg5U7Cws9V41GOU6F77MVifGfXf0l2HP3mW1Q"
+            "example": "eyJ0eXAiOiJhdCtqd3QiLCJhbGciOiJFUzI1NiIsImtpZCI6Ijc0MTE5OTU1OTVkYzczMTBkMzAxZjczN2QyNjQzZDhiIn0.eyJpc3MiOiJodHRwczovL2l0LXdhbGxldC1lYWEtcHJvdmlkZXIuZXhhbXBsZS5pdCIsInN1YiI6IjQ3YzA2NjE2YjNmOTk0ZmQ3YjcxYmY2MmY0ZWFjMzY2YjIwYWM3NWQiLCJhdWQiOiJodHRwczovL2l0LXdhbGxldC1laWQtcHJvdmlkZXIuZXhhbXBsZS5pdC9jcmVkZW50aWFsIiwiamt0Ijoia1FNVTEzTnJ2aWMyRDlJR3AydC1QaExmaUhHRUZHNVJPRUlJZXl1ZTdOTSIsImV4cCI6MTcwNTU3MzY1NSwiaWF0IjoxNzA1NTcwMDU1LCJqdGkiOiJmODU1NWNlYi1jNjVjLTQwMjUtOTM3OC1iNjY3MmI2MTQ5YWYiLCJjbGllbnRfaWQiOiJBeGpBbmowdDVxcFJWZ1I2YXBaN2dDaGFQYjZ5OGdObTdDa1BkNThQRDRjIn0.BqVanZpoT6D2JBZ1PYxYXL4ML_mUKms3OYOf9J3tqoCmTvr9V4fhyd9hX4AXKyeiqqnY_3OklmyAxZR4a4AOSg"
           },
           "token_type": {
             "type": "string",
