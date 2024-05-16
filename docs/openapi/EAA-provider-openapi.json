@@ -114,7 +114,7 @@
             "schema": {
               "type": "string"
             },
-            "example": "urn%3ietf%3params%3oauth%3request_uri%3bwc4JK-ESC0w8acc191e-Y1LTC2"
+            "example": "urn%3Aietf%3Aparams%3Aoauth%3Arequest_uri%3Abwc4JK-ESC0w8acc191e-Y1LTC2"
           }
         ],
         "responses": {
