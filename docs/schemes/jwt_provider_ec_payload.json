@@ -59,7 +59,7 @@
                             "y",
                             "kid"
                         ],
-                        "properties":{
+                        "properties": {
                             "kty": {
                                 "type": "string",
                                 "description": "The cryptographic algorithm family used with the key; it MUST be set to 'EC'"
@@ -97,11 +97,14 @@
                 "federation_entity": {
                     "$ref": "jwt_metadata_federation_entity.json"
                 },
-                "oauth_authorization_server":{
+                "oauth_authorization_server": {
                     "$ref": "jwt_metadata_oauth_authorization_server.json"
                 },
-                "openid_credential_issuer":{
+                "openid_credential_issuer": {
                     "$ref": "openid_credential_issuer.json"
+                },
+                "wallet_relying_party": {
+                    "$ref": "jwt_metadata_wallet_relying_party.json"
                 }
             }
         }
