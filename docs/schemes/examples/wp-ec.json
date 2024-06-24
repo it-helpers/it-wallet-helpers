@@ -1,0 +1,56 @@
+{
+    "iss": "https://wallet-provider.example.org",
+    "sub": "https://wallet-provider.example.org",
+    "iat": 1687171759,
+    "exp": 1709290159,
+    "authority_hints": [
+        "https://demo.federation.eudi.wallet.developers.italia.it"
+      ],
+    "jwks": {
+        "keys": [
+            {
+                "kid": "173a0b13ed11366f1c1a09c57201318a",
+                "kty": "EC",
+                "crv": "P-256",
+                "x": "WUJaIdfs0zSahVMNkHwqt_Tka5XVil0AcQH3XLyAimM",
+                "y": "WexD__Cr9Ajz8N2yxfEJsOWQXmVRcIfu2Rk16Wzlf70"
+            }
+        ]
+    },
+    "metadata": {
+        "federation_entity": {
+            "homepage_uri": "https://wallet-provider.example.org",
+            "organization_name": "IT Wallet Provider",
+            "contacts": [
+                "informazioni@wallet-provider.example.org"
+            ],
+            "tos_uri": "https://wallet-provider.example.org/info_policy.html",
+            "policy_uri": "https://wallet-provider.example.org/privacy_policy.html",
+            "logo_uri": "https://wallet-provider.example.org/logo.svg"
+        },
+        "wallet_provider": {
+            "token_endpoint": "https://wallet-provider.example.org/token",
+            "attested_security_context_values_supported": [
+                "https://trust-list.eu/aal/basic",
+                "https://trust-list.eu/aal/medium",
+                "https://trust-list.eu/aal/high"
+            ],
+            "grant_types_supported": [
+                "urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation"
+            ],
+            "token_endpoint_auth_methods_supported": ["private_key_jwt"],
+            "token_endpoint_auth_signing_alg_values_supported": ["ES256"],
+            "jwks": {
+                "keys": [
+                    {
+                        "kid": "5t5YYpBhN-EgIEEI5iUzr6r0MR02LnVQ0OmekmNKcjY",
+                        "kty": "EC",
+                        "crv": "P-256",
+                        "x": "qrJrj3Af_B57sbOIRrcBM7br7wOc8ynj7lHFPTeffUk",
+                        "y": "1H0cWDyGgvU8w-kPKU_xycOCUNT2o0bwslIQtnPU6iM"
+                    }
+                ]
+            }
+        }
+    }
+}

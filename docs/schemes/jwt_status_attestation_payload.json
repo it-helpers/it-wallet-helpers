@@ -1,0 +1,74 @@
+{
+    "schema": "https://json-schema.org/draft/2020-12/schema#",
+    "title": "vc_sd",
+    "type": "object",
+    "required": [
+        "iss",
+        "credential_hash",
+        "credential_hash_alg",
+        "cnf"
+    ],
+    "properties": {
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the Status Attestation; it MUST be an HTTPS URL that uniquely identifies the Credential Issuer"
+        },
+        "credential_hash": {
+            "type": "string",
+            "description": "Hash value of the Credential the status attestation is bound to"
+        },
+        "credential_hash_alg": {
+            "type": "string",
+            "description": "The Algorithm used for hashing the Credential to which the Status Attestation is bound. The value SHOULD be set to S256"
+        },
+        "cnf": {
+            "type": "object",
+            "description": "JSON object containing the ECDSA public key (in JWK format) to which the credential is bound (proof-of-possession key materials)",
+            "required": [
+                "jwk"
+            ],
+            "properties": {
+                "jwk": {
+                    "type": "object",
+                    "description": "The ECDSA public key (in JWK format) necessary for the Holder Key Binding",
+                    "required": [
+                        "crv",
+                        "kty",
+                        "x",
+                        "y"
+                    ],
+                    "properties": {
+                        "crv": {
+                            "type": "string",
+                            "description": "The cryptographic curve used with the key. Values defined by this specification are 'P-256', 'P-384' and 'P-521'"
+                        },
+                        "kty": {
+                            "type": "string",
+                            "description": "The cryptographic algorithm family used with the key; it MUST be set to 'EC'"
+                        },
+                        "x": {
+                            "type": "string",
+                            "description": "The x coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                        },
+                        "y": {
+                            "type": "string",
+                            "description": "The y coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                        }
+                    }
+                }
+            }
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the status attestation was issued; can be used to determine age of the WTE"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the status attestation MUST NOT be accepted for processing"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the status attestation expires"
+        }
+    }
+}

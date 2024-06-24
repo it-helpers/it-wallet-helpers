@@ -1,0 +1,62 @@
+{
+    "schema": "https://json-schema.org/draft/2020-12/schema#",
+    "title": "Access Token payload",
+    "type": "object",
+    "required": [
+        "jti",
+        "iss",
+        "sub",
+        "aud",
+        "client_id",
+        "cnf"
+    ],
+    "properties": {
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the Access Token; it MUST be an HTTPS URL that uniquely identifies the eID/EAA Provider"
+        },
+        "sub": {
+            "type": "string",
+            "description": "The identifier for the subject of the Access Token (in uuid4 format)",
+            "format": "UUID4"
+        },
+        "aud": {
+            "type": "string",
+                "description": "An URI value that identifies the recipient that the Access Token is intended for; it MUST be set to the URI of the Credential Endpoint of the eID/EAA Provider"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the Acess Token was issued; can be used to determine age of the Acess Token"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the Acess Token MUST NOT be accepted for processing"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the Acess Token expire"
+        },
+        "jti": {
+            "type": "string",
+            "description": "Unique identifier for the Access Token (it MUST be a String in uuid4 format)",
+            "format": "UUID4"
+        },
+        "client_id": {
+            "type": "string",
+            "description": "The identifier for the client that requested the Access Token; it MUST be equals to the to kid of the public key of the Wallet Instance specified into the WIA-POP to which the WTE is bound"
+        },
+        "cnf": {
+            "type": "object",
+            "description": "JSON object containing the Base64url encoding of the SHA-256 Thumbprint of the ECDSA public key  (in JWK format) presented inside the DPoP to which the Access Token is bound",
+            "required": [
+                "jkt"
+            ],
+            "properties": {
+                "jkt": {
+                    "type": "string",
+                    "description": "The Base64url encoding of the SHA-256 Thumbprint of the ECDSA public key  (in JWK format) presented inside the DPoP to which the Access Token is bound"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,215 @@
+{
+    "iss": "https://eid-provider.wallet.ipzs.it",
+    "sub": "https://eid-provider.wallet.ipzs.it",
+    "iat": 1687171759,
+    "exp": 1709290159,
+    "authority_hints": [
+        "https://demo.federation.eudi.wallet.developers.italia.it"
+      ],
+    "jwks": {
+        "keys": [
+            {
+                "kid": "WdQxSaTiwDB3aYuK40v6M2DNqd8eG3bUTtQLKNZUIek",
+                "kty": "EC",
+                "crv": "P-256",
+                "x": "dxqiTS6Rs9t8zKMRjjN1ITEBdcDNGAOjl0SSgeMtrA8",
+                "y": "GiOvU_9vAsMRR-CZ1jlTy4FHqjFXVXwHxchPmk-E1Bg"
+            }
+        ]
+    },
+    "metadata": {
+        "federation_entity": {
+            "homepage_uri": "https://eid-provider.wallet.ipzs.it/",
+            "organization_name": "Istituto Poligrafico e Zecca dello Stato",
+            "contacts": [
+                "informazioni@ipzs.it",
+                "protocollo@pec.ipzs.it"
+            ],
+            "tos_uri": "https://eid-provider.wallet.ipzs.it/public/info_policy.html",
+            "policy_uri": "https://eid-provider.wallet.ipzs.it/public/privacy_policy.html",
+            "logo_uri": "https://eid-provider.wallet.ipzs.it/public/logo.svg"
+        },
+        "oauth_authorization_server": {
+            "issuer": "https://eid-provider.wallet.ipzs.it",
+            "pushed_authorization_request_endpoint": "https://eid-provider.wallet.ipzs.it/as/par",
+            "authorization_endpoint": "https://eid-provider.wallet.ipzs.it/authorize",
+            "token_endpoint": "https://eid-provider.wallet.ipzs.it/token",
+            "client_registration_types_supported": [
+                "automatic"
+            ],
+            "code_challenge_methods_supported": [
+                "S256"
+            ],
+            "acr_values_supported": [
+                "https://www.spid.gov.it/SpidL2",
+                "https://www.spid.gov.it/SpidL3"
+            ],
+            "scopes_supported": [
+                "PersonIdentificationData"
+            ],
+            "response_modes_supported": [
+                "form_post.jwt",
+                "query"
+            ],
+            "grant_types_supported": [
+                "authorization_code"
+            ],
+            "token_endpoint_auth_methods_supported": [
+                "attest_jwt_client_auth"
+            ],
+            "token_endpoint_auth_signing_alg_values_supported": [
+                "ES256"
+            ],
+            "request_object_signing_alg_values_supported": [
+                "ES256"
+            ],
+            "jwks": {
+                "keys": [
+                    {
+                        "kid": "WdQxSaTiwDB3aYuK40v6M2DNqd8eG3bUTtQLKNZUIek",
+                        "kty": "EC",
+                        "crv": "P-256",
+                        "x": "dxqiTS6Rs9t8zKMRjjN1ITEBdcDNGAOjl0SSgeMtrA8",
+                        "y": "GiOvU_9vAsMRR-CZ1jlTy4FHqjFXVXwHxchPmk-E1Bg"
+                    }
+                ]
+            }
+        },
+        "openid_credential_issuer": {
+            "credential_issuer": "https://eid-provider.wallet.ipzs.it",
+            "credential_endpoint": "https://eid-provider.wallet.ipzs.it/credential",
+            "revocation_endpoint": "https://eid-provider.wallet.ipzs.it/revoke",
+            "status_attestation_endpoint": "https://eid-provider.wallet.ipzs.it/status",
+            "display": [
+                {
+                    "name": "eID Provider",
+                    "locale": "it-IT",
+                    "logo": {
+                        "url": "https://eid-provider.wallet.ipzs.it/public/logo.svg",
+                        "alt_text": "logo eID Provider"
+                    }
+                },
+                {
+                    "name": "eID Provider",
+                    "locale": "en-US",
+                    "logo": {
+                        "url": "https://eid-provider.wallet.ipzs.it/public/logo.svg",
+                        "alt_text": "eID Provider's logo"
+                    }
+                }
+            ],
+            "credential_configurations_supported": {
+                "PersonIdentificationData": {
+                    "format": "vc+sd-jwt",
+                    "scope": "it-wallet",
+                    "display": [
+                        {
+                            "name": "Person Identification Data",
+                            "locale": "it-IT"
+                        },
+                        {
+                            "name": "Person Identification Data",
+                            "locale": "en-US"
+                        }
+                    ],
+                    "cryptographic_binding_methods_supported": [
+                        "jwk"
+                    ],
+                    "credential_signing_alg_values_supported": [
+                        "ES256",
+                        "ES384",
+                        "ES512"
+                    ],
+                    "proof_types_supported": {
+                        "jwt": {
+                            "proof_signing_alg_values_supported": [
+                                "ES256",
+                                "ES384",
+                                "ES512"
+                            ]
+                        }
+                    },
+                    "vct": "PersonIdentificationData",
+                    "claims": {
+                        "given_name": {
+                            "value_type": "string",
+                            "display": [
+                                {
+                                    "name": "Nome",
+                                    "locale": "it-IT"
+                                },
+                                {
+                                    "name": "First Name",
+                                    "locale": "en-US"
+                                }
+                            ]
+                        },
+                        "family_name": {
+                            "value_type": "string",
+                            "display": [
+                                {
+                                    "name": "Cognome",
+                                    "locale": "it-IT"
+                                },
+                                {
+                                    "name": "Family Name",
+                                    "locale": "en-US"
+                                }
+                            ]
+                        },
+                        "birth_date": {
+                            "value_type": "string",
+                            "display": [
+                                {
+                                    "name": "Data di Nascita",
+                                    "locale": "it-IT"
+                                },
+                                {
+                                    "name": "Date of Birth",
+                                    "locale": "en-US"
+                                }
+                            ]
+                        },
+                        "unique_id": {
+                            "value_type": "string",
+                            "display": [
+                                {
+                                    "name": "Identificativo univoco",
+                                    "locale": "it-IT"
+                                },
+                                {
+                                    "name": "Unique Identifier",
+                                    "locale": "en-US"
+                                }
+                            ]
+                        },
+                        "tax_id_code": {
+                            "value_type": "string",
+                            "display": [
+                                {
+                                    "name": "Codice Fiscale",
+                                    "locale": "it-IT"
+                                },
+                                {
+                                    "name": "Tax Id Number",
+                                    "locale": "en-US"
+                                }
+                            ]
+                        }
+                    }
+                }
+            },
+            "jwks": {
+                "keys": [
+                    {
+                        "kid": "WdQxSaTiwDB3aYuK40v6M2DNqd8eG3bUTtQLKNZUIek",
+                        "kty": "EC",
+                        "crv": "P-256",
+                        "x": "dxqiTS6Rs9t8zKMRjjN1ITEBdcDNGAOjl0SSgeMtrA8",
+                        "y": "GiOvU_9vAsMRR-CZ1jlTy4FHqjFXVXwHxchPmk-E1Bg"
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,37 @@
+{
+    "schema": "https://json-schema.org/draft/2020-12/schema#",
+    "title": "wte proof",
+    "type": "object",
+    "required": [
+        "jti",
+        "iss",
+        "aud"
+    ],
+    "properties": {
+        "jti": {
+            "type": "string",
+            "description": "Unique identifier for the WIA-POP (it MUST be a String in uuid4 format); it can be used to prevent the JWT from being replayed (allows a token to be used only once)",
+            "format": "UUID4"
+        },
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the WIA-POP; it MUST be equal to the WIA-POP kid header"
+        },
+        "aud": {
+            "type": "string",
+            "description": "An URI value that identifies the recipient that the WIA-POP is intended for; it MUST be set to the URI of the PAR Endpoint of the eID/EAA Provider"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the WIA-POP was issued; can be used to determine age of the WIA-POP"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the WIA-POP MUST NOT be accepted for processing"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the WIA-POP expires"
+        }
+    }
+}

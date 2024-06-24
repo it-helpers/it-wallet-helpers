@@ -1,0 +1,288 @@
+{
+    "schema": "https://json-schema.org/draft/2020-12/schema#",
+    "title": "Wallet Provider Entity Configuration payload",
+    "type": "object",
+    "required": [
+        "iss",
+        "sub",
+        "authority_hints",
+        "iat",
+        "exp",
+        "jwks",
+        "metadata"
+    ],
+    "properties": {
+        "iss": {
+            "type": "string",
+            "description": "String. Identifier of the issuing Entity"
+        },
+        "sub": {
+            "type": "string",
+            "description": "String. Identifier of the Entity to which it is referred. It MUST be equal to iss"
+        },
+        "authority_hints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "string"
+            }
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the Entity was issued; can be used to determine age of the JWT"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the Entity MUST NOT be accepted for processing"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the Entity expire"
+        },
+        "jwks": {
+            "type": "object",
+            "description": "JSON Web Key Set (JWKS) to validate the JWT",
+            "required": [
+                "keys"
+            ],
+            "properties": {
+                "keys": {
+                    "type": "array",
+                    "minItems": 1,
+                    "description": "The value of the 'keys' parameter is an array of JWK values. By default, the order of the JWK values within the array does not imply an order of preference among them, although applications of JWK Sets can choose to assign a meaning to the order for their purposes, if desired.",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "kid"
+                        ],
+                        "properties": {
+                            "kty": {
+                                "type": "string",
+                                "description": "The cryptographic algorithm family used with the public key, such as 'RSA' or 'EC'"
+                            },
+                            "use": {
+                                "type": "string",
+                                "description": "The public key usage ('sig' or 'enc')"
+                            },
+                            "alg": {
+                                "type": "string",
+                                "description": "the algorithm intended for use with the public key"
+                            },
+                            "kid": {
+                                "type": "string",
+                                "description": "The public key identifier"
+                            },
+                            "x5u": {
+                                "type": "string",
+                                "description": "A URI that refers to a resource for an X.509 public key certificate or certificate chain"
+                            },
+                            "x5c": {
+                                "type": "string",
+                                "description": "A chain of one or more PKIX certificates"
+                            },
+                            "x5t": {
+                                "type": "string",
+                                "description": "A base64url-encoded SHA-1 thumbprint (a.k.a. digest) of the DER encoding of an X.509 certificate"
+                            },
+                            "x5t#S256": {
+                                "type": "string",
+                                "description": "A base64url-encoded SHA-256 thumbprint (a.k.a. digest) of the DER encoding of an X.509 certificate"
+                            },
+                            "crv": {
+                                "type": "string",
+                                "description": "The cryptographic curve used with the EC public key. Values defined by this specification are 'P-256', 'P-384' and 'P-521'"
+                            },
+                            "x": {
+                                "type": "string",
+                                "description": "The x coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                            },
+                            "y": {
+                                "type": "string",
+                                "description": "The y coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                            },
+                            "e": {
+                                "type": "string",
+                                "description": "RSA public exponent"
+                            },
+                            "k": {
+                                "type": "string",
+                                "description": "Length in octets of the RSA modulus n"
+                            },
+                            "n": {
+                                "type": "string",
+                                "description": "RSA modulus"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "description": "Metadata for the federation entity",
+            "required": [
+                "federation_entity",
+                "wallet_provider"
+            ],
+            "properties": {
+                "federation_entity": {
+                    "type": "object",
+                    "description": "Common federation entity metadata",
+                    "required": [
+                        "organization_name",
+                        "homepage_uri",
+                        "policy_uri",
+                        "tos_uri",
+                        "logo_uri"
+                    ],
+                    "properties": {
+                        "organization_name": {
+                            "type": "string"
+                        },
+                        "contacts": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "homepage_uri": {
+                            "type": "string"
+                        },
+                        "logo_uri": {
+                            "type": "string"
+                        },
+                        "tos_uri": {
+                            "type": "string"
+                        },
+                        "policy_uri": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "wallet_provider": {
+                    "type": "object",
+                    "description": "Wallet Provider metadata",
+                    "required": [
+                        "token_endpoint",
+                        "attested_security_context_values_supported",
+                        "grant_types_supported",
+                        "token_endpoint_auth_methods_supported",
+                        "token_endpoint_auth_signing_alg_values_supported",
+                        "jwks"
+                    ],
+                    "properties": {
+                        "token_endpoint": {
+                            "type": "string"
+                        },
+                        "attested_security_context_values_supported": {
+                            "type": "array",
+                            "minItems": 3,
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "grant_types_supported": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "token_endpoint_auth_methods_supported": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "token_endpoint_auth_signing_alg_values_supported": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "jwks": {
+                            "type": "object",
+                            "required": [
+                                "keys"
+                            ],
+                            "properties": {
+                                "keys": {
+                                    "type": "array",
+                                    "minItems": 1,
+                                    "description": "The value of the 'keys' parameter is an array of JWK values. By default, the order of the JWK values within the array does not imply an order of preference among them, although applications of JWK Sets can choose to assign a meaning to the order for their purposes, if desired.",
+                                    "items": {
+                                        "type": "object",
+                                        "required": [
+                                            "kid"
+                                        ],
+                                        "properties": {
+                                            "kty": {
+                                                "type": "string",
+                                                "description": "The cryptographic algorithm family used with the public key, such as 'RSA' or 'EC'"
+                                            },
+                                            "use": {
+                                                "type": "string",
+                                                "description": "The public key usage ('sig' or 'enc')"
+                                            },
+                                            "alg": {
+                                                "type": "string",
+                                                "description": "the algorithm intended for use with the public key"
+                                            },
+                                            "kid": {
+                                                "type": "string",
+                                                "description": "The public key identifier"
+                                            },
+                                            "x5u": {
+                                                "type": "string",
+                                                "description": "A URI that refers to a resource for an X.509 public key certificate or certificate chain"
+                                            },
+                                            "x5c": {
+                                                "type": "string",
+                                                "description": "A chain of one or more PKIX certificates"
+                                            },
+                                            "x5t": {
+                                                "type": "string",
+                                                "description": "A base64url-encoded SHA-1 thumbprint (a.k.a. digest) of the DER encoding of an X.509 certificate"
+                                            },
+                                            "x5t#S256": {
+                                                "type": "string",
+                                                "description": "A base64url-encoded SHA-256 thumbprint (a.k.a. digest) of the DER encoding of an X.509 certificate"
+                                            },
+                                            "crv": {
+                                                "type": "string",
+                                                "description": "The cryptographic curve used with the EC public key. Values defined by this specification are 'P-256', 'P-384' and 'P-521'"
+                                            },
+                                            "x": {
+                                                "type": "string",
+                                                "description": "The x coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                                            },
+                                            "y": {
+                                                "type": "string",
+                                                "description": "The y coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                                            },
+                                            "e": {
+                                                "type": "string",
+                                                "description": "RSA public exponent"
+                                            },
+                                            "k": {
+                                                "type": "string",
+                                                "description": "Length in octets of the RSA modulus n"
+                                            },
+                                            "n": {
+                                                "type": "string",
+                                                "description": "RSA modulus"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

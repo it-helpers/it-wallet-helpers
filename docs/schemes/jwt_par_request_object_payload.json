@@ -1,0 +1,107 @@
+{
+    "schema": "https://json-schema.org/draft/2020-12/schema#",
+    "title": "PAR request object payload",
+    "type": "object",
+    "required": [
+        "jti",
+        "iss",
+        "iat",
+        "exp",
+        "aud",
+        "response_mode",
+        "response_type",
+        "client_id",
+        "state",
+        "code_challenge",
+        "code_challenge_method",
+        "authorization_details",
+        "redirect_uri",
+        "client_assertion_type",
+        "client_assertion"
+    ],
+    "properties": {
+        "jti": {
+            "type": "string",
+            "description": "Unique identifier for the JWT (it MUST be a String in uuid4 format); it can be used to prevent the JWT from being replayed (allows a token to be used only once)",
+            "format": "UUID4"
+        },
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the JWT; It MUST be equal to the client_id specified into the PAR Request "
+        },
+        "client_id": {
+            "type": "string",
+            "description": "Unique client identifier; It MUST be equal to the client_id specified into the PAR Request (client_id is the Base64url encoding of the Thumbprint of the public key of the Wallet Instance in JWK format specified inside the claim cnf of the WTE)"
+        },
+        "aud": {
+            "type": "string",
+            "description": "An URI value that identifies the recipient that the JWT is intended for; it MUST be set to the URI of the Authorization Endpoint of the PID/EAA Provider"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the JWT MUST NOT be accepted for processing"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the JWT expire"
+        },
+        "response_type": {
+            "type": "string",
+            "description": "It MUST be set to code"
+        },
+        "state": {
+            "type": "string",
+            "description": "Unique application session identifier at the Wallet Instance side. This value will be returned to the client in the response by the Authorization Server, at the end of the user authentication. It MUST be a random string composed by alphanumeric characters and with a minimum length of 32 digits"
+        },
+        "code_challenge": {
+            "type": "string",
+            "description": "It MUST be equal to the code_challenge specified into the PAR Request"
+        },
+        "code_challenge_method": {
+            "type": "string",
+            "description": "It MUST be equal to the code_challenge_method specified into the PAR Request"
+        },
+        "authorization_details": {
+            "type": "array",
+            "description": "Array of JSON Objects. Each JSON Object represents an authorization detail",
+            "items": {
+                "type": "object",
+                "description": "JSON object containing an authorization detail",
+                "required": [
+                    "type",
+                    "credential_configuration_id"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "description": "The authorization details type; it MUST be set to 'openid_credential'"
+                    },
+                    "credential_configuration_id": {
+                        "type": "string",
+                        "description": "A string representing the credential type requested. It MUST be set in accordance to the type obtained from the OpenID Federation Entity Configuration metadata of the eID Provider"
+                    }
+                }
+            }
+        },
+        "response_mode": {
+            "type": "string",
+            "description": "With this parameter, the Wallet Instance inform the Authorization Server of the mechanism to be used for returning Authorization Response from the Authorization Endpoint; mechanisms supported are specified into the Entity Configuration of the Authorization Server (es. query, form_post, form_post.jwt)"
+        },
+        "redirect_uri": {
+            "type": "string",
+            "description": "Redirection URI to which the Authorization Response is intended to be sent; it MUST be an universal or app link registered with the local operating system, so this latter will provide the response to the Wallet Instance"
+        },
+        "client_assertion_type": {
+            "type": "string",
+            "description": "It MUST be equal to the client_assertion_type specified into the PAR Request"
+        },
+        "client_assertion": {
+            "type": "string",
+            "description": "It MUST be equal to the client_assertion specified into the PAR Request"
+        }
+    }
+}

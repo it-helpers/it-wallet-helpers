@@ -1,0 +1,138 @@
+{
+    "schema": "https://json-schema.org/draft/2020-12/schema#",
+    "title": "wte",
+    "type": "object",
+    "required": [
+        "iss",
+        "sub",
+        "aal",
+        "cnf",
+        "authorization_endpoint",
+        "response_modes_supported",
+        "response_types_supported",
+        "vp_formats_supported",
+        "request_object_signing_alg_values_supported",
+        "presentation_definition_uri_supported"
+    ],
+    "properties": {
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the WTE; it MUST be set to the public URI of the Wallet Provider"
+        },
+        "sub": {
+            "type": "string",
+            "description": "The Subject of the WTE; it MUST be set to the kid of the public key of the Wallet Instance  for which the WTE is being issued (kid is the Base64url encoding of the Thumbprint of the public key of the Wallet Instance in JWK format specified into the WIA-POP to which the WTE is bound)"
+        },
+        "aal": {
+            "type": "string",
+            "description": "JSON String asserting the security level of the Wallet Instance"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the WTE was issued; can be used to determine age of the WTE"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the WTE MUST NOT be accepted for processing"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the WTE expires"
+        },
+        "authorization_endpoint": {
+            "type": "string",
+            "description": "URL of the SIOPv2 Authorization Endpoint"
+        },
+        "response_modes_supported": {
+            "type": "array",
+            "description": "JSON array containing a list of OAuth2 response_mode values supported by the Wallet Instance when the Wallet Instance works as an authorization server",
+            "items": {
+                "type": "string"
+            }
+        },
+        "response_types_supported": {
+            "type": "array",
+            "description": "JSON array containing a list of OAuth2 response_type values supported by the Wallet Instance when the Wallet Instance works as an authorization server",
+            "items": {
+                "type": "string"
+            }
+        },
+        "vp_formats_supported": {
+            "type": "object",
+            "description": "JSON object identifying VP Token formats supported by the Wallet Instance when the Wallet Instance works as an authorization server",
+            "required": [
+                "vc+sd-jwt"
+            ],
+            "properties": {
+                "vc+sd-jwt": {
+                    "type": "object",
+                    "required": [
+                        "sd-jwt_alg_values"
+                    ],
+                    "properties": {
+                        "sd-jwt_alg_values": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "request_object_signing_alg_values_supported": {
+            "type": "array",
+            "description": "JSON array containing a list of the JWS signing algorithms supported by the Wallet Instance for signing the PAR Request object",
+            "items": {
+                "type": "string"
+            }
+        },
+        "presentation_definition_uri_supported": {
+            "type": "boolean",
+            "description": "Boolean value specifying whether the Wallet Instance supports the transfer of presentation_definition by reference. It MUST set to false.",
+            "example": false
+        },
+        "cnf": {
+            "type": "object",
+            "description": "JSON object containing the ECDSA public key of the Wallet Instance (in JWK format) specified into the WIA-POP to which the WTE is bound",
+            "required": [
+                "jwk"
+            ],
+            "properties": {
+                "jwk": {
+                    "type": "object",
+                    "description": "The ECDSA public key of the Wallet Instance (in JWK format) necessary for the Holder Key Binding",
+                    "required": [
+                        "crv",
+                        "kty",
+                        "x",
+                        "y",
+                        "kid"
+                    ],
+                    "properties": {
+                        "crv": {
+                            "type": "string",
+                            "description": "The cryptographic curve used with the key. Values defined by this specification are 'P-256', 'P-384' and 'P-521'"
+                        },
+                        "kty": {
+                            "type": "string",
+                            "description": "The cryptographic algorithm family used with the key; it MUST be set to 'EC'"
+                        },
+                        "x": {
+                            "type": "string",
+                            "description": "The x coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                        },
+                        "y": {
+                            "type": "string",
+                            "description": "The y coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                        },
+                        "kid": {
+                            "type": "string",
+                            "description": "The key identifier"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

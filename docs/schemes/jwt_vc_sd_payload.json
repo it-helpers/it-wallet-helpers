@@ -1,0 +1,102 @@
+{
+    "schema": "https://json-schema.org/draft/2020-12/schema#",
+    "title": "vc_sd",
+    "type": "object",
+    "required": [
+        "_sd",
+        "iss",
+        "sub",
+        "vct",
+        "_sd_alg",
+        "cnf"
+    ],
+    "properties": {
+        "_sd": {
+            "type": "array",
+            "description": "Array of hash digests (in Base64url encoding) generated over the disclosures",
+            "items": {
+                "type": "string",
+                "description": "The base64url encoded SHA-256 thumbprint of a disclosure"
+            }
+        },
+        "iss": {
+            "type": "string",
+            "description": "The Issuer of the credential; it MUST be an HTTPS URL that uniquely identifies the Credential Issuer"
+        },
+        "sub": {
+            "type": "string",
+            "description": "The identifier for the subject of the credential (in uuid4 format); it MUST be equal to the claim sub of the Access Token presented in the Credential Request",
+            "format": "UUID4"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the credential expire"
+        },
+        "vct": {
+            "type": "string",
+            "description": "The type of the Credential"
+        },
+        "status" : {
+            "type": "object",
+            "description": "JSON object containing the information on how to read the status attestation of the Credential",
+            "required": [
+                "status_attestation"
+            ],
+            "properties": {
+                "status_attestation": {
+                    "type": "object",
+                    "required": [
+                        "credential_hash_alg"
+                    ],
+                    "properties": {
+                        "credential_hash_alg": {
+                            "type": "string",
+                            "description": "The identifier for the hash algorithm used to generate the status attestation of the credential"
+                        }
+                    }
+                }
+            }
+        },
+        "_sd_alg": {
+            "type": "string",
+            "description": "The hash algorithm used by the Credential Issuer to generate the hash digests over the disclosure"
+        },
+        "cnf": {
+            "type": "object",
+            "description": "JSON object containing the ECDSA public key (in JWK format) specified into the OpenID4VCI Proof JWT to which the credential is bound (proof-of-possession key materials)",
+            "required": [
+                "jwk"
+            ],
+            "properties": {
+                "jwk": {
+                    "type": "object",
+                    "description": "The ECDSA public key (in JWK format) necessary for the Holder Key Binding",
+                    "required": [
+                        "crv",
+                        "kty",
+                        "x",
+                        "y"
+                    ],
+                    "properties": {
+                        "crv": {
+                            "type": "string",
+                            "description": "The cryptographic curve used with the key. Values defined by this specification are 'P-256', 'P-384' and 'P-521'"
+                        },
+                        "kty": {
+                            "type": "string",
+                            "description": "The cryptographic algorithm family used with the key; it MUST be set to 'EC'"
+                        },
+                        "x": {
+                            "type": "string",
+                            "description": "The x coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                        },
+                        "y": {
+                            "type": "string",
+                            "description": "The y coordinate for the elliptic curve point. It is represented as the base64url encoding of the coordinate's big endian representation"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

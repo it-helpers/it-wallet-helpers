@@ -1,0 +1,36 @@
+{
+    "schema": "https://json-schema.org/draft/2020-12/schema#",
+    "title": "OpenID4VCI Proof JWT payload",
+    "type": "object",
+    "required": [
+        "iss",
+        "aud",
+        "nonce"
+    ],
+    "properties": {
+        "iss": {
+            "type": "string",
+            "description": "The identifier of the client that making the Credential request (it MUST be set to the client_id clame of the Access Token)"
+        },
+        "aud": {
+            "type": "string",
+            "description": "It MUST be set to the URL of Credential Endpoint of the eID/EAA Provider"
+        },
+        "iat": {
+            "type": "number",
+            "description": "The UNIX Timestamp at which the JWT was issued; can be used to determine age of the JWT"
+        },
+        "nbf": {
+            "type": "number",
+            "description": "The UNIX Timestamp before which the JWT MUST NOT be accepted for processing"
+        },
+        "exp": {
+            "type": "number",
+            "description": "The UNIX Timestamp after which the JWT expire"
+        },
+        "nonce": {
+            "type": "string",
+            "description": "It MUST be set to the Authorization Server provided c_nonce withing the Token Response"
+        }
+    }
+}
