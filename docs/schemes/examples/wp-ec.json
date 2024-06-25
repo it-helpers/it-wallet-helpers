@@ -4,7 +4,7 @@
     "iat": 1687171759,
     "exp": 1709290159,
     "authority_hints": [
-        "https://demo.federation.eudi.wallet.developers.italia.it"
+        "https://trust-anchor.example.org"
       ],
     "jwks": {
         "keys": [

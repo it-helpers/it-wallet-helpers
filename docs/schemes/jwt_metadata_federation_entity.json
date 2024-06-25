@@ -6,31 +6,38 @@
         "organization_name",
         "homepage_uri",
         "policy_uri",
-        "tos_uri",
-        "logo_uri"
+        "logo_uri",
+        "contacts",
+        "federation_resolve_endpoint"
     ],
     "properties": {
         "organization_name": {
-            "type": "string"                            
+            "type": "string",
+            "description": "See OIDC-FED Draft 36 Section 5.2.2"                            
+        },
+        "homepage_uri": {
+            "type": "string",
+            "description": "See OIDC-FED Draft 36 Section 5.2.2"
+        },
+        "policy_uri": {
+            "type": "string",
+            "description": "See OIDC-FED Draft 36 Section 5.2.2" 
+        },
+        "logo_uri": {
+            "type": "string",
+            "description": "URL of the entity's logo; it MUST be in SVG format. See OIDC-FED Draft 36 Section 5.2.2"
         },
         "contacts": {
             "type": "array",
             "minItems": 1,
             "items": {
                 "type": "string"
-            }
+            },
+            "description": "Institutional certified email address (PEC) of the entity. See OIDC-FED Draft 36 Section 5.2.2" 
         },
-        "homepage_uri": {
-            "type": "string"
-        },
-        "logo_uri": {
-            "type": "string"
-        },
-        "tos_uri": {
-            "type": "string"
-        },
-        "policy_uri": {
-            "type": "string"
+        "federation_resolve_endpoint": {
+            "type": "string",
+            "description": "See OIDC-FED Draft 36 Section 5.1.1"
         }
     }
 }

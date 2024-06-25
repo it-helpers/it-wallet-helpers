@@ -14,11 +14,11 @@
     "properties": {
         "iss": {
             "type": "string",
-            "description": "String. Identifier of the issuing Entity"
+            "description": "It MUST contain an HTTPS URL that uniquely identifies the Wallet Provider"
         },
         "sub": {
             "type": "string",
-            "description": "String. Identifier of the Entity to which it is referred. It MUST be equal to iss"
+            "description": "It MUST be equal to iss"
         },
         "authority_hints": {
             "type": "array",
@@ -49,7 +49,7 @@
                 "keys": {
                     "type": "array",
                     "minItems": 1,
-                    "description": "The value of the 'keys' parameter is an array of JWK values. By default, the order of the JWK values within the array does not imply an order of preference among them, although applications of JWK Sets can choose to assign a meaning to the order for their purposes, if desired.",
+                    "description": "The value of the 'keys' parameter is an array of public keys. By default, the order of the JWK values within the array does not imply an order of preference among them, although applications of JWK Sets can choose to assign a meaning to the order for their purposes, if desired.",
                     "items": {
                         "type": "object",
                         "required": [

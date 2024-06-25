@@ -14,11 +14,11 @@
     "properties": {
         "iss": {
             "type": "string",
-            "description": "String. Identifier of the issuing Entity"
+            "description": "It MUST contain an HTTPS URL that uniquely identifies the PID/(Q)EAA Provider"
         },
         "sub": {
             "type": "string",
-            "description": "String. Identifier of the Entity to which it is referred. It MUST be equal to iss"
+            "description": "It MUST be equal to iss"
         },
         "authority_hints": {
             "type": "array",
