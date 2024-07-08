@@ -1,0 +1,87 @@
+{
+    "openapi": "3.0.2",
+    "info": {
+      "title": "IT Wallet API - Utility Service",
+      "description": "API for IT Wallet Utility Service",
+      "version": "0.7.1"
+    },
+    "servers": [
+      {
+        "url": "https://util.wallet.ipzs.it",
+        "description": "Main (production) server"
+      }
+    ],
+    "paths": {
+      "/revokeAll": {
+        "post": {
+          "tags": [
+            "Utility Service"
+          ],
+          "summary": "The Wallet Provider revoke all credentials for a specific user",
+          "operationId": "revokeAll",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RevokeAllRequest"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "200": {
+              "description": "Credential revoked successfully"
+            },
+            "404": {
+              "description": "Credential Not Found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/inline_response_404"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "RevokeAllRequest": {
+          "required": [
+            "unique_id",
+            "wallet_provider"
+          ],
+          "type": "object",
+          "properties": {
+            "unique_id": {
+              "type": "string"
+            },
+            "wallet_provider": {
+              "type": "string"
+            }
+          }
+        },
+        "inline_response_404": {
+          "required": [
+            "error"
+          ],
+          "type": "object",
+          "properties": {
+            "error": {
+              "type": "string",
+              "description": "The error code",
+              "example": "not_found"
+            },
+            "error_description": {
+              "type": "string",
+              "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+              "example": "The Digital Credential can not be found by the Issuer"
+            }
+          }
+        }
+      }
+    }
+  }

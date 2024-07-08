@@ -2,12 +2,12 @@
   "openapi": "3.0.2",
   "info": {
     "title": "IT Wallet API - EAA Issuance Flow",
-    "version": "0.6.0",
+    "version": "0.7.1",
     "description": "API for the Italian EUDI Wallet implementation profile (version: '0.6.0')  <a target=\"blank\" href=\"https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/\">https://italia.github.io/eudi-wallet-it-docs/v0.6.0/en/</a>"
   },
   "servers": [
     {
-      "url": "https://api.server.test/it-wallet-api/v0.6.0",
+      "url": "https://eaa.wallet.ipzs.it",
       "description": "Main (production) server"
     }
   ],
@@ -1285,8 +1285,8 @@
         "properties": {
           "status_attestation": {
             "type": "string",
-            "description": "The Issuer then returns the Status Attestation to the Wallet Instance as a signed JWT. <br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJhbGciOiJFUzI1NiIsInR5cCI6InN0YXR1cy1hdHRlc3RhdGlvbi1yZXF1ZXN0K2p3dCIsImtpZCI6Ijk1MDJjNTNmNjEwODFmYTQ0NGYwM2Y1OTM5Yjk1MWRmIn0.eyJpc3MiOiJodHRwczovL2VhYS1wcm92aWRlci53YWxsZXQuaXB6cy5pdCIsImlhdCI6MTcwNTU3MDA1NSwiZXhwIjoxNzc4OTE0NTYwLCJjcmVkZW50aWFsX2hhc2giOiIyNHd4cGowWmdPcnI0OWR6M21vbTBNMHg0Qm55NWNaUlB1N1NVVHNxSmsiLCJjcmVkZW50aWFsX2hhc2hfYWxnIjoic2hhLTI1NiIsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJjWFlySnhJa2ItN01oVF9HNUVESXNQWF9rUW5YV25jejE4UW1HbHhET240IiwieSI6Ink5RURid1FzQzliTDFjQ0lwUW8xc2Nwam1tVzVKRHl6RWZnZ2RYQUdkaTAifX19.CLyecvf4hXiZO1ZlE5AY4Xk7sxaLlmlj0ck8QfBa679GQ10dpRDQ0h3d17i3RrDd2jHufZFoofzu0A4VbwCWEg&publicKey=%7B%0A%20%20%22crv%22%3A%20%22P-256%22%2C%0A%20%20%22d%22%3A%20%22ISQvFjjGH7GfnOWN5toUeInR9X1dp2l-WFmnR34AAcQ%22%2C%0A%20%20%22key_ops%22%3A%20%5B%0A%20%20%20%20%22sign%22%0A%20%20%5D%2C%0A%20%20%22kty%22%3A%20%22EC%22%2C%0A%20%20%22x%22%3A%20%22pVU3jatu4a3tk9c9aowVgLyBB_rJ7M-3Wljk1ejUz2E%22%2C%0A%20%20%22y%22%3A%20%22TL5ONvR-Igarngrz5jdvspoffzFwcjPRtFUkeneHEI0%22%2C%0A%20%20%22alg%22%3A%20%22ES256%22%2C%0A%20%20%22use%22%3A%20%22sig%22%2C%0A%20%20%22kid%22%3A%20%229502c53f61081fa444f03f5939b951df%22%0A%7D\">EXAMPLE ON JWT.IO</a>",
-            "example": "eyJhbGciOiJFUzI1NiIsInR5cCI6InN0YXR1cy1hdHRlc3RhdGlvbi1yZXF1ZXN0K2p3dCIsImtpZCI6Ijk1MDJjNTNmNjEwODFmYTQ0NGYwM2Y1OTM5Yjk1MWRmIn0.eyJpc3MiOiJodHRwczovL2VhYS1wcm92aWRlci53YWxsZXQuaXB6cy5pdCIsImlhdCI6MTcwNTU3MDA1NSwiZXhwIjoxNzc4OTE0NTYwLCJjcmVkZW50aWFsX2hhc2giOiIyNHd4cGowWmdPcnI0OWR6M21vbTBNMHg0Qm55NWNaUlB1N1NVVHNxSmsiLCJjcmVkZW50aWFsX2hhc2hfYWxnIjoic2hhLTI1NiIsImNuZiI6eyJqd2siOnsia3R5IjoiRUMiLCJjcnYiOiJQLTI1NiIsIngiOiJjWFlySnhJa2ItN01oVF9HNUVESXNQWF9rUW5YV25jejE4UW1HbHhET240IiwieSI6Ink5RURid1FzQzliTDFjQ0lwUW8xc2Nwam1tVzVKRHl6RWZnZ2RYQUdkaTAifX19.CLyecvf4hXiZO1ZlE5AY4Xk7sxaLlmlj0ck8QfBa679GQ10dpRDQ0h3d17i3RrDd2jHufZFoofzu0A4VbwCWEg"
+            "description": "The Issuer then returns the Status Attestation to the Wallet Instance as a signed JWT. <br/><br/><a target=\"blank\" href=\"https://jwt.io/#debugger-io?token=eyJ0eXAiOiJzdGF0dXMtYXR0ZXN0YXRpb24rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiJjOTUwYzBlNmZkZWI1ZGU1MGE1MDA5NmIyNDdhZjAzYyJ9.eyJpc3MiOiI0N2I5ODIzNjk3OTFkMDgwMDNhNzI4M2YwNTljYjBkMSIsImF1ZCI6Imh0dHBzOi8vZWFhLXByb3ZpZGVyLndhbGxldC5pcHpzLml0L3Jldm9rZSIsImlhdCI6MTcwNTU3MDA1NSwiZXhwIjoxNzc4OTE0NTYwLCJqdGkiOiJiNWE2OTY0Zi1kYzM2LTQ5YzAtOGQ1Ni1kYmYwZjM0OWNjOTUiLCJjcmVkZW50aWFsX2hhc2giOiIyNHd4cGowWmdPcnI0OWR6M21vbTBNMHg0Qm55NWNaUlB1N1NVVHNxSmsiLCJjcmVkZW50aWFsX2hhc2hfYWxnIjoic2hhLTI1NiJ9.JkV5xJEgD0YzeNdWmeWzklZYfAyAR1rnwCNzScS74ykXQ19MmGN4IX0LgRD3ZsTl9LN8f1SBTm-uS2KMjo2KYw&publicKey=%7B%0A%20%20%22crv%22%3A%20%22P-256%22%2C%0A%20%20%22d%22%3A%20%22Ktz9cBNpEB-D8jjkZhOACeMmal-PtBrUgS27vgFDgCY%22%2C%0A%20%20%22key_ops%22%3A%20%5B%0A%20%20%20%20%22sign%22%0A%20%20%5D%2C%0A%20%20%22kty%22%3A%20%22EC%22%2C%0A%20%20%22x%22%3A%20%22fGCE6xEWPM-rj5LraIdDZDtNv6BfAh7bA5Hs4jR0ylQ%22%2C%0A%20%20%22y%22%3A%20%22x6o-TX53ZkZpBbrzlSsMRBAETKnfeWVr7pU8SofWswk%22%2C%0A%20%20%22alg%22%3A%20%22ES256%22%2C%0A%20%20%22use%22%3A%20%22sig%22%2C%0A%20%20%22kid%22%3A%20%22c950c0e6fdeb5de50a50096b247af03c%22%0A%7D\">EXAMPLE ON JWT.IO</a>",
+            "example": "eyJ0eXAiOiJzdGF0dXMtYXR0ZXN0YXRpb24rand0IiwiYWxnIjoiRVMyNTYiLCJraWQiOiJjOTUwYzBlNmZkZWI1ZGU1MGE1MDA5NmIyNDdhZjAzYyJ9.eyJpc3MiOiI0N2I5ODIzNjk3OTFkMDgwMDNhNzI4M2YwNTljYjBkMSIsImF1ZCI6Imh0dHBzOi8vZWFhLXByb3ZpZGVyLndhbGxldC5pcHpzLml0L3Jldm9rZSIsImlhdCI6MTcwNTU3MDA1NSwiZXhwIjoxNzc4OTE0NTYwLCJqdGkiOiJiNWE2OTY0Zi1kYzM2LTQ5YzAtOGQ1Ni1kYmYwZjM0OWNjOTUiLCJjcmVkZW50aWFsX2hhc2giOiIyNHd4cGowWmdPcnI0OWR6M21vbTBNMHg0Qm55NWNaUlB1N1NVVHNxSmsiLCJjcmVkZW50aWFsX2hhc2hfYWxnIjoic2hhLTI1NiJ9.JkV5xJEgD0YzeNdWmeWzklZYfAyAR1rnwCNzScS74ykXQ19MmGN4IX0LgRD3ZsTl9LN8f1SBTm-uS2KMjo2KYw"
           }
         },
         "required": [
