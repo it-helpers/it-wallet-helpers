@@ -30,15 +30,80 @@
             "required": true
           },
           "responses": {
-            "200": {
-              "description": "Credential revoked successfully"
+            "204": {
+              "description": "No Content"
             },
-            "404": {
-              "description": "Credential Not Found",
+            "400": {
+              "description": "Bad Request",
               "content": {
                 "application/json": {
                   "schema": {
-                    "$ref": "#/components/schemas/inline_response_404"
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "The error code",
+                        "example": "invalid_request"
+                      },
+                      "error_description": {
+                        "type": "string",
+                        "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                        "example": "The issuer cannot fulfill the request because of invalid parameters"
+                      }
+                    },
+                    "required": [
+                      "error"
+                    ]
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Not Found",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "The error code",
+                        "example": "not_found"
+                      },
+                      "error_description": {
+                        "type": "string",
+                        "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                        "example": "No Digital Credential found by the Issuer."
+                      }
+                    },
+                    "required": [
+                      "error"
+                    ]
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Internal Server Error",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "error": {
+                        "type": "string",
+                        "description": "The error code",
+                        "example": "internal_server_error"
+                      },
+                      "error_description": {
+                        "type": "string",
+                        "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
+                        "example": "The Issuer encountered an internal problem."
+                      }
+                    },
+                    "required": [
+                      "error"
+                    ]
                   }
                 }
               }
@@ -57,28 +122,12 @@
           "type": "object",
           "properties": {
             "unique_id": {
-              "type": "string"
+              "type": "string",
+              "description":"Unique citizen identifier"
             },
             "wallet_provider": {
-              "type": "string"
-            }
-          }
-        },
-        "inline_response_404": {
-          "required": [
-            "error"
-          ],
-          "type": "object",
-          "properties": {
-            "error": {
               "type": "string",
-              "description": "The error code",
-              "example": "not_found"
-            },
-            "error_description": {
-              "type": "string",
-              "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
-              "example": "The Digital Credential can not be found by the Issuer"
+              "description": "Wallet Provider's EntityID"
             }
           }
         }
