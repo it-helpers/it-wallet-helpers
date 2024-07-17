@@ -73,7 +73,7 @@
                       "error_description": {
                         "type": "string",
                         "description": "Text in human-readable form providing further details to clarify the nature of the error encountered",
-                        "example": "No Digital Credential found by the Issuer."
+                        "example": "No credentials found or all credentials are already revoked"
                       }
                     },
                     "required": [
